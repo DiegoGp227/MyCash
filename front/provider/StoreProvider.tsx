@@ -1,6 +1,6 @@
 "use client";
 
-import apiClient from "@/src/shared/services/apiClient";
+import apiClient from "@/shared/services/apiClient";
 import { store } from "@/store/store";
 import { StoreProvider } from "easy-peasy";
 import { ReactNode, useEffect, useState } from "react";
