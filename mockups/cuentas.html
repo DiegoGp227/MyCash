@@ -1,0 +1,606 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cuentas - MyCash</title>
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+  <div class="app-container">
+    <!-- Sidebar -->
+    <aside class="sidebar">
+      <div class="sidebar-header">
+        <h1>💰 MyCash</h1>
+        <div class="subtitle">Gestor de Finanzas</div>
+      </div>
+
+      <nav class="sidebar-nav">
+        <div class="nav-section">
+          <div class="nav-section-title">Principal</div>
+          <a href="index.html" class="nav-item">
+            <span class="nav-item-icon">📊</span>
+            Dashboard
+          </a>
+          <a href="transacciones.html" class="nav-item">
+            <span class="nav-item-icon">💳</span>
+            Transacciones
+          </a>
+          <a href="cuentas.html" class="nav-item active">
+            <span class="nav-item-icon">💰</span>
+            Cuentas
+          </a>
+        </div>
+
+        <div class="nav-section">
+          <div class="nav-section-title">Gestión</div>
+          <a href="categorias.html" class="nav-item">
+            <span class="nav-item-icon">📂</span>
+            Categorías
+          </a>
+          <a href="presupuestos.html" class="nav-item">
+            <span class="nav-item-icon">📈</span>
+            Presupuestos
+          </a>
+          <a href="metas.html" class="nav-item">
+            <span class="nav-item-icon">🎯</span>
+            Metas
+          </a>
+          <a href="reportes.html" class="nav-item">
+            <span class="nav-item-icon">📊</span>
+            Reportes
+          </a>
+        </div>
+
+        <div class="nav-section">
+          <div class="nav-section-title">Otros</div>
+          <a href="#" class="nav-item">
+            <span class="nav-item-icon">🔔</span>
+            Notificaciones
+            <span class="nav-badge">3</span>
+          </a>
+          <a href="#" class="nav-item">
+            <span class="nav-item-icon">⚙️</span>
+            Configuración
+          </a>
+        </div>
+      </nav>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="main-content">
+      <!-- Topbar -->
+      <header class="topbar">
+        <div class="topbar-left">
+          <h2>Cuentas</h2>
+        </div>
+        <div class="topbar-right">
+          <div class="topbar-search">
+            <input type="text" placeholder="Buscar transacciones...">
+          </div>
+          <button class="topbar-action" title="Notificaciones">
+            🔔
+            <span class="notification-dot"></span>
+          </button>
+          <button class="topbar-action" title="Ayuda">❓</button>
+          <div class="user-menu">
+            <div class="user-avatar">D</div>
+            <div class="user-info">
+              <div class="user-name">Diego</div>
+              <div class="user-role">Usuario</div>
+            </div>
+          </div>
+        </div>
+      </header>
+
+      <!-- Content -->
+      <div class="content">
+        <!-- Overview Cards -->
+        <div class="stats-grid">
+          <div class="stat-card">
+            <div class="stat-card-header">
+              <div class="stat-card-title">Patrimonio Neto</div>
+              <div class="stat-card-icon purple">💎</div>
+            </div>
+            <div class="stat-card-value">$60,250.00</div>
+            <div class="stat-card-change positive">
+              ↑ +8.5% vs mes anterior
+            </div>
+          </div>
+
+          <div class="stat-card">
+            <div class="stat-card-header">
+              <div class="stat-card-title">Activos Totales</div>
+              <div class="stat-card-icon green">📈</div>
+            </div>
+            <div class="stat-card-value">$62,750.00</div>
+            <div class="stat-card-change positive">
+              En 4 cuentas activas
+            </div>
+          </div>
+
+          <div class="stat-card">
+            <div class="stat-card-header">
+              <div class="stat-card-title">Deudas Totales</div>
+              <div class="stat-card-icon red">📉</div>
+            </div>
+            <div class="stat-card-value">$2,500.00</div>
+            <div class="stat-card-change">
+              Tarjetas de crédito
+            </div>
+          </div>
+
+          <div class="stat-card">
+            <div class="stat-card-header">
+              <div class="stat-card-title">Liquidez Disponible</div>
+              <div class="stat-card-icon orange">💵</div>
+            </div>
+            <div class="stat-card-value">$47,750.00</div>
+            <div class="stat-card-change positive">
+              79.3% del total
+            </div>
+          </div>
+        </div>
+
+        <!-- Action Buttons -->
+        <div style="display: flex; gap: 0.75rem; margin-bottom: 2rem; justify-content: flex-end;">
+          <button class="btn btn-secondary" onclick="openModal('transferModal')">
+            🔄 Transferir entre Cuentas
+          </button>
+          <button class="btn btn-secondary" onclick="openModal('adjustBalanceModal')">
+            ⚖️ Ajustar Balance
+          </button>
+          <button class="btn btn-primary" onclick="openModal('newAccountModal')">
+            + Nueva Cuenta
+          </button>
+        </div>
+
+        <!-- Account Cards -->
+        <div class="accounts-grid" id="accountsGrid">
+          <!-- Populated by JavaScript -->
+        </div>
+
+        <!-- Account Details Table -->
+        <div class="table-container" style="margin-top: 2rem;">
+          <div class="table-header">
+            <h3 class="table-title">Detalles de Cuentas</h3>
+            <div class="table-actions">
+              <select class="filter-select">
+                <option>Todas las cuentas</option>
+                <option>Activas</option>
+                <option>Inactivas</option>
+              </select>
+            </div>
+          </div>
+          <table>
+            <thead>
+              <tr>
+                <th>Cuenta</th>
+                <th>Tipo</th>
+                <th>Balance Inicial</th>
+                <th>Balance Actual</th>
+                <th>Cambio</th>
+                <th>Última Transacción</th>
+                <th>Estado</th>
+                <th>Acciones</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>
+                  <div style="display: flex; align-items: center; gap: 0.75rem;">
+                    <div style="width: 40px; height: 40px; border-radius: 8px; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); display: flex; align-items: center; justify-content: center; font-size: 1.25rem;">
+                      🏦
+                    </div>
+                    <div>
+                      <div style="font-weight: 600;">Cuenta Bancaria</div>
+                      <div style="font-size: 0.85rem; color: var(--text-secondary);">**** 1234</div>
+                    </div>
+                  </div>
+                </td>
+                <td>
+                  <span class="category-badge" style="background: #7C3AED20; color: #7C3AED;">
+                    Cuenta Bancaria
+                  </span>
+                </td>
+                <td>$40,000.00</td>
+                <td><span class="amount-positive">$45,250.00</span></td>
+                <td>
+                  <span class="amount-positive">
+                    +$5,250.00 (+13.1%)
+                  </span>
+                </td>
+                <td>24 Dic 2025</td>
+                <td>
+                  <span class="transaction-type income" style="background: #D1FAE5; color: #047857;">
+                    ✓ Activa
+                  </span>
+                </td>
+                <td>
+                  <div class="action-buttons">
+                    <button class="action-btn" onclick="alert('Ver historial')" title="Ver Historial">📜</button>
+                    <button class="action-btn" onclick="openModal('editAccountModal')" title="Editar">✏️</button>
+                    <button class="action-btn" title="Desactivar">🔒</button>
+                  </div>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <div style="display: flex; align-items: center; gap: 0.75rem;">
+                    <div style="width: 40px; height: 40px; border-radius: 8px; background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%); display: flex; align-items: center; justify-content: center; font-size: 1.25rem;">
+                      💳
+                    </div>
+                    <div>
+                      <div style="font-weight: 600;">Tarjeta Crédito</div>
+                      <div style="font-size: 0.85rem; color: var(--text-secondary);">**** 5678</div>
+                    </div>
+                  </div>
+                </td>
+                <td>
+                  <span class="category-badge" style="background: #EF444420; color: #EF4444;">
+                    Tarjeta de Crédito
+                  </span>
+                </td>
+                <td>$0.00</td>
+                <td><span class="amount-negative">-$2,500.00</span></td>
+                <td>
+                  <span class="amount-negative">
+                    -$2,500.00
+                  </span>
+                </td>
+                <td>24 Dic 2025</td>
+                <td>
+                  <span class="transaction-type income" style="background: #D1FAE5; color: #047857;">
+                    ✓ Activa
+                  </span>
+                </td>
+                <td>
+                  <div class="action-buttons">
+                    <button class="action-btn" onclick="alert('Ver historial')" title="Ver Historial">📜</button>
+                    <button class="action-btn" onclick="openModal('editAccountModal')" title="Editar">✏️</button>
+                    <button class="action-btn" title="Desactivar">🔒</button>
+                  </div>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <div style="display: flex; align-items: center; gap: 0.75rem;">
+                    <div style="width: 40px; height: 40px; border-radius: 8px; background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%); display: flex; align-items: center; justify-content: center; font-size: 1.25rem;">
+                      💵
+                    </div>
+                    <div>
+                      <div style="font-weight: 600;">Efectivo</div>
+                      <div style="font-size: 0.85rem; color: var(--text-secondary);">Cartera</div>
+                    </div>
+                  </div>
+                </td>
+                <td>
+                  <span class="category-badge" style="background: #3B82F620; color: #3B82F6;">
+                    Efectivo
+                  </span>
+                </td>
+                <td>$3,000.00</td>
+                <td><span class="amount-positive">$2,500.00</span></td>
+                <td>
+                  <span class="amount-negative">
+                    -$500.00 (-16.7%)
+                  </span>
+                </td>
+                <td>21 Dic 2025</td>
+                <td>
+                  <span class="transaction-type income" style="background: #D1FAE5; color: #047857;">
+                    ✓ Activa
+                  </span>
+                </td>
+                <td>
+                  <div class="action-buttons">
+                    <button class="action-btn" onclick="alert('Ver historial')" title="Ver Historial">📜</button>
+                    <button class="action-btn" onclick="openModal('editAccountModal')" title="Editar">✏️</button>
+                    <button class="action-btn" title="Desactivar">🔒</button>
+                  </div>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <div style="display: flex; align-items: center; gap: 0.75rem;">
+                    <div style="width: 40px; height: 40px; border-radius: 8px; background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%); display: flex; align-items: center; justify-content: center; font-size: 1.25rem;">
+                      🏦
+                    </div>
+                    <div>
+                      <div style="font-weight: 600;">Ahorros</div>
+                      <div style="font-size: 0.85rem; color: var(--text-secondary);">**** 9012</div>
+                    </div>
+                  </div>
+                </td>
+                <td>
+                  <span class="category-badge" style="background: #10B98120; color: #10B981;">
+                    Ahorros
+                  </span>
+                </td>
+                <td>$10,000.00</td>
+                <td><span class="amount-positive">$15,000.00</span></td>
+                <td>
+                  <span class="amount-positive">
+                    +$5,000.00 (+50%)
+                  </span>
+                </td>
+                <td>20 Dic 2025</td>
+                <td>
+                  <span class="transaction-type income" style="background: #D1FAE5; color: #047857;">
+                    ✓ Activa
+                  </span>
+                </td>
+                <td>
+                  <div class="action-buttons">
+                    <button class="action-btn" onclick="alert('Ver historial')" title="Ver Historial">📜</button>
+                    <button class="action-btn" onclick="openModal('editAccountModal')" title="Editar">✏️</button>
+                    <button class="action-btn" title="Desactivar">🔒</button>
+                  </div>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <!-- Account Balance Chart -->
+        <div class="chart-card" style="margin-top: 2rem;">
+          <div class="chart-card-header">
+            <h3 class="chart-card-title">Evolución de Balance por Cuenta</h3>
+            <select class="chart-filter">
+              <option>Últimos 6 meses</option>
+              <option>Últimos 3 meses</option>
+              <option>Este año</option>
+            </select>
+          </div>
+          <div class="chart-container">
+            <canvas id="accountBalanceChart"></canvas>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <!-- New Account Modal -->
+  <div id="newAccountModal" class="modal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3 class="modal-title">Nueva Cuenta</h3>
+        <button class="modal-close" onclick="closeModal('newAccountModal')">×</button>
+      </div>
+      <div class="modal-body">
+        <form>
+          <div class="form-group">
+            <label class="form-label">Nombre de la Cuenta</label>
+            <input type="text" class="form-input" placeholder="Ej: Mi Cuenta Bancaria">
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label">Tipo de Cuenta</label>
+              <select class="form-select">
+                <option>Cuenta Bancaria</option>
+                <option>Tarjeta de Crédito</option>
+                <option>Tarjeta de Débito</option>
+                <option>Efectivo</option>
+                <option>Ahorros</option>
+                <option>Inversiones</option>
+                <option>Billetera Digital</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Balance Inicial</label>
+              <input type="number" class="form-input" placeholder="0.00" step="0.01">
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label">Moneda</label>
+              <select class="form-select">
+                <option>MXN - Peso Mexicano</option>
+                <option>USD - Dólar Americano</option>
+                <option>EUR - Euro</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Color</label>
+              <select class="form-select">
+                <option>Morado</option>
+                <option>Azul</option>
+                <option>Verde</option>
+                <option>Rojo</option>
+                <option>Naranja</option>
+                <option>Rosa</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">Número de Cuenta (Opcional)</label>
+            <input type="text" class="form-input" placeholder="Últimos 4 dígitos">
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">Notas (Opcional)</label>
+            <textarea class="form-textarea" placeholder="Información adicional sobre esta cuenta..."></textarea>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-secondary" onclick="closeModal('newAccountModal')">Cancelar</button>
+        <button class="btn btn-primary" onclick="alert('Cuenta creada'); closeModal('newAccountModal')">
+          Crear Cuenta
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Transfer Modal -->
+  <div id="transferModal" class="modal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3 class="modal-title">Transferir entre Cuentas</h3>
+        <button class="modal-close" onclick="closeModal('transferModal')">×</button>
+      </div>
+      <div class="modal-body">
+        <form>
+          <div class="form-group">
+            <label class="form-label">Cuenta Origen</label>
+            <select class="form-select">
+              <option>Cuenta Bancaria ($45,250.00)</option>
+              <option>Efectivo ($2,500.00)</option>
+              <option>Ahorros ($15,000.00)</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">Cuenta Destino</label>
+            <select class="form-select">
+              <option>Cuenta Bancaria ($45,250.00)</option>
+              <option>Efectivo ($2,500.00)</option>
+              <option>Ahorros ($15,000.00)</option>
+              <option>Tarjeta Crédito (-$2,500.00)</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">Monto a Transferir</label>
+            <input type="number" class="form-input" placeholder="0.00" step="0.01">
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">Fecha</label>
+            <input type="date" class="form-input" value="2025-12-26">
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">Descripción (Opcional)</label>
+            <input type="text" class="form-input" placeholder="Ej: Transferencia para ahorros">
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-secondary" onclick="closeModal('transferModal')">Cancelar</button>
+        <button class="btn btn-primary" onclick="alert('Transferencia realizada'); closeModal('transferModal')">
+          Transferir
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Adjust Balance Modal -->
+  <div id="adjustBalanceModal" class="modal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3 class="modal-title">Ajustar Balance</h3>
+        <button class="modal-close" onclick="closeModal('adjustBalanceModal')">×</button>
+      </div>
+      <div class="modal-body">
+        <div style="background: #FEF3C7; border: 1px solid #F59E0B; border-radius: 8px; padding: 1rem; margin-bottom: 1.5rem; display: flex; gap: 0.75rem; align-items: start;">
+          <div style="font-size: 1.25rem;">⚠️</div>
+          <div style="font-size: 0.875rem; color: #92400E;">
+            <strong>Usar con precaución:</strong> Este ajuste creará una transacción especial para corregir el balance de la cuenta.
+          </div>
+        </div>
+        <form>
+          <div class="form-group">
+            <label class="form-label">Cuenta</label>
+            <select class="form-select">
+              <option>Cuenta Bancaria ($45,250.00)</option>
+              <option>Tarjeta Crédito (-$2,500.00)</option>
+              <option>Efectivo ($2,500.00)</option>
+              <option>Ahorros ($15,000.00)</option>
+            </select>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label">Balance Actual</label>
+              <input type="number" class="form-input" value="45250.00" disabled>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Nuevo Balance</label>
+              <input type="number" class="form-input" placeholder="0.00" step="0.01">
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">Razón del Ajuste</label>
+            <textarea class="form-textarea" placeholder="Explica por qué estás ajustando el balance..."></textarea>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-secondary" onclick="closeModal('adjustBalanceModal')">Cancelar</button>
+        <button class="btn btn-danger" onclick="alert('Balance ajustado'); closeModal('adjustBalanceModal')">
+          Ajustar Balance
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Edit Account Modal -->
+  <div id="editAccountModal" class="modal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3 class="modal-title">Editar Cuenta</h3>
+        <button class="modal-close" onclick="closeModal('editAccountModal')">×</button>
+      </div>
+      <div class="modal-body">
+        <form>
+          <div class="form-group">
+            <label class="form-label">Nombre de la Cuenta</label>
+            <input type="text" class="form-input" value="Cuenta Bancaria">
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label">Tipo de Cuenta</label>
+              <select class="form-select">
+                <option selected>Cuenta Bancaria</option>
+                <option>Tarjeta de Crédito</option>
+                <option>Efectivo</option>
+                <option>Ahorros</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Color</label>
+              <select class="form-select">
+                <option selected>Morado</option>
+                <option>Azul</option>
+                <option>Verde</option>
+                <option>Rojo</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">Número de Cuenta</label>
+            <input type="text" class="form-input" value="1234">
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">Notas</label>
+            <textarea class="form-textarea"></textarea>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-danger" onclick="if(confirm('¿Eliminar esta cuenta?')) { alert('Cuenta eliminada'); closeModal('editAccountModal'); }">
+          Eliminar Cuenta
+        </button>
+        <div style="flex: 1;"></div>
+        <button class="btn btn-secondary" onclick="closeModal('editAccountModal')">Cancelar</button>
+        <button class="btn btn-primary" onclick="alert('Cuenta actualizada'); closeModal('editAccountModal')">
+          Guardar Cambios
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Scripts -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+  <script src="js/app.js"></script>
+  <script src="js/charts.js"></script>
+</body>
+</html>

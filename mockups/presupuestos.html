@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Presupuestos - MyCash</title>
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+  <div class="app-container">
+    <!-- Sidebar -->
+    <aside class="sidebar">
+      <div class="sidebar-header">
+        <h1>💰 MyCash</h1>
+        <div class="subtitle">Gestor de Finanzas</div>
+      </div>
+
+      <nav class="sidebar-nav">
+        <div class="nav-section">
+          <div class="nav-section-title">Principal</div>
+          <a href="index.html" class="nav-item">
+            <span class="nav-item-icon">📊</span>
+            Dashboard
+          </a>
+          <a href="transacciones.html" class="nav-item">
+            <span class="nav-item-icon">💳</span>
+            Transacciones
+          </a>
+          <a href="cuentas.html" class="nav-item">
+            <span class="nav-item-icon">💰</span>
+            Cuentas
+          </a>
+        </div>
+
+        <div class="nav-section">
+          <div class="nav-section-title">Gestión</div>
+          <a href="categorias.html" class="nav-item">
+            <span class="nav-item-icon">📂</span>
+            Categorías
+          </a>
+          <a href="presupuestos.html" class="nav-item active">
+            <span class="nav-item-icon">📈</span>
+            Presupuestos
+          </a>
+          <a href="metas.html" class="nav-item">
+            <span class="nav-item-icon">🎯</span>
+            Metas
+          </a>
+          <a href="reportes.html" class="nav-item">
+            <span class="nav-item-icon">📊</span>
+            Reportes
+          </a>
+        </div>
+
+        <div class="nav-section">
+          <div class="nav-section-title">Otros</div>
+          <a href="#" class="nav-item">
+            <span class="nav-item-icon">🔔</span>
+            Notificaciones
+            <span class="nav-badge">3</span>
+          </a>
+          <a href="#" class="nav-item">
+            <span class="nav-item-icon">⚙️</span>
+            Configuración
+          </a>
+        </div>
+      </nav>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="main-content">
+      <!-- Topbar -->
+      <header class="topbar">
+        <div class="topbar-left">
+          <h2>Presupuestos</h2>
+        </div>
+        <div class="topbar-right">
+          <div class="topbar-search">
+            <input type="text" placeholder="Buscar transacciones...">
+          </div>
+          <button class="topbar-action" title="Notificaciones">
+            🔔
+            <span class="notification-dot"></span>
+          </button>
+          <button class="topbar-action" title="Ayuda">❓</button>
+          <div class="user-menu">
+            <div class="user-avatar">D</div>
+            <div class="user-info">
+              <div class="user-name">Diego</div>
+              <div class="user-role">Usuario</div>
+            </div>
+          </div>
+        </div>
+      </header>
+
+      <!-- Content -->
+      <div class="content">
+        <!-- Overview Cards -->
+        <div class="stats-grid">
+          <div class="stat-card">
+            <div class="stat-card-header">
+              <div class="stat-card-title">Presupuesto Total</div>
+              <div class="stat-card-icon purple">💰</div>
+            </div>
+            <div class="stat-card-value">$18,500.00</div>
+            <div class="stat-card-change">
+              Para este mes
+            </div>
+          </div>
+
+          <div class="stat-card">
+            <div class="stat-card-header">
+              <div class="stat-card-title">Total Gastado</div>
+              <div class="stat-card-icon red">📉</div>
+            </div>
+            <div class="stat-card-value">$14,849.00</div>
+            <div class="stat-card-change">
+              80.3% del presupuesto
+            </div>
+          </div>
+
+          <div class="stat-card">
+            <div class="stat-card-header">
+              <div class="stat-card-title">Disponible</div>
+              <div class="stat-card-icon green">💵</div>
+            </div>
+            <div class="stat-card-value">$3,651.00</div>
+            <div class="stat-card-change positive">
+              19.7% restante
+            </div>
+          </div>
+
+          <div class="stat-card">
+            <div class="stat-card-header">
+              <div class="stat-card-title">Días Restantes</div>
+              <div class="stat-card-icon orange">📅</div>
+            </div>
+            <div class="stat-card-value">5</div>
+            <div class="stat-card-change">
+              Del mes actual
+            </div>
+          </div>
+        </div>
+
+        <!-- Month Selector & Actions -->
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem;">
+          <div style="display: flex; gap: 1rem; align-items: center;">
+            <button class="btn btn-secondary btn-sm">← Mes Anterior</button>
+            <select class="filter-select" style="min-width: 200px;">
+              <option selected>Diciembre 2025</option>
+              <option>Noviembre 2025</option>
+              <option>Octubre 2025</option>
+              <option>Septiembre 2025</option>
+            </select>
+            <button class="btn btn-secondary btn-sm">Mes Siguiente →</button>
+          </div>
+          <div style="display: flex; gap: 0.75rem;">
+            <button class="btn btn-secondary btn-sm" onclick="alert('Copiando presupuesto del mes anterior')">
+              📋 Copiar del Mes Anterior
+            </button>
+            <button class="btn btn-primary btn-sm" onclick="openModal('newBudgetModal')">
+              + Nuevo Presupuesto
+            </button>
+          </div>
+        </div>
+
+        <!-- Budget Progress Overview -->
+        <div class="chart-card" style="margin-bottom: 2rem;">
+          <div class="chart-card-header">
+            <h3 class="chart-card-title">Resumen de Presupuestos</h3>
+            <div style="display: flex; gap: 1rem; align-items: center;">
+              <div style="display: flex; align-items: center; gap: 0.5rem; font-size: 0.875rem;">
+                <div style="width: 12px; height: 12px; border-radius: 3px; background: linear-gradient(90deg, #10B981, #34D399);"></div>
+                <span style="color: var(--text-secondary);">Saludable (<80%)</span>
+              </div>
+              <div style="display: flex; align-items: center; gap: 0.5rem; font-size: 0.875rem;">
+                <div style="width: 12px; height: 12px; border-radius: 3px; background: linear-gradient(90deg, #F59E0B, #FBBF24);"></div>
+                <span style="color: var(--text-secondary);">Alerta (80-100%)</span>
+              </div>
+              <div style="display: flex; align-items: center; gap: 0.5rem; font-size: 0.875rem;">
+                <div style="width: 12px; height: 12px; border-radius: 3px; background: linear-gradient(90deg, #EF4444, #F87171);"></div>
+                <span style="color: var(--text-secondary);">Excedido (>100%)</span>
+              </div>
+            </div>
+          </div>
+          <div style="padding: 1rem 0;">
+            <div class="progress-bar-container" style="height: 24px;">
+              <div style="display: flex; height: 100%; border-radius: 12px; overflow: hidden;">
+                <div style="width: 43.2%; background: linear-gradient(90deg, #8B5CF6, #A78BFA); display: flex; align-items: center; justify-content: center; color: white; font-size: 0.75rem; font-weight: 600;">
+                  Vivienda $8,000
+                </div>
+                <div style="width: 17.6%; background: linear-gradient(90deg, #10B981, #34D399); display: flex; align-items: center; justify-content: center; color: white; font-size: 0.75rem; font-weight: 600;">
+                  Comida
+                </div>
+                <div style="width: 8.1%; background: linear-gradient(90deg, #EF4444, #F87171); display: flex; align-items: center; justify-content: center; color: white; font-size: 0.75rem; font-weight: 600;">
+                  Salud
+                </div>
+                <div style="width: 6.5%; background: linear-gradient(90deg, #3B82F6, #60A5FA); display: flex; align-items: center; justify-content: center; color: white; font-size: 0.75rem; font-weight: 600;">
+                  Trans.
+                </div>
+                <div style="width: 4.9%; background: linear-gradient(90deg, #F59E0B, #FBBF24); display: flex; align-items: center; justify-content: center; color: white; font-size: 0.75rem; font-weight: 600;">
+                  Ent.
+                </div>
+              </div>
+            </div>
+            <div style="margin-top: 0.5rem; color: var(--text-secondary); font-size: 0.875rem; text-align: center;">
+              $14,849 gastados de $18,500 presupuestados (80.3%)
+            </div>
+          </div>
+        </div>
+
+        <!-- Budget List -->
+        <div class="budget-list" id="budgetList">
+          <!-- Populated by JavaScript -->
+        </div>
+
+        <!-- Additional Budgets -->
+        <div class="budget-list" style="margin-top: 1.5rem;">
+          <div class="budget-item fade-in">
+            <div class="budget-header">
+              <div class="budget-category">
+                <div class="budget-icon" style="background: #3B82F620; color: #3B82F6;">
+                  📱
+                </div>
+                <div class="budget-category-name">Tecnología</div>
+              </div>
+              <div class="budget-amounts">
+                <div class="budget-spent">$0.00</div>
+                <div class="budget-total">de $1,000.00</div>
+              </div>
+            </div>
+            <div class="budget-progress">
+              <div class="progress-bar-container">
+                <div class="progress-bar safe" style="width: 0%"></div>
+              </div>
+            </div>
+            <div class="budget-footer">
+              <span>0% utilizado</span>
+              <span class="budget-remaining positive">
+                Restante: $1,000.00
+              </span>
+            </div>
+          </div>
+
+          <div class="budget-item fade-in">
+            <div class="budget-header">
+              <div class="budget-category">
+                <div class="budget-icon" style="background: #EC489920; color: #EC4899;">
+                  🎁
+                </div>
+                <div class="budget-category-name">Regalos</div>
+              </div>
+              <div class="budget-amounts">
+                <div class="budget-spent">$0.00</div>
+                <div class="budget-total">de $500.00</div>
+              </div>
+            </div>
+            <div class="budget-progress">
+              <div class="progress-bar-container">
+                <div class="progress-bar safe" style="width: 0%"></div>
+              </div>
+            </div>
+            <div class="budget-footer">
+              <span>0% utilizado</span>
+              <span class="budget-remaining positive">
+                Restante: $500.00
+              </span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Budget Tips -->
+        <div class="chart-card" style="margin-top: 2rem; background: linear-gradient(135deg, #DDD6FE, #E9D5FF); border: none;">
+          <div style="display: flex; gap: 1rem; align-items: start;">
+            <div style="font-size: 2.5rem;">💡</div>
+            <div>
+              <h3 style="font-size: 1.125rem; font-weight: 600; margin-bottom: 0.5rem; color: var(--primary-dark);">
+                Consejos para Administrar tu Presupuesto
+              </h3>
+              <ul style="margin: 0; padding-left: 1.25rem; color: var(--text-primary); line-height: 1.8;">
+                <li>Te quedan 5 días del mes con $3,651 disponibles (aprox. $730/día)</li>
+                <li>Has excedido el presupuesto de Salud en $500 - considera ajustar el próximo mes</li>
+                <li>Vivienda está al 100% - todo bajo control 👍</li>
+                <li>Comida va por buen camino al 65% - puedes gastar hasta $1,750 más</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <!-- New Budget Modal -->
+  <div id="newBudgetModal" class="modal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3 class="modal-title">Nuevo Presupuesto</h3>
+        <button class="modal-close" onclick="closeModal('newBudgetModal')">×</button>
+      </div>
+      <div class="modal-body">
+        <form>
+          <div class="form-group">
+            <label class="form-label">Categoría</label>
+            <select class="form-select">
+              <option value="">Seleccionar categoría...</option>
+              <option>Comida</option>
+              <option>Transporte</option>
+              <option>Entretenimiento</option>
+              <option>Salud</option>
+              <option>Vivienda</option>
+              <option>Tecnología</option>
+              <option>Educación</option>
+              <option>Ropa</option>
+              <option>Mascotas</option>
+              <option>Regalos</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">Monto Mensual</label>
+            <input type="number" class="form-input" placeholder="0.00" step="0.01">
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label">Mes</label>
+              <select class="form-select">
+                <option>Diciembre 2025</option>
+                <option>Enero 2026</option>
+                <option>Febrero 2026</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Alertas</label>
+              <select class="form-select">
+                <option value="50">Al 50%</option>
+                <option value="80" selected>Al 80%</option>
+                <option value="90">Al 90%</option>
+                <option value="100">Al 100%</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label style="display: flex; align-items: center; gap: 0.5rem; cursor: pointer;">
+              <input type="checkbox" style="width: auto;" checked>
+              <span class="form-label" style="margin: 0;">Aplicar a todos los meses futuros</span>
+            </label>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">Notas (Opcional)</label>
+            <textarea class="form-textarea" placeholder="Agregar notas sobre este presupuesto..."></textarea>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-secondary" onclick="closeModal('newBudgetModal')">Cancelar</button>
+        <button class="btn btn-primary" onclick="alert('Presupuesto creado'); closeModal('newBudgetModal')">
+          Crear Presupuesto
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Scripts -->
+  <script src="js/app.js"></script>
+</body>
+</html>

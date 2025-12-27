@@ -1,0 +1,473 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Reportes - MyCash</title>
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+  <div class="app-container">
+    <!-- Sidebar -->
+    <aside class="sidebar">
+      <div class="sidebar-header">
+        <h1>💰 MyCash</h1>
+        <div class="subtitle">Gestor de Finanzas</div>
+      </div>
+
+      <nav class="sidebar-nav">
+        <div class="nav-section">
+          <div class="nav-section-title">Principal</div>
+          <a href="index.html" class="nav-item">
+            <span class="nav-item-icon">📊</span>
+            Dashboard
+          </a>
+          <a href="transacciones.html" class="nav-item">
+            <span class="nav-item-icon">💳</span>
+            Transacciones
+          </a>
+          <a href="cuentas.html" class="nav-item">
+            <span class="nav-item-icon">💰</span>
+            Cuentas
+          </a>
+        </div>
+
+        <div class="nav-section">
+          <div class="nav-section-title">Gestión</div>
+          <a href="categorias.html" class="nav-item">
+            <span class="nav-item-icon">📂</span>
+            Categorías
+          </a>
+          <a href="presupuestos.html" class="nav-item">
+            <span class="nav-item-icon">📈</span>
+            Presupuestos
+          </a>
+          <a href="metas.html" class="nav-item">
+            <span class="nav-item-icon">🎯</span>
+            Metas
+          </a>
+          <a href="reportes.html" class="nav-item active">
+            <span class="nav-item-icon">📊</span>
+            Reportes
+          </a>
+        </div>
+
+        <div class="nav-section">
+          <div class="nav-section-title">Otros</div>
+          <a href="#" class="nav-item">
+            <span class="nav-item-icon">🔔</span>
+            Notificaciones
+            <span class="nav-badge">3</span>
+          </a>
+          <a href="#" class="nav-item">
+            <span class="nav-item-icon">⚙️</span>
+            Configuración
+          </a>
+        </div>
+      </nav>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="main-content">
+      <!-- Topbar -->
+      <header class="topbar">
+        <div class="topbar-left">
+          <h2>Reportes Financieros</h2>
+        </div>
+        <div class="topbar-right">
+          <div class="topbar-search">
+            <input type="text" placeholder="Buscar...">
+          </div>
+          <button class="topbar-action" title="Notificaciones">
+            🔔
+            <span class="notification-dot"></span>
+          </button>
+          <button class="topbar-action" title="Ayuda">❓</button>
+          <div class="user-menu">
+            <div class="user-avatar">D</div>
+            <div class="user-info">
+              <div class="user-name">Diego</div>
+              <div class="user-role">Usuario</div>
+            </div>
+          </div>
+        </div>
+      </header>
+
+      <!-- Content -->
+      <div class="content">
+        <!-- Report Type Tabs -->
+        <div style="display: flex; gap: 1rem; margin-bottom: 2rem; border-bottom: 2px solid var(--border); flex-wrap: wrap;">
+          <button class="btn btn-sm" style="border-radius: 0; border-bottom: 3px solid var(--primary); padding: 1rem 1.5rem; background: none; color: var(--primary);">
+            📅 Mensual
+          </button>
+          <button class="btn btn-sm" style="border-radius: 0; padding: 1rem 1.5rem; background: none; color: var(--text-secondary);">
+            📊 Anual
+          </button>
+          <button class="btn btn-sm" style="border-radius: 0; padding: 1rem 1.5rem; background: none; color: var(--text-secondary);">
+            📂 Por Categoría
+          </button>
+          <button class="btn btn-sm" style="border-radius: 0; padding: 1rem 1.5rem; background: none; color: var(--text-secondary);">
+            💰 Por Cuenta
+          </button>
+          <button class="btn btn-sm" style="border-radius: 0; padding: 1rem 1.5rem; background: none; color: var(--text-secondary);">
+            ⚖️ Comparativo
+          </button>
+        </div>
+
+        <!-- Period Selector & Export -->
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem; flex-wrap: wrap; gap: 1rem;">
+          <div style="display: flex; gap: 1rem; align-items: center;">
+            <button class="btn btn-secondary btn-sm">← Anterior</button>
+            <select class="filter-select" style="min-width: 200px;">
+              <option selected>Diciembre 2025</option>
+              <option>Noviembre 2025</option>
+              <option>Octubre 2025</option>
+              <option>Septiembre 2025</option>
+              <option>Agosto 2025</option>
+            </select>
+            <button class="btn btn-secondary btn-sm">Siguiente →</button>
+          </div>
+          <div style="display: flex; gap: 0.5rem;">
+            <button class="btn btn-secondary btn-sm">📄 PDF</button>
+            <button class="btn btn-secondary btn-sm">📊 Excel</button>
+            <button class="btn btn-secondary btn-sm">📋 CSV</button>
+            <button class="btn btn-primary btn-sm">📸 Compartir</button>
+          </div>
+        </div>
+
+        <!-- Summary Cards -->
+        <div class="stats-grid">
+          <div class="stat-card">
+            <div class="stat-card-header">
+              <div class="stat-card-title">Ingresos del Mes</div>
+              <div class="stat-card-icon green">📈</div>
+            </div>
+            <div class="stat-card-value">$30,000.00</div>
+            <div class="stat-card-change positive">
+              ↑ +3.4% vs Nov 2025
+            </div>
+          </div>
+
+          <div class="stat-card">
+            <div class="stat-card-header">
+              <div class="stat-card-title">Gastos del Mes</div>
+              <div class="stat-card-icon red">📉</div>
+            </div>
+            <div class="stat-card-value">$15,748.00</div>
+            <div class="stat-card-change negative">
+              ↑ +12.3% vs Nov 2025
+            </div>
+          </div>
+
+          <div class="stat-card">
+            <div class="stat-card-header">
+              <div class="stat-card-title">Balance Neto</div>
+              <div class="stat-card-icon purple">💰</div>
+            </div>
+            <div class="stat-card-value">$14,252.00</div>
+            <div class="stat-card-change negative">
+              ↓ -5.2% vs Nov 2025
+            </div>
+          </div>
+
+          <div class="stat-card">
+            <div class="stat-card-header">
+              <div class="stat-card-title">Tasa de Ahorro</div>
+              <div class="stat-card-icon orange">📊</div>
+            </div>
+            <div class="stat-card-value">47.5%</div>
+            <div class="stat-card-change positive">
+              ↑ Excelente ahorro
+            </div>
+          </div>
+        </div>
+
+        <!-- Daily Trend Chart -->
+        <div class="chart-card" style="margin-bottom: 2rem;">
+          <div class="chart-card-header">
+            <h3 class="chart-card-title">Tendencia Diaria - Diciembre 2025</h3>
+            <div style="display: flex; gap: 1rem;">
+              <label style="display: flex; align-items: center; gap: 0.5rem; cursor: pointer;">
+                <input type="checkbox" checked>
+                <span style="font-size: 0.875rem;">Ingresos</span>
+              </label>
+              <label style="display: flex; align-items: center; gap: 0.5rem; cursor: pointer;">
+                <input type="checkbox" checked>
+                <span style="font-size: 0.875rem;">Gastos</span>
+              </label>
+            </div>
+          </div>
+          <div class="chart-container">
+            <canvas id="monthlyComparisonChart"></canvas>
+          </div>
+        </div>
+
+        <!-- Category Breakdown -->
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; margin-bottom: 2rem;">
+          <div class="chart-card">
+            <div class="chart-card-header">
+              <h3 class="chart-card-title">Gastos por Categoría</h3>
+            </div>
+            <div class="chart-container">
+              <canvas id="expensesByCategoryChart"></canvas>
+            </div>
+          </div>
+
+          <div class="chart-card">
+            <div class="chart-card-header">
+              <h3 class="chart-card-title">Top Categorías de Gasto</h3>
+            </div>
+            <div class="chart-container">
+              <canvas id="topCategoriesChart"></canvas>
+            </div>
+          </div>
+        </div>
+
+        <!-- Detailed Breakdown Table -->
+        <div class="table-container" style="margin-bottom: 2rem;">
+          <div class="table-header">
+            <h3 class="table-title">Desglose por Categoría</h3>
+          </div>
+          <table>
+            <thead>
+              <tr>
+                <th>Categoría</th>
+                <th>Transacciones</th>
+                <th>Total Gastado</th>
+                <th>% del Total</th>
+                <th>Promedio</th>
+                <th>vs Mes Anterior</th>
+                <th>Tendencia</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>
+                  <div style="display: flex; align-items: center; gap: 0.75rem;">
+                    <div style="font-size: 1.5rem;">🏠</div>
+                    <span style="font-weight: 600;">Vivienda</span>
+                  </div>
+                </td>
+                <td>12</td>
+                <td><span class="amount-negative">-$8,000.00</span></td>
+                <td>
+                  <div style="display: flex; align-items: center; gap: 0.5rem;">
+                    <div class="progress-bar-container" style="height: 8px; width: 100px;">
+                      <div class="progress-bar safe" style="width: 50.8%; background: #7C3AED;"></div>
+                    </div>
+                    <span style="font-weight: 600;">50.8%</span>
+                  </div>
+                </td>
+                <td>$666.67</td>
+                <td><span style="color: var(--text-secondary);">0%</span></td>
+                <td><span style="font-size: 1.25rem;">→</span></td>
+              </tr>
+              <tr>
+                <td>
+                  <div style="display: flex; align-items: center; gap: 0.75rem;">
+                    <div style="font-size: 1.5rem;">🛒</div>
+                    <span style="font-weight: 600;">Comida</span>
+                  </div>
+                </td>
+                <td>45</td>
+                <td><span class="amount-negative">-$3,250.00</span></td>
+                <td>
+                  <div style="display: flex; align-items: center; gap: 0.5rem;">
+                    <div class="progress-bar-container" style="height: 8px; width: 100px;">
+                      <div class="progress-bar safe" style="width: 20.6%; background: #10B981;"></div>
+                    </div>
+                    <span style="font-weight: 600;">20.6%</span>
+                  </div>
+                </td>
+                <td>$72.22</td>
+                <td><span class="amount-positive" style="font-size: 0.875rem;">+8.5%</span></td>
+                <td><span style="font-size: 1.25rem; color: var(--danger);">↑</span></td>
+              </tr>
+              <tr>
+                <td>
+                  <div style="display: flex; align-items: center; gap: 0.75rem;">
+                    <div style="font-size: 1.5rem;">💊</div>
+                    <span style="font-weight: 600;">Salud</span>
+                  </div>
+                </td>
+                <td>8</td>
+                <td><span class="amount-negative">-$1,500.00</span></td>
+                <td>
+                  <div style="display: flex; align-items: center; gap: 0.5rem;">
+                    <div class="progress-bar-container" style="height: 8px; width: 100px;">
+                      <div class="progress-bar safe" style="width: 9.5%; background: #EF4444;"></div>
+                    </div>
+                    <span style="font-weight: 600;">9.5%</span>
+                  </div>
+                </td>
+                <td>$187.50</td>
+                <td><span class="amount-positive" style="font-size: 0.875rem;">+25%</span></td>
+                <td><span style="font-size: 1.25rem; color: var(--danger);">↑</span></td>
+              </tr>
+              <tr>
+                <td>
+                  <div style="display: flex; align-items: center; gap: 0.75rem;">
+                    <div style="font-size: 1.5rem;">🚗</div>
+                    <span style="font-weight: 600;">Transporte</span>
+                  </div>
+                </td>
+                <td>28</td>
+                <td><span class="amount-negative">-$1,200.00</span></td>
+                <td>
+                  <div style="display: flex; align-items: center; gap: 0.5rem;">
+                    <div class="progress-bar-container" style="height: 8px; width: 100px;">
+                      <div class="progress-bar safe" style="width: 7.6%; background: #3B82F6;"></div>
+                    </div>
+                    <span style="font-weight: 600;">7.6%</span>
+                  </div>
+                </td>
+                <td>$42.86</td>
+                <td><span class="amount-negative" style="font-size: 0.875rem;">-12%</span></td>
+                <td><span style="font-size: 1.25rem; color: var(--success);">↓</span></td>
+              </tr>
+              <tr>
+                <td>
+                  <div style="display: flex; align-items: center; gap: 0.75rem;">
+                    <div style="font-size: 1.5rem;">🎬</div>
+                    <span style="font-weight: 600;">Entretenimiento</span>
+                  </div>
+                </td>
+                <td>15</td>
+                <td><span class="amount-negative">-$899.00</span></td>
+                <td>
+                  <div style="display: flex; align-items: center; gap: 0.5rem;">
+                    <div class="progress-bar-container" style="height: 8px; width: 100px;">
+                      <div class="progress-bar safe" style="width: 5.7%; background: #F59E0B;"></div>
+                    </div>
+                    <span style="font-weight: 600;">5.7%</span>
+                  </div>
+                </td>
+                <td>$59.93</td>
+                <td><span style="color: var(--text-secondary);">0%</span></td>
+                <td><span style="font-size: 1.25rem;">→</span></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <!-- Income Breakdown -->
+        <div class="table-container" style="margin-bottom: 2rem;">
+          <div class="table-header">
+            <h3 class="table-title">Desglose de Ingresos</h3>
+          </div>
+          <table>
+            <thead>
+              <tr>
+                <th>Fuente</th>
+                <th>Transacciones</th>
+                <th>Total</th>
+                <th>% del Total</th>
+                <th>Promedio</th>
+                <th>vs Mes Anterior</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>
+                  <div style="display: flex; align-items: center; gap: 0.75rem;">
+                    <div style="font-size: 1.5rem;">💰</div>
+                    <span style="font-weight: 600;">Salario</span>
+                  </div>
+                </td>
+                <td>1</td>
+                <td><span class="amount-positive">+$25,000.00</span></td>
+                <td>
+                  <div style="display: flex; align-items: center; gap: 0.5rem;">
+                    <div class="progress-bar-container" style="height: 8px; width: 100px;">
+                      <div class="progress-bar safe" style="width: 83.3%; background: #10B981;"></div>
+                    </div>
+                    <span style="font-weight: 600;">83.3%</span>
+                  </div>
+                </td>
+                <td>$25,000.00</td>
+                <td><span style="color: var(--text-secondary);">0%</span></td>
+              </tr>
+              <tr>
+                <td>
+                  <div style="display: flex; align-items: center; gap: 0.75rem;">
+                    <div style="font-size: 1.5rem;">💼</div>
+                    <span style="font-weight: 600;">Freelance</span>
+                  </div>
+                </td>
+                <td>2</td>
+                <td><span class="amount-positive">+$5,000.00</span></td>
+                <td>
+                  <div style="display: flex; align-items: center; gap: 0.5rem;">
+                    <div class="progress-bar-container" style="height: 8px; width: 100px;">
+                      <div class="progress-bar safe" style="width: 16.7%; background: #8B5CF6;"></div>
+                    </div>
+                    <span style="font-weight: 600;">16.7%</span>
+                  </div>
+                </td>
+                <td>$2,500.00</td>
+                <td><span class="amount-positive" style="font-size: 0.875rem;">+25%</span></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <!-- Key Insights -->
+        <div class="chart-card" style="background: linear-gradient(135deg, #DDD6FE, #E9D5FF); border: none;">
+          <div style="display: flex; gap: 1rem; align-items: start;">
+            <div style="font-size: 2.5rem;">📊</div>
+            <div>
+              <h3 style="font-size: 1.125rem; font-weight: 600; margin-bottom: 1rem; color: var(--primary-dark);">
+                Análisis e Insights del Mes
+              </h3>
+              <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1rem;">
+                <div style="background: white; border-radius: 8px; padding: 1rem;">
+                  <div style="font-size: 1.5rem; margin-bottom: 0.5rem;">📈</div>
+                  <div style="font-weight: 600; margin-bottom: 0.25rem;">Mejor Día</div>
+                  <div style="font-size: 0.875rem; color: var(--text-secondary);">
+                    23 Dic: +$25,000 (Salario)
+                  </div>
+                </div>
+                <div style="background: white; border-radius: 8px; padding: 1rem;">
+                  <div style="font-size: 1.5rem; margin-bottom: 0.5rem;">📉</div>
+                  <div style="font-weight: 600; margin-bottom: 0.25rem;">Día Más Caro</div>
+                  <div style="font-size: 0.875rem; color: var(--text-secondary);">
+                    24 Dic: -$1,250 (Supermercado)
+                  </div>
+                </div>
+                <div style="background: white; border-radius: 8px; padding: 1rem;">
+                  <div style="font-size: 1.5rem; margin-bottom: 0.5rem;">⭐</div>
+                  <div style="font-weight: 600; margin-bottom: 0.25rem;">Categoría Más Usada</div>
+                  <div style="font-size: 0.875rem; color: var(--text-secondary);">
+                    🛒 Comida (45 transacciones)
+                  </div>
+                </div>
+                <div style="background: white; border-radius: 8px; padding: 1rem;">
+                  <div style="font-size: 1.5rem; margin-bottom: 0.5rem;">💰</div>
+                  <div style="font-weight: 600; margin-bottom: 0.25rem;">Gasto Promedio Diario</div>
+                  <div style="font-size: 0.875rem; color: var(--text-secondary);">
+                    $605/día
+                  </div>
+                </div>
+              </div>
+              <div style="margin-top: 1rem; padding: 1rem; background: white; border-radius: 8px;">
+                <div style="font-weight: 600; margin-bottom: 0.5rem;">💡 Recomendaciones:</div>
+                <ul style="margin: 0; padding-left: 1.5rem; color: var(--text-primary); line-height: 1.8; font-size: 0.875rem;">
+                  <li>Tu gasto en Comida aumentó 8.5% vs mes anterior - considera optimizar compras</li>
+                  <li>Excelente tasa de ahorro del 47.5% - sigue así!</li>
+                  <li>Salud aumentó 25% - considera revisar presupuesto</li>
+                  <li>Transporte bajó 12% - buen trabajo reduciendo gastos!</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <!-- Scripts -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+  <script src="js/app.js"></script>
+  <script src="js/charts.js"></script>
+</body>
+</html>

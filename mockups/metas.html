@@ -1,0 +1,649 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Metas de Ahorro - MyCash</title>
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+  <div class="app-container">
+    <!-- Sidebar -->
+    <aside class="sidebar">
+      <div class="sidebar-header">
+        <h1>💰 MyCash</h1>
+        <div class="subtitle">Gestor de Finanzas</div>
+      </div>
+
+      <nav class="sidebar-nav">
+        <div class="nav-section">
+          <div class="nav-section-title">Principal</div>
+          <a href="index.html" class="nav-item">
+            <span class="nav-item-icon">📊</span>
+            Dashboard
+          </a>
+          <a href="transacciones.html" class="nav-item">
+            <span class="nav-item-icon">💳</span>
+            Transacciones
+          </a>
+          <a href="cuentas.html" class="nav-item">
+            <span class="nav-item-icon">💰</span>
+            Cuentas
+          </a>
+        </div>
+
+        <div class="nav-section">
+          <div class="nav-section-title">Gestión</div>
+          <a href="categorias.html" class="nav-item">
+            <span class="nav-item-icon">📂</span>
+            Categorías
+          </a>
+          <a href="presupuestos.html" class="nav-item">
+            <span class="nav-item-icon">📈</span>
+            Presupuestos
+          </a>
+          <a href="metas.html" class="nav-item active">
+            <span class="nav-item-icon">🎯</span>
+            Metas
+          </a>
+          <a href="reportes.html" class="nav-item">
+            <span class="nav-item-icon">📊</span>
+            Reportes
+          </a>
+        </div>
+
+        <div class="nav-section">
+          <div class="nav-section-title">Otros</div>
+          <a href="#" class="nav-item">
+            <span class="nav-item-icon">🔔</span>
+            Notificaciones
+            <span class="nav-badge">3</span>
+          </a>
+          <a href="#" class="nav-item">
+            <span class="nav-item-icon">⚙️</span>
+            Configuración
+          </a>
+        </div>
+      </nav>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="main-content">
+      <!-- Topbar -->
+      <header class="topbar">
+        <div class="topbar-left">
+          <h2>Metas de Ahorro</h2>
+        </div>
+        <div class="topbar-right">
+          <div class="topbar-search">
+            <input type="text" placeholder="Buscar metas...">
+          </div>
+          <button class="topbar-action" title="Notificaciones">
+            🔔
+            <span class="notification-dot"></span>
+          </button>
+          <button class="topbar-action" title="Ayuda">❓</button>
+          <div class="user-menu">
+            <div class="user-avatar">D</div>
+            <div class="user-info">
+              <div class="user-name">Diego</div>
+              <div class="user-role">Usuario</div>
+            </div>
+          </div>
+        </div>
+      </header>
+
+      <!-- Content -->
+      <div class="content">
+        <!-- Stats Cards -->
+        <div class="stats-grid">
+          <div class="stat-card">
+            <div class="stat-card-header">
+              <div class="stat-card-title">Metas Activas</div>
+              <div class="stat-card-icon purple">🎯</div>
+            </div>
+            <div class="stat-card-value">5</div>
+            <div class="stat-card-change positive">
+              3 en progreso, 2 completadas
+            </div>
+          </div>
+
+          <div class="stat-card">
+            <div class="stat-card-header">
+              <div class="stat-card-title">Total Ahorrado</div>
+              <div class="stat-card-icon green">💰</div>
+            </div>
+            <div class="stat-card-value">$28,500</div>
+            <div class="stat-card-change positive">
+              ↑ +12% este mes
+            </div>
+          </div>
+
+          <div class="stat-card">
+            <div class="stat-card-header">
+              <div class="stat-card-title">Objetivo Total</div>
+              <div class="stat-card-icon orange">🏆</div>
+            </div>
+            <div class="stat-card-value">$95,000</div>
+            <div class="stat-card-change">
+              30% completado
+            </div>
+          </div>
+
+          <div class="stat-card">
+            <div class="stat-card-header">
+              <div class="stat-card-title">Por Ahorrar</div>
+              <div class="stat-card-icon red">📈</div>
+            </div>
+            <div class="stat-card-value">$66,500</div>
+            <div class="stat-card-change">
+              Faltan 18 meses
+            </div>
+          </div>
+        </div>
+
+        <!-- Action Buttons -->
+        <div style="display: flex; gap: 0.75rem; margin-bottom: 2rem; justify-content: space-between; align-items: center;">
+          <div style="display: flex; gap: 1rem;">
+            <button class="btn btn-sm" style="border-radius: 8px; border: 2px solid var(--primary); background: var(--primary); color: white;">
+              Activas
+            </button>
+            <button class="btn btn-sm" style="border-radius: 8px; background: none; color: var(--text-secondary); border: 1px solid var(--border);">
+              Completadas
+            </button>
+            <button class="btn btn-sm" style="border-radius: 8px; background: none; color: var(--text-secondary); border: 1px solid var(--border);">
+              Archivadas
+            </button>
+          </div>
+          <button class="btn btn-primary" onclick="openModal('newGoalModal')">
+            + Nueva Meta
+          </button>
+        </div>
+
+        <!-- Active Goals Grid -->
+        <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(350px, 1fr)); gap: 1.5rem; margin-bottom: 2rem;">
+          <!-- Goal Card 1 -->
+          <div class="chart-card" style="position: relative; overflow: visible;">
+            <div style="position: absolute; top: 1rem; right: 1rem; z-index: 10;">
+              <span style="background: #10B98120; color: #047857; padding: 0.375rem 0.75rem; border-radius: 6px; font-size: 0.875rem; font-weight: 600;">
+                ✓ En Camino
+              </span>
+            </div>
+            <div style="text-align: center; padding-top: 1rem;">
+              <div style="font-size: 4rem; margin-bottom: 0.5rem;">🏠</div>
+              <h3 style="font-size: 1.25rem; font-weight: 700; margin-bottom: 0.5rem;">Casa Nueva</h3>
+              <p style="font-size: 0.875rem; color: var(--text-secondary); margin-bottom: 1.5rem;">
+                Para el enganche de mi primera casa
+              </p>
+            </div>
+
+            <div style="margin-bottom: 1.5rem;">
+              <div style="display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 0.75rem;">
+                <div>
+                  <div style="font-size: 1.75rem; font-weight: 700; color: var(--primary);">$15,000</div>
+                  <div style="font-size: 0.875rem; color: var(--text-secondary);">de $50,000</div>
+                </div>
+                <div style="text-align: right;">
+                  <div style="font-size: 1.5rem; font-weight: 700; color: var(--text-primary);">30%</div>
+                  <div style="font-size: 0.875rem; color: var(--text-secondary);">completado</div>
+                </div>
+              </div>
+              <div class="progress-bar-container" style="height: 16px;">
+                <div class="progress-bar safe" style="width: 30%;"></div>
+              </div>
+            </div>
+
+            <div style="background: var(--bg-primary); border-radius: 8px; padding: 1rem; margin-bottom: 1rem;">
+              <div style="display: flex; justify-content: space-between; margin-bottom: 0.5rem; font-size: 0.875rem;">
+                <span style="color: var(--text-secondary);">Faltan por ahorrar:</span>
+                <span style="font-weight: 600;">$35,000</span>
+              </div>
+              <div style="display: flex; justify-content: space-between; margin-bottom: 0.5rem; font-size: 0.875rem;">
+                <span style="color: var(--text-secondary);">Fecha límite:</span>
+                <span style="font-weight: 600;">Dic 31, 2026</span>
+              </div>
+              <div style="display: flex; justify-content: space-between; margin-bottom: 0.5rem; font-size: 0.875rem;">
+                <span style="color: var(--text-secondary);">Días restantes:</span>
+                <span style="font-weight: 600; color: var(--warning);">370 días</span>
+              </div>
+              <div style="border-top: 1px solid var(--border); margin: 0.75rem 0; padding-top: 0.75rem;">
+                <div style="display: flex; justify-content: space-between; font-size: 0.875rem;">
+                  <span style="color: var(--text-secondary);">Necesitas ahorrar:</span>
+                  <div style="text-align: right;">
+                    <div style="font-weight: 700; color: var(--primary);">$2,916/mes</div>
+                    <div style="font-size: 0.75rem; color: var(--text-secondary);">o $95/día</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div style="display: flex; gap: 0.5rem;">
+              <button class="btn btn-primary" style="flex: 1;" onclick="openModal('contributeModal')">
+                💰 Contribuir
+              </button>
+              <button class="btn btn-secondary btn-icon" onclick="openModal('editGoalModal')">
+                ✏️
+              </button>
+              <button class="btn btn-secondary btn-icon">
+                📊
+              </button>
+            </div>
+          </div>
+
+          <!-- Goal Card 2 -->
+          <div class="chart-card" style="position: relative; overflow: visible;">
+            <div style="position: absolute; top: 1rem; right: 1rem; z-index: 10;">
+              <span style="background: #10B98120; color: #047857; padding: 0.375rem 0.75rem; border-radius: 6px; font-size: 0.875rem; font-weight: 600;">
+                ✓ En Camino
+              </span>
+            </div>
+            <div style="text-align: center; padding-top: 1rem;">
+              <div style="font-size: 4rem; margin-bottom: 0.5rem;">✈️</div>
+              <h3 style="font-size: 1.25rem; font-weight: 700; margin-bottom: 0.5rem;">Viaje a Europa</h3>
+              <p style="font-size: 0.875rem; color: var(--text-secondary); margin-bottom: 1.5rem;">
+                Vacaciones soñadas en verano 2026
+              </p>
+            </div>
+
+            <div style="margin-bottom: 1.5rem;">
+              <div style="display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 0.75rem;">
+                <div>
+                  <div style="font-size: 1.75rem; font-weight: 700; color: var(--primary);">$8,500</div>
+                  <div style="font-size: 0.875rem; color: var(--text-secondary);">de $25,000</div>
+                </div>
+                <div style="text-align: right;">
+                  <div style="font-size: 1.5rem; font-weight: 700; color: var(--text-primary);">34%</div>
+                  <div style="font-size: 0.875rem; color: var(--text-secondary);">completado</div>
+                </div>
+              </div>
+              <div class="progress-bar-container" style="height: 16px;">
+                <div class="progress-bar safe" style="width: 34%;"></div>
+              </div>
+            </div>
+
+            <div style="background: var(--bg-primary); border-radius: 8px; padding: 1rem; margin-bottom: 1rem;">
+              <div style="display: flex; justify-content: space-between; margin-bottom: 0.5rem; font-size: 0.875rem;">
+                <span style="color: var(--text-secondary);">Faltan por ahorrar:</span>
+                <span style="font-weight: 600;">$16,500</span>
+              </div>
+              <div style="display: flex; justify-content: space-between; margin-bottom: 0.5rem; font-size: 0.875rem;">
+                <span style="color: var(--text-secondary);">Fecha límite:</span>
+                <span style="font-weight: 600;">Jun 30, 2026</span>
+              </div>
+              <div style="display: flex; justify-content: space-between; margin-bottom: 0.5rem; font-size: 0.875rem;">
+                <span style="color: var(--text-secondary);">Días restantes:</span>
+                <span style="font-weight: 600; color: var(--warning);">186 días</span>
+              </div>
+              <div style="border-top: 1px solid var(--border); margin: 0.75rem 0; padding-top: 0.75rem;">
+                <div style="display: flex; justify-content: space-between; font-size: 0.875rem;">
+                  <span style="color: var(--text-secondary);">Necesitas ahorrar:</span>
+                  <div style="text-align: right;">
+                    <div style="font-weight: 700; color: var(--primary);">$2,750/mes</div>
+                    <div style="font-size: 0.75rem; color: var(--text-secondary);">o $89/día</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div style="display: flex; gap: 0.5rem;">
+              <button class="btn btn-primary" style="flex: 1;" onclick="openModal('contributeModal')">
+                💰 Contribuir
+              </button>
+              <button class="btn btn-secondary btn-icon" onclick="openModal('editGoalModal')">
+                ✏️
+              </button>
+              <button class="btn btn-secondary btn-icon">
+                📊
+              </button>
+            </div>
+          </div>
+
+          <!-- Goal Card 3 -->
+          <div class="chart-card" style="position: relative; overflow: visible;">
+            <div style="position: absolute; top: 1rem; right: 1rem; z-index: 10;">
+              <span style="background: #EF444420; color: #B91C1C; padding: 0.375rem 0.75rem; border-radius: 6px; font-size: 0.875rem; font-weight: 600;">
+                ⚠️ Atrasado
+              </span>
+            </div>
+            <div style="text-align: center; padding-top: 1rem;">
+              <div style="font-size: 4rem; margin-bottom: 0.5rem;">💻</div>
+              <h3 style="font-size: 1.25rem; font-weight: 700; margin-bottom: 0.5rem;">MacBook Pro</h3>
+              <p style="font-size: 0.875rem; color: var(--text-secondary); margin-bottom: 1.5rem;">
+                Nuevo equipo para trabajo
+              </p>
+            </div>
+
+            <div style="margin-bottom: 1.5rem;">
+              <div style="display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 0.75rem;">
+                <div>
+                  <div style="font-size: 1.75rem; font-weight: 700; color: var(--primary);">$5,000</div>
+                  <div style="font-size: 0.875rem; color: var(--text-secondary);">de $45,000</div>
+                </div>
+                <div style="text-align: right;">
+                  <div style="font-size: 1.5rem; font-weight: 700; color: var(--text-primary);">11%</div>
+                  <div style="font-size: 0.875rem; color: var(--text-secondary);">completado</div>
+                </div>
+              </div>
+              <div class="progress-bar-container" style="height: 16px;">
+                <div class="progress-bar danger" style="width: 11%;"></div>
+              </div>
+            </div>
+
+            <div style="background: #FEE2E2; border-radius: 8px; padding: 1rem; margin-bottom: 1rem;">
+              <div style="display: flex; justify-content: space-between; margin-bottom: 0.5rem; font-size: 0.875rem;">
+                <span style="color: var(--text-secondary);">Faltan por ahorrar:</span>
+                <span style="font-weight: 600;">$40,000</span>
+              </div>
+              <div style="display: flex; justify-content: space-between; margin-bottom: 0.5rem; font-size: 0.875rem;">
+                <span style="color: var(--text-secondary);">Fecha límite:</span>
+                <span style="font-weight: 600;">Mar 15, 2026</span>
+              </div>
+              <div style="display: flex; justify-content: space-between; margin-bottom: 0.5rem; font-size: 0.875rem;">
+                <span style="color: var(--text-secondary);">Días restantes:</span>
+                <span style="font-weight: 600; color: var(--danger);">79 días</span>
+              </div>
+              <div style="border-top: 1px solid #FCA5A5; margin: 0.75rem 0; padding-top: 0.75rem;">
+                <div style="display: flex; justify-content: space-between; font-size: 0.875rem;">
+                  <span style="color: var(--text-secondary);">Necesitas ahorrar:</span>
+                  <div style="text-align: right;">
+                    <div style="font-weight: 700; color: var(--danger);">$15,385/mes</div>
+                    <div style="font-size: 0.75rem; color: var(--text-secondary);">o $506/día 😰</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div style="display: flex; gap: 0.5rem;">
+              <button class="btn btn-primary" style="flex: 1;" onclick="openModal('contributeModal')">
+                💰 Contribuir
+              </button>
+              <button class="btn btn-secondary btn-icon" onclick="openModal('editGoalModal')">
+                ✏️
+              </button>
+              <button class="btn btn-secondary btn-icon">
+                📊
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Completed Goals -->
+        <div class="table-container">
+          <div class="table-header">
+            <h3 class="table-title">🏆 Metas Completadas</h3>
+          </div>
+          <table>
+            <thead>
+              <tr>
+                <th>Meta</th>
+                <th>Objetivo</th>
+                <th>Ahorrado</th>
+                <th>Fecha Completada</th>
+                <th>Tiempo</th>
+                <th>Acciones</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>
+                  <div style="display: flex; align-items: center; gap: 0.75rem;">
+                    <div style="font-size: 2rem;">🚗</div>
+                    <div>
+                      <div style="font-weight: 600;">Auto Usado</div>
+                      <div style="font-size: 0.85rem; color: var(--text-secondary);">Primer carro</div>
+                    </div>
+                  </div>
+                </td>
+                <td>$80,000</td>
+                <td><span class="amount-positive">$82,500</span></td>
+                <td>Nov 15, 2025</td>
+                <td>
+                  <span class="category-badge" style="background: #10B98120; color: #047857;">
+                    8 meses
+                  </span>
+                </td>
+                <td>
+                  <div class="action-buttons">
+                    <button class="action-btn" title="Ver Detalles">👁️</button>
+                    <button class="action-btn" title="Archivar">📦</button>
+                  </div>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <div style="display: flex; align-items: center; gap: 0.75rem;">
+                    <div style="font-size: 2rem;">📱</div>
+                    <div>
+                      <div style="font-weight: 600;">iPhone 15 Pro</div>
+                      <div style="font-size: 0.85rem; color: var(--text-secondary);">Nuevo teléfono</div>
+                    </div>
+                  </div>
+                </td>
+                <td>$28,000</td>
+                <td><span class="amount-positive">$28,000</span></td>
+                <td>Ago 22, 2025</td>
+                <td>
+                  <span class="category-badge" style="background: #10B98120; color: #047857;">
+                    5 meses
+                  </span>
+                </td>
+                <td>
+                  <div class="action-buttons">
+                    <button class="action-btn" title="Ver Detalles">👁️</button>
+                    <button class="action-btn" title="Archivar">📦</button>
+                  </div>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <!-- New Goal Modal -->
+  <div id="newGoalModal" class="modal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3 class="modal-title">Nueva Meta de Ahorro</h3>
+        <button class="modal-close" onclick="closeModal('newGoalModal')">×</button>
+      </div>
+      <div class="modal-body">
+        <form>
+          <div class="form-group">
+            <label class="form-label">Nombre de la Meta</label>
+            <input type="text" class="form-input" placeholder="Ej: Vacaciones en Cancún">
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">Descripción (Opcional)</label>
+            <input type="text" class="form-input" placeholder="Para qué es esta meta">
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label">Monto Objetivo</label>
+              <input type="number" class="form-input" placeholder="0.00" step="0.01">
+            </div>
+            <div class="form-group">
+              <label class="form-label">Fecha Límite</label>
+              <input type="date" class="form-input">
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">Icono / Emoji</label>
+            <div style="display: grid; grid-template-columns: repeat(8, 1fr); gap: 0.5rem;">
+              <button type="button" style="width: 48px; height: 48px; border-radius: 8px; background: var(--bg-primary); border: 2px solid var(--border); cursor: pointer; font-size: 1.5rem;">🏠</button>
+              <button type="button" style="width: 48px; height: 48px; border-radius: 8px; background: var(--bg-primary); border: 2px solid var(--border); cursor: pointer; font-size: 1.5rem;">🚗</button>
+              <button type="button" style="width: 48px; height: 48px; border-radius: 8px; background: var(--bg-primary); border: 2px solid var(--border); cursor: pointer; font-size: 1.5rem;">✈️</button>
+              <button type="button" style="width: 48px; height: 48px; border-radius: 8px; background: var(--bg-primary); border: 2px solid var(--border); cursor: pointer; font-size: 1.5rem;">💻</button>
+              <button type="button" style="width: 48px; height: 48px; border-radius: 8px; background: var(--bg-primary); border: 2px solid var(--border); cursor: pointer; font-size: 1.5rem;">📱</button>
+              <button type="button" style="width: 48px; height: 48px; border-radius: 8px; background: var(--bg-primary); border: 2px solid var(--border); cursor: pointer; font-size: 1.5rem;">🎓</button>
+              <button type="button" style="width: 48px; height: 48px; border-radius: 8px; background: var(--bg-primary); border: 2px solid var(--border); cursor: pointer; font-size: 1.5rem;">💍</button>
+              <button type="button" style="width: 48px; height: 48px; border-radius: 8px; background: var(--bg-primary); border: 2px solid var(--border); cursor: pointer; font-size: 1.5rem;">🎯</button>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">Cuenta Destino</label>
+            <select class="form-select">
+              <option>Ahorros ($15,000.00)</option>
+              <option>Cuenta Bancaria ($45,250.00)</option>
+              <option>Inversiones ($0.00)</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">Prioridad</label>
+            <select class="form-select">
+              <option>Baja</option>
+              <option selected>Media</option>
+              <option>Alta</option>
+              <option>Urgente</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label style="display: flex; align-items: center; gap: 0.5rem; cursor: pointer;">
+              <input type="checkbox" style="width: auto;">
+              <span class="form-label" style="margin: 0;">Aporte automático mensual</span>
+            </label>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-secondary" onclick="closeModal('newGoalModal')">Cancelar</button>
+        <button class="btn btn-primary" onclick="alert('Meta creada'); closeModal('newGoalModal')">
+          Crear Meta
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Contribute Modal -->
+  <div id="contributeModal" class="modal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3 class="modal-title">Contribuir a Meta</h3>
+        <button class="modal-close" onclick="closeModal('contributeModal')">×</button>
+      </div>
+      <div class="modal-body">
+        <div style="text-align: center; margin-bottom: 1.5rem;">
+          <div style="font-size: 3rem; margin-bottom: 0.5rem;">🏠</div>
+          <h4 style="font-size: 1.125rem; font-weight: 600;">Casa Nueva</h4>
+          <p style="color: var(--text-secondary); font-size: 0.875rem;">
+            $15,000 de $50,000 (30%)
+          </p>
+        </div>
+
+        <form>
+          <div class="form-group">
+            <label class="form-label">Monto a Contribuir</label>
+            <input type="number" class="form-input" placeholder="0.00" step="0.01" autofocus>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">Desde Cuenta</label>
+            <select class="form-select">
+              <option>Cuenta Bancaria ($45,250.00)</option>
+              <option>Efectivo ($2,500.00)</option>
+              <option>Ahorros ($15,000.00)</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">Fecha</label>
+            <input type="date" class="form-input" value="2025-12-26">
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">Notas (Opcional)</label>
+            <textarea class="form-textarea" placeholder="Comentarios sobre esta contribución..."></textarea>
+          </div>
+
+          <div style="background: var(--bg-primary); border-radius: 8px; padding: 1rem; margin-top: 1rem;">
+            <div style="display: flex; justify-content: space-between; margin-bottom: 0.5rem; font-size: 0.875rem;">
+              <span style="color: var(--text-secondary);">Ahorrado actual:</span>
+              <span style="font-weight: 600;">$15,000</span>
+            </div>
+            <div style="display: flex; justify-content: space-between; margin-bottom: 0.5rem; font-size: 0.875rem;">
+              <span style="color: var(--text-secondary);">Nueva contribución:</span>
+              <span style="font-weight: 600; color: var(--success);">+$0.00</span>
+            </div>
+            <div style="border-top: 1px solid var(--border); margin: 0.5rem 0; padding-top: 0.5rem;">
+              <div style="display: flex; justify-content: space-between; font-size: 0.875rem;">
+                <span style="color: var(--text-secondary);">Nuevo total:</span>
+                <span style="font-weight: 700; color: var(--primary); font-size: 1.125rem;">$15,000</span>
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-secondary" onclick="closeModal('contributeModal')">Cancelar</button>
+        <button class="btn btn-primary" onclick="alert('Contribución registrada'); closeModal('contributeModal')">
+          Confirmar Contribución
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Edit Goal Modal -->
+  <div id="editGoalModal" class="modal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3 class="modal-title">Editar Meta</h3>
+        <button class="modal-close" onclick="closeModal('editGoalModal')">×</button>
+      </div>
+      <div class="modal-body">
+        <form>
+          <div class="form-group">
+            <label class="form-label">Nombre de la Meta</label>
+            <input type="text" class="form-input" value="Casa Nueva">
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">Descripción</label>
+            <input type="text" class="form-input" value="Para el enganche de mi primera casa">
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label">Monto Objetivo</label>
+              <input type="number" class="form-input" value="50000.00" step="0.01">
+            </div>
+            <div class="form-group">
+              <label class="form-label">Fecha Límite</label>
+              <input type="date" class="form-input" value="2026-12-31">
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">Prioridad</label>
+            <select class="form-select">
+              <option>Baja</option>
+              <option>Media</option>
+              <option selected>Alta</option>
+              <option>Urgente</option>
+            </select>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-danger" onclick="if(confirm('¿Archivar esta meta?')) { alert('Meta archivada'); closeModal('editGoalModal'); }">
+          Archivar Meta
+        </button>
+        <div style="flex: 1;"></div>
+        <button class="btn btn-secondary" onclick="closeModal('editGoalModal')">Cancelar</button>
+        <button class="btn btn-primary" onclick="alert('Meta actualizada'); closeModal('editGoalModal')">
+          Guardar Cambios
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Scripts -->
+  <script src="js/app.js"></script>
+</body>
+</html>

@@ -1,0 +1,640 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Categorías - MyCash</title>
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+  <div class="app-container">
+    <!-- Sidebar -->
+    <aside class="sidebar">
+      <div class="sidebar-header">
+        <h1>💰 MyCash</h1>
+        <div class="subtitle">Gestor de Finanzas</div>
+      </div>
+
+      <nav class="sidebar-nav">
+        <div class="nav-section">
+          <div class="nav-section-title">Principal</div>
+          <a href="index.html" class="nav-item">
+            <span class="nav-item-icon">📊</span>
+            Dashboard
+          </a>
+          <a href="transacciones.html" class="nav-item">
+            <span class="nav-item-icon">💳</span>
+            Transacciones
+          </a>
+          <a href="cuentas.html" class="nav-item">
+            <span class="nav-item-icon">💰</span>
+            Cuentas
+          </a>
+        </div>
+
+        <div class="nav-section">
+          <div class="nav-section-title">Gestión</div>
+          <a href="categorias.html" class="nav-item active">
+            <span class="nav-item-icon">📂</span>
+            Categorías
+          </a>
+          <a href="presupuestos.html" class="nav-item">
+            <span class="nav-item-icon">📈</span>
+            Presupuestos
+          </a>
+          <a href="metas.html" class="nav-item">
+            <span class="nav-item-icon">🎯</span>
+            Metas
+          </a>
+          <a href="reportes.html" class="nav-item">
+            <span class="nav-item-icon">📊</span>
+            Reportes
+          </a>
+        </div>
+
+        <div class="nav-section">
+          <div class="nav-section-title">Otros</div>
+          <a href="#" class="nav-item">
+            <span class="nav-item-icon">🔔</span>
+            Notificaciones
+            <span class="nav-badge">3</span>
+          </a>
+          <a href="#" class="nav-item">
+            <span class="nav-item-icon">⚙️</span>
+            Configuración
+          </a>
+        </div>
+      </nav>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="main-content">
+      <!-- Topbar -->
+      <header class="topbar">
+        <div class="topbar-left">
+          <h2>Categorías</h2>
+        </div>
+        <div class="topbar-right">
+          <div class="topbar-search">
+            <input type="text" placeholder="Buscar categorías...">
+          </div>
+          <button class="topbar-action" title="Notificaciones">
+            🔔
+            <span class="notification-dot"></span>
+          </button>
+          <button class="topbar-action" title="Ayuda">❓</button>
+          <div class="user-menu">
+            <div class="user-avatar">D</div>
+            <div class="user-info">
+              <div class="user-name">Diego</div>
+              <div class="user-role">Usuario</div>
+            </div>
+          </div>
+        </div>
+      </header>
+
+      <!-- Content -->
+      <div class="content">
+        <!-- Stats Cards -->
+        <div class="stats-grid">
+          <div class="stat-card">
+            <div class="stat-card-header">
+              <div class="stat-card-title">Total Categorías</div>
+              <div class="stat-card-icon purple">📂</div>
+            </div>
+            <div class="stat-card-value">24</div>
+            <div class="stat-card-change">
+              16 activas, 8 archivadas
+            </div>
+          </div>
+
+          <div class="stat-card">
+            <div class="stat-card-header">
+              <div class="stat-card-title">Categorías de Gastos</div>
+              <div class="stat-card-icon red">📉</div>
+            </div>
+            <div class="stat-card-value">15</div>
+            <div class="stat-card-change">
+              Con 45 subcategorías
+            </div>
+          </div>
+
+          <div class="stat-card">
+            <div class="stat-card-header">
+              <div class="stat-card-title">Categorías de Ingresos</div>
+              <div class="stat-card-icon green">📈</div>
+            </div>
+            <div class="stat-card-value">9</div>
+            <div class="stat-card-change">
+              Con 12 subcategorías
+            </div>
+          </div>
+
+          <div class="stat-card">
+            <div class="stat-card-header">
+              <div class="stat-card-title">Más Usada</div>
+              <div class="stat-card-icon orange">⭐</div>
+            </div>
+            <div class="stat-card-value">🛒 Comida</div>
+            <div class="stat-card-change">
+              186 transacciones
+            </div>
+          </div>
+        </div>
+
+        <!-- Tabs -->
+        <div style="display: flex; gap: 1rem; margin-bottom: 2rem; border-bottom: 2px solid var(--border);">
+          <button class="btn btn-sm" style="border-radius: 0; border-bottom: 3px solid var(--primary); padding: 1rem 1.5rem; background: none; color: var(--primary);">
+            Todas las Categorías
+          </button>
+          <button class="btn btn-sm" style="border-radius: 0; padding: 1rem 1.5rem; background: none; color: var(--text-secondary);">
+            Favoritas
+          </button>
+          <button class="btn btn-sm" style="border-radius: 0; padding: 1rem 1.5rem; background: none; color: var(--text-secondary);">
+            Archivadas
+          </button>
+        </div>
+
+        <!-- Income Categories -->
+        <div class="table-container" style="margin-bottom: 2rem;">
+          <div class="table-header">
+            <h3 class="table-title">💚 Categorías de Ingresos</h3>
+            <div class="table-actions">
+              <button class="btn btn-primary btn-sm" onclick="openModal('newCategoryModal')">
+                + Nueva Categoría
+              </button>
+            </div>
+          </div>
+          <table>
+            <thead>
+              <tr>
+                <th>⭐</th>
+                <th>Categoría</th>
+                <th>Color</th>
+                <th>Subcategorías</th>
+                <th>Transacciones</th>
+                <th>Total del Mes</th>
+                <th>Acciones</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><button class="action-btn" style="font-size: 1.25rem;">⭐</button></td>
+                <td>
+                  <div style="display: flex; align-items: center; gap: 0.75rem;">
+                    <div style="width: 40px; height: 40px; border-radius: 8px; background: #10B98120; display: flex; align-items: center; justify-content: center; font-size: 1.25rem;">
+                      💰
+                    </div>
+                    <div>
+                      <div style="font-weight: 600;">Salario</div>
+                    </div>
+                  </div>
+                </td>
+                <td>
+                  <div style="display: flex; align-items: center; gap: 0.5rem;">
+                    <div style="width: 24px; height: 24px; border-radius: 4px; background: #10B981;"></div>
+                    <span style="font-size: 0.875rem; color: var(--text-secondary);">#10B981</span>
+                  </div>
+                </td>
+                <td>
+                  <span class="category-badge" style="background: var(--bg-primary); color: var(--text-secondary);">
+                    0 subcategorías
+                  </span>
+                </td>
+                <td>12</td>
+                <td><span class="amount-positive">+$25,000.00</span></td>
+                <td>
+                  <div class="action-buttons">
+                    <button class="action-btn" onclick="openModal('editCategoryModal')" title="Editar">✏️</button>
+                    <button class="action-btn" title="Archivar">📦</button>
+                    <button class="action-btn" title="Ver Transacciones">👁️</button>
+                  </div>
+                </td>
+              </tr>
+              <tr>
+                <td><button class="action-btn" style="font-size: 1.25rem; opacity: 0.3;">☆</button></td>
+                <td>
+                  <div style="display: flex; align-items: center; gap: 0.75rem;">
+                    <div style="width: 40px; height: 40px; border-radius: 8px; background: #8B5CF620; display: flex; align-items: center; justify-content: center; font-size: 1.25rem;">
+                      💼
+                    </div>
+                    <div>
+                      <div style="font-weight: 600;">Freelance</div>
+                    </div>
+                  </div>
+                </td>
+                <td>
+                  <div style="display: flex; align-items: center; gap: 0.5rem;">
+                    <div style="width: 24px; height: 24px; border-radius: 4px; background: #8B5CF6;"></div>
+                    <span style="font-size: 0.875rem; color: var(--text-secondary);">#8B5CF6</span>
+                  </div>
+                </td>
+                <td>
+                  <span class="category-badge" style="background: var(--primary-lighter); color: var(--primary);">
+                    3 subcategorías
+                  </span>
+                </td>
+                <td>8</td>
+                <td><span class="amount-positive">+$5,000.00</span></td>
+                <td>
+                  <div class="action-buttons">
+                    <button class="action-btn" onclick="openModal('editCategoryModal')" title="Editar">✏️</button>
+                    <button class="action-btn" title="Archivar">📦</button>
+                    <button class="action-btn" title="Ver Transacciones">👁️</button>
+                  </div>
+                </td>
+              </tr>
+              <tr>
+                <td><button class="action-btn" style="font-size: 1.25rem; opacity: 0.3;">☆</button></td>
+                <td>
+                  <div style="display: flex; align-items: center; gap: 0.75rem;">
+                    <div style="width: 40px; height: 40px; border-radius: 8px; background: #F59E0B20; display: flex; align-items: center; justify-content: center; font-size: 1.25rem;">
+                      📊
+                    </div>
+                    <div>
+                      <div style="font-weight: 600;">Inversiones</div>
+                    </div>
+                  </div>
+                </td>
+                <td>
+                  <div style="display: flex; align-items: center; gap: 0.5rem;">
+                    <div style="width: 24px; height: 24px; border-radius: 4px; background: #F59E0B;"></div>
+                    <span style="font-size: 0.875rem; color: var(--text-secondary);">#F59E0B</span>
+                  </div>
+                </td>
+                <td>
+                  <span class="category-badge" style="background: var(--bg-primary); color: var(--text-secondary);">
+                    0 subcategorías
+                  </span>
+                </td>
+                <td>0</td>
+                <td><span class="amount-positive">+$0.00</span></td>
+                <td>
+                  <div class="action-buttons">
+                    <button class="action-btn" onclick="openModal('editCategoryModal')" title="Editar">✏️</button>
+                    <button class="action-btn" title="Eliminar">🗑️</button>
+                    <button class="action-btn" title="Ver Transacciones">👁️</button>
+                  </div>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <!-- Expense Categories -->
+        <div class="table-container">
+          <div class="table-header">
+            <h3 class="table-title">❤️ Categorías de Gastos</h3>
+            <div class="table-actions">
+              <button class="btn btn-primary btn-sm" onclick="openModal('newCategoryModal')">
+                + Nueva Categoría
+              </button>
+            </div>
+          </div>
+          <table>
+            <thead>
+              <tr>
+                <th>⭐</th>
+                <th>Categoría</th>
+                <th>Color</th>
+                <th>Subcategorías</th>
+                <th>Transacciones</th>
+                <th>Total del Mes</th>
+                <th>Acciones</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><button class="action-btn" style="font-size: 1.25rem;">⭐</button></td>
+                <td>
+                  <div style="display: flex; align-items: center; gap: 0.75rem;">
+                    <div style="width: 40px; height: 40px; border-radius: 8px; background: #7C3AED20; display: flex; align-items: center; justify-content: center; font-size: 1.25rem;">
+                      🛒
+                    </div>
+                    <div>
+                      <div style="font-weight: 600;">Comida</div>
+                    </div>
+                  </div>
+                </td>
+                <td>
+                  <div style="display: flex; align-items: center; gap: 0.5rem;">
+                    <div style="width: 24px; height: 24px; border-radius: 4px; background: #7C3AED;"></div>
+                    <span style="font-size: 0.875rem; color: var(--text-secondary);">#7C3AED</span>
+                  </div>
+                </td>
+                <td>
+                  <span class="category-badge" style="background: var(--primary-lighter); color: var(--primary);">
+                    5 subcategorías
+                  </span>
+                </td>
+                <td>45</td>
+                <td><span class="amount-negative">-$3,250.00</span></td>
+                <td>
+                  <div class="action-buttons">
+                    <button class="action-btn" onclick="openModal('editCategoryModal')" title="Editar">✏️</button>
+                    <button class="action-btn" title="Archivar">📦</button>
+                    <button class="action-btn" title="Ver Transacciones">👁️</button>
+                  </div>
+                </td>
+              </tr>
+              <tr>
+                <td><button class="action-btn" style="font-size: 1.25rem;">⭐</button></td>
+                <td>
+                  <div style="display: flex; align-items: center; gap: 0.75rem;">
+                    <div style="width: 40px; height: 40px; border-radius: 8px; background: #3B82F620; display: flex; align-items: center; justify-content: center; font-size: 1.25rem;">
+                      🚗
+                    </div>
+                    <div>
+                      <div style="font-weight: 600;">Transporte</div>
+                    </div>
+                  </div>
+                </td>
+                <td>
+                  <div style="display: flex; align-items: center; gap: 0.5rem;">
+                    <div style="width: 24px; height: 24px; border-radius: 4px; background: #3B82F6;"></div>
+                    <span style="font-size: 0.875rem; color: var(--text-secondary);">#3B82F6</span>
+                  </div>
+                </td>
+                <td>
+                  <span class="category-badge" style="background: #3B82F620; color: #3B82F6;">
+                    4 subcategorías
+                  </span>
+                </td>
+                <td>28</td>
+                <td><span class="amount-negative">-$1,200.00</span></td>
+                <td>
+                  <div class="action-buttons">
+                    <button class="action-btn" onclick="openModal('editCategoryModal')" title="Editar">✏️</button>
+                    <button class="action-btn" title="Archivar">📦</button>
+                    <button class="action-btn" title="Ver Transacciones">👁️</button>
+                  </div>
+                </td>
+              </tr>
+              <tr>
+                <td><button class="action-btn" style="font-size: 1.25rem; opacity: 0.3;">☆</button></td>
+                <td>
+                  <div style="display: flex; align-items: center; gap: 0.75rem;">
+                    <div style="width: 40px; height: 40px; border-radius: 8px; background: #F59E0B20; display: flex; align-items: center; justify-content: center; font-size: 1.25rem;">
+                      🎬
+                    </div>
+                    <div>
+                      <div style="font-weight: 600;">Entretenimiento</div>
+                    </div>
+                  </div>
+                </td>
+                <td>
+                  <div style="display: flex; align-items: center; gap: 0.5rem;">
+                    <div style="width: 24px; height: 24px; border-radius: 4px; background: #F59E0B;"></div>
+                    <span style="font-size: 0.875rem; color: var(--text-secondary);">#F59E0B</span>
+                  </div>
+                </td>
+                <td>
+                  <span class="category-badge" style="background: #F59E0B20; color: #F59E0B;">
+                    6 subcategorías
+                  </span>
+                </td>
+                <td>15</td>
+                <td><span class="amount-negative">-$899.00</span></td>
+                <td>
+                  <div class="action-buttons">
+                    <button class="action-btn" onclick="openModal('editCategoryModal')" title="Editar">✏️</button>
+                    <button class="action-btn" title="Archivar">📦</button>
+                    <button class="action-btn" title="Ver Transacciones">👁️</button>
+                  </div>
+                </td>
+              </tr>
+              <tr>
+                <td><button class="action-btn" style="font-size: 1.25rem; opacity: 0.3;">☆</button></td>
+                <td>
+                  <div style="display: flex; align-items: center; gap: 0.75rem;">
+                    <div style="width: 40px; height: 40px; border-radius: 8px; background: #EF444420; display: flex; align-items: center; justify-content: center; font-size: 1.25rem;">
+                      💊
+                    </div>
+                    <div>
+                      <div style="font-weight: 600;">Salud</div>
+                    </div>
+                  </div>
+                </td>
+                <td>
+                  <div style="display: flex; align-items: center; gap: 0.5rem;">
+                    <div style="width: 24px; height: 24px; border-radius: 4px; background: #EF4444;"></div>
+                    <span style="font-size: 0.875rem; color: var(--text-secondary);">#EF4444</span>
+                  </div>
+                </td>
+                <td>
+                  <span class="category-badge" style="background: #EF444420; color: #EF4444;">
+                    3 subcategorías
+                  </span>
+                </td>
+                <td>8</td>
+                <td><span class="amount-negative">-$1,500.00</span></td>
+                <td>
+                  <div class="action-buttons">
+                    <button class="action-btn" onclick="openModal('editCategoryModal')" title="Editar">✏️</button>
+                    <button class="action-btn" title="Archivar">📦</button>
+                    <button class="action-btn" title="Ver Transacciones">👁️</button>
+                  </div>
+                </td>
+              </tr>
+              <tr>
+                <td><button class="action-btn" style="font-size: 1.25rem; opacity: 0.3;">☆</button></td>
+                <td>
+                  <div style="display: flex; align-items: center; gap: 0.75rem;">
+                    <div style="width: 40px; height: 40px; border-radius: 8px; background: #EC489920; display: flex; align-items: center; justify-content: center; font-size: 1.25rem;">
+                      🏠
+                    </div>
+                    <div>
+                      <div style="font-weight: 600;">Vivienda</div>
+                    </div>
+                  </div>
+                </td>
+                <td>
+                  <div style="display: flex; align-items: center; gap: 0.5rem;">
+                    <div style="width: 24px; height: 24px; border-radius: 4px; background: #EC4899;"></div>
+                    <span style="font-size: 0.875rem; color: var(--text-secondary);">#EC4899</span>
+                  </div>
+                </td>
+                <td>
+                  <span class="category-badge" style="background: #EC489920; color: #EC4899;">
+                    7 subcategorías
+                  </span>
+                </td>
+                <td>12</td>
+                <td><span class="amount-negative">-$8,000.00</span></td>
+                <td>
+                  <div class="action-buttons">
+                    <button class="action-btn" onclick="openModal('editCategoryModal')" title="Editar">✏️</button>
+                    <button class="action-btn" title="Archivar">📦</button>
+                    <button class="action-btn" title="Ver Transacciones">👁️</button>
+                  </div>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <!-- New Category Modal -->
+  <div id="newCategoryModal" class="modal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3 class="modal-title">Nueva Categoría</h3>
+        <button class="modal-close" onclick="closeModal('newCategoryModal')">×</button>
+      </div>
+      <div class="modal-body">
+        <form>
+          <div class="form-group">
+            <label class="form-label">Nombre de la Categoría</label>
+            <input type="text" class="form-input" placeholder="Ej: Gimnasio">
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label">Tipo</label>
+              <select class="form-select">
+                <option value="expense">Gasto</option>
+                <option value="income">Ingreso</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Icono</label>
+              <input type="text" class="form-input" placeholder="Emoji: 🏋️">
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">Color</label>
+            <div style="display: grid; grid-template-columns: repeat(8, 1fr); gap: 0.5rem;">
+              <button type="button" style="width: 40px; height: 40px; border-radius: 8px; background: #7C3AED; border: 2px solid transparent; cursor: pointer;"></button>
+              <button type="button" style="width: 40px; height: 40px; border-radius: 8px; background: #10B981; border: 2px solid transparent; cursor: pointer;"></button>
+              <button type="button" style="width: 40px; height: 40px; border-radius: 8px; background: #EF4444; border: 2px solid transparent; cursor: pointer;"></button>
+              <button type="button" style="width: 40px; height: 40px; border-radius: 8px; background: #F59E0B; border: 2px solid transparent; cursor: pointer;"></button>
+              <button type="button" style="width: 40px; height: 40px; border-radius: 8px; background: #3B82F6; border: 2px solid transparent; cursor: pointer;"></button>
+              <button type="button" style="width: 40px; height: 40px; border-radius: 8px; background: #8B5CF6; border: 2px solid transparent; cursor: pointer;"></button>
+              <button type="button" style="width: 40px; height: 40px; border-radius: 8px; background: #EC4899; border: 2px solid transparent; cursor: pointer;"></button>
+              <button type="button" style="width: 40px; height: 40px; border-radius: 8px; background: #6366F1; border: 2px solid transparent; cursor: pointer;"></button>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">Subcategorías (Opcional)</label>
+            <div id="subcategories" style="display: flex; flex-direction: column; gap: 0.5rem;">
+              <div style="display: flex; gap: 0.5rem;">
+                <input type="text" class="form-input" placeholder="Subcategoría 1">
+                <button type="button" class="btn btn-danger btn-sm btn-icon">×</button>
+              </div>
+            </div>
+            <button type="button" class="btn btn-secondary btn-sm" style="margin-top: 0.5rem;">
+              + Agregar Subcategoría
+            </button>
+          </div>
+
+          <div class="form-group">
+            <label style="display: flex; align-items: center; gap: 0.5rem; cursor: pointer;">
+              <input type="checkbox" style="width: auto;">
+              <span class="form-label" style="margin: 0;">Marcar como favorita</span>
+            </label>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-secondary" onclick="closeModal('newCategoryModal')">Cancelar</button>
+        <button class="btn btn-primary" onclick="alert('Categoría creada'); closeModal('newCategoryModal')">
+          Crear Categoría
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Edit Category Modal -->
+  <div id="editCategoryModal" class="modal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3 class="modal-title">Editar Categoría</h3>
+        <button class="modal-close" onclick="closeModal('editCategoryModal')">×</button>
+      </div>
+      <div class="modal-body">
+        <div style="background: #FEF3C7; border: 1px solid #F59E0B; border-radius: 8px; padding: 1rem; margin-bottom: 1.5rem; display: flex; gap: 0.75rem; align-items: start;">
+          <div style="font-size: 1.25rem;">ℹ️</div>
+          <div style="font-size: 0.875rem; color: #92400E;">
+            Esta categoría tiene <strong>45 transacciones</strong>. Los cambios no afectarán las transacciones existentes a menos que lo indiques.
+          </div>
+        </div>
+        <form>
+          <div class="form-group">
+            <label class="form-label">Nombre de la Categoría</label>
+            <input type="text" class="form-input" value="Comida">
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label">Tipo</label>
+              <select class="form-select">
+                <option value="expense" selected>Gasto</option>
+                <option value="income">Ingreso</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Icono</label>
+              <input type="text" class="form-input" value="🛒">
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">Color</label>
+            <div style="display: grid; grid-template-columns: repeat(8, 1fr); gap: 0.5rem;">
+              <button type="button" style="width: 40px; height: 40px; border-radius: 8px; background: #7C3AED; border: 3px solid var(--primary-dark); cursor: pointer;"></button>
+              <button type="button" style="width: 40px; height: 40px; border-radius: 8px; background: #10B981; border: 2px solid transparent; cursor: pointer;"></button>
+              <button type="button" style="width: 40px; height: 40px; border-radius: 8px; background: #EF4444; border: 2px solid transparent; cursor: pointer;"></button>
+              <button type="button" style="width: 40px; height: 40px; border-radius: 8px; background: #F59E0B; border: 2px solid transparent; cursor: pointer;"></button>
+              <button type="button" style="width: 40px; height: 40px; border-radius: 8px; background: #3B82F6; border: 2px solid transparent; cursor: pointer;"></button>
+              <button type="button" style="width: 40px; height: 40px; border-radius: 8px; background: #8B5CF6; border: 2px solid transparent; cursor: pointer;"></button>
+              <button type="button" style="width: 40px; height: 40px; border-radius: 8px; background: #EC4899; border: 2px solid transparent; cursor: pointer;"></button>
+              <button type="button" style="width: 40px; height: 40px; border-radius: 8px; background: #6366F1; border: 2px solid transparent; cursor: pointer;"></button>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">Subcategorías</label>
+            <div style="display: flex; flex-direction: column; gap: 0.5rem;">
+              <div style="display: flex; gap: 0.5rem;">
+                <input type="text" class="form-input" value="Supermercado">
+                <button type="button" class="btn btn-danger btn-sm btn-icon">×</button>
+              </div>
+              <div style="display: flex; gap: 0.5rem;">
+                <input type="text" class="form-input" value="Restaurante">
+                <button type="button" class="btn btn-danger btn-sm btn-icon">×</button>
+              </div>
+            </div>
+            <button type="button" class="btn btn-secondary btn-sm" style="margin-top: 0.5rem;">
+              + Agregar Subcategoría
+            </button>
+          </div>
+
+          <div class="form-group">
+            <label style="display: flex; align-items: center; gap: 0.5rem; cursor: pointer;">
+              <input type="checkbox" style="width: auto;" checked>
+              <span class="form-label" style="margin: 0;">Aplicar cambios a transacciones existentes</span>
+            </label>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-danger" onclick="alert('Para eliminar, primero reasigna las 45 transacciones a otra categoría')">
+          Eliminar
+        </button>
+        <div style="flex: 1;"></div>
+        <button class="btn btn-secondary" onclick="closeModal('editCategoryModal')">Cancelar</button>
+        <button class="btn btn-primary" onclick="alert('Categoría actualizada'); closeModal('editCategoryModal')">
+          Guardar Cambios
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Scripts -->
+  <script src="js/app.js"></script>
+</body>
+</html>

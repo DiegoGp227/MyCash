@@ -1,0 +1,534 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Transacciones - MyCash</title>
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+  <div class="app-container">
+    <!-- Sidebar -->
+    <aside class="sidebar">
+      <div class="sidebar-header">
+        <h1>💰 MyCash</h1>
+        <div class="subtitle">Gestor de Finanzas</div>
+      </div>
+
+      <nav class="sidebar-nav">
+        <div class="nav-section">
+          <div class="nav-section-title">Principal</div>
+          <a href="index.html" class="nav-item">
+            <span class="nav-item-icon">📊</span>
+            Dashboard
+          </a>
+          <a href="transacciones.html" class="nav-item active">
+            <span class="nav-item-icon">💳</span>
+            Transacciones
+          </a>
+          <a href="cuentas.html" class="nav-item">
+            <span class="nav-item-icon">💰</span>
+            Cuentas
+          </a>
+        </div>
+
+        <div class="nav-section">
+          <div class="nav-section-title">Gestión</div>
+          <a href="categorias.html" class="nav-item">
+            <span class="nav-item-icon">📂</span>
+            Categorías
+          </a>
+          <a href="presupuestos.html" class="nav-item">
+            <span class="nav-item-icon">📈</span>
+            Presupuestos
+          </a>
+          <a href="metas.html" class="nav-item">
+            <span class="nav-item-icon">🎯</span>
+            Metas
+          </a>
+          <a href="reportes.html" class="nav-item">
+            <span class="nav-item-icon">📊</span>
+            Reportes
+          </a>
+        </div>
+
+        <div class="nav-section">
+          <div class="nav-section-title">Otros</div>
+          <a href="#" class="nav-item">
+            <span class="nav-item-icon">🔔</span>
+            Notificaciones
+            <span class="nav-badge">3</span>
+          </a>
+          <a href="#" class="nav-item">
+            <span class="nav-item-icon">⚙️</span>
+            Configuración
+          </a>
+        </div>
+      </nav>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="main-content">
+      <!-- Topbar -->
+      <header class="topbar">
+        <div class="topbar-left">
+          <h2>Transacciones</h2>
+        </div>
+        <div class="topbar-right">
+          <div class="topbar-search">
+            <input type="text" placeholder="Buscar transacciones...">
+          </div>
+          <button class="topbar-action" title="Notificaciones">
+            🔔
+            <span class="notification-dot"></span>
+          </button>
+          <button class="topbar-action" title="Ayuda">❓</button>
+          <div class="user-menu">
+            <div class="user-avatar">D</div>
+            <div class="user-info">
+              <div class="user-name">Diego</div>
+              <div class="user-role">Usuario</div>
+            </div>
+          </div>
+        </div>
+      </header>
+
+      <!-- Content -->
+      <div class="content">
+        <!-- Quick Stats -->
+        <div class="stats-grid">
+          <div class="stat-card">
+            <div class="stat-card-header">
+              <div class="stat-card-title">Total Transacciones</div>
+              <div class="stat-card-icon purple">📝</div>
+            </div>
+            <div class="stat-card-value">156</div>
+            <div class="stat-card-change positive">
+              +12 este mes
+            </div>
+          </div>
+
+          <div class="stat-card">
+            <div class="stat-card-header">
+              <div class="stat-card-title">Ingresos</div>
+              <div class="stat-card-icon green">↑</div>
+            </div>
+            <div class="stat-card-value">$30,000</div>
+            <div class="stat-card-change positive">
+              45 transacciones
+            </div>
+          </div>
+
+          <div class="stat-card">
+            <div class="stat-card-header">
+              <div class="stat-card-title">Gastos</div>
+              <div class="stat-card-icon red">↓</div>
+            </div>
+            <div class="stat-card-value">$15,748</div>
+            <div class="stat-card-change">
+              111 transacciones
+            </div>
+          </div>
+
+          <div class="stat-card">
+            <div class="stat-card-header">
+              <div class="stat-card-title">Promedio Diario</div>
+              <div class="stat-card-icon orange">📊</div>
+            </div>
+            <div class="stat-card-value">$605</div>
+            <div class="stat-card-change negative">
+              ↑ +8.3% vs mes anterior
+            </div>
+          </div>
+        </div>
+
+        <!-- Transactions Table -->
+        <div class="table-container">
+          <div class="table-header">
+            <h3 class="table-title">Todas las Transacciones</h3>
+            <div class="table-actions">
+              <button class="btn btn-secondary btn-sm">
+                📥 Importar
+              </button>
+              <button class="btn btn-secondary btn-sm">
+                📤 Exportar
+              </button>
+              <button class="btn btn-primary btn-sm" onclick="openModal('newTransactionModal')">
+                + Nueva Transacción
+              </button>
+            </div>
+          </div>
+
+          <!-- Filters -->
+          <div class="table-filters">
+            <select id="filterType" class="filter-select">
+              <option value="all">Todos los tipos</option>
+              <option value="income">Ingresos</option>
+              <option value="expense">Gastos</option>
+              <option value="transfer">Transferencias</option>
+            </select>
+
+            <select id="filterCategory" class="filter-select">
+              <option value="all">Todas las categorías</option>
+              <option value="Comida">Comida</option>
+              <option value="Transporte">Transporte</option>
+              <option value="Entretenimiento">Entretenimiento</option>
+              <option value="Salud">Salud</option>
+              <option value="Vivienda">Vivienda</option>
+              <option value="Tecnología">Tecnología</option>
+              <option value="Salario">Salario</option>
+              <option value="Freelance">Freelance</option>
+            </select>
+
+            <select class="filter-select">
+              <option>Todas las cuentas</option>
+              <option>Cuenta Bancaria</option>
+              <option>Tarjeta Crédito</option>
+              <option>Tarjeta Débito</option>
+              <option>Efectivo</option>
+            </select>
+
+            <input type="date" class="filter-input" placeholder="Fecha desde">
+            <input type="date" class="filter-input" placeholder="Fecha hasta">
+
+            <input
+              type="text"
+              id="searchTransaction"
+              class="filter-input"
+              placeholder="Buscar por descripción..."
+              style="flex: 1; min-width: 200px;"
+            >
+
+            <button class="btn btn-secondary btn-sm">
+              🔄 Limpiar Filtros
+            </button>
+          </div>
+
+          <!-- Table -->
+          <table>
+            <thead>
+              <tr>
+                <th>
+                  <input type="checkbox" style="cursor: pointer;">
+                </th>
+                <th>Fecha</th>
+                <th>Descripción</th>
+                <th>Categoría</th>
+                <th>Tipo</th>
+                <th>Monto</th>
+                <th>Acciones</th>
+              </tr>
+            </thead>
+            <tbody id="transactionsTableBody">
+              <!-- Populated by JavaScript -->
+            </tbody>
+          </table>
+
+          <!-- Pagination -->
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 1.5rem; padding-top: 1.5rem; border-top: 1px solid var(--border);">
+            <div style="color: var(--text-secondary); font-size: 0.875rem;">
+              Mostrando 1-8 de 156 transacciones
+            </div>
+            <div style="display: flex; gap: 0.5rem;">
+              <button class="btn btn-secondary btn-sm">← Anterior</button>
+              <button class="btn btn-secondary btn-sm">1</button>
+              <button class="btn btn-primary btn-sm">2</button>
+              <button class="btn btn-secondary btn-sm">3</button>
+              <button class="btn btn-secondary btn-sm">...</button>
+              <button class="btn btn-secondary btn-sm">20</button>
+              <button class="btn btn-secondary btn-sm">Siguiente →</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Recurring Transactions -->
+        <div class="table-container" style="margin-top: 2rem;">
+          <div class="table-header">
+            <h3 class="table-title">Transacciones Recurrentes</h3>
+            <div class="table-actions">
+              <button class="btn btn-primary btn-sm" onclick="openModal('newRecurringModal')">
+                + Nueva Recurrente
+              </button>
+            </div>
+          </div>
+          <table>
+            <thead>
+              <tr>
+                <th>Descripción</th>
+                <th>Categoría</th>
+                <th>Frecuencia</th>
+                <th>Monto</th>
+                <th>Próxima Fecha</th>
+                <th>Estado</th>
+                <th>Acciones</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>
+                  <div style="display: flex; align-items: center; gap: 0.5rem;">
+                    <span style="font-size: 1.25rem;">🎬</span>
+                    <div>
+                      <div style="font-weight: 600;">Netflix</div>
+                      <div style="font-size: 0.85rem; color: var(--text-secondary);">Tarjeta Débito</div>
+                    </div>
+                  </div>
+                </td>
+                <td>
+                  <span class="category-badge" style="background: #F59E0B20; color: #F59E0B;">
+                    Entretenimiento
+                  </span>
+                </td>
+                <td>Mensual</td>
+                <td><span class="amount-negative">-$299.00</span></td>
+                <td>25 Ene 2026</td>
+                <td>
+                  <span class="transaction-type income" style="background: #D1FAE5; color: #047857;">
+                    ✓ Activa
+                  </span>
+                </td>
+                <td>
+                  <div class="action-buttons">
+                    <button class="action-btn" title="Pausar">⏸️</button>
+                    <button class="action-btn" title="Editar">✏️</button>
+                    <button class="action-btn" title="Eliminar">🗑️</button>
+                  </div>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <div style="display: flex; align-items: center; gap: 0.5rem;">
+                    <span style="font-size: 1.25rem;">💰</span>
+                    <div>
+                      <div style="font-weight: 600;">Salario</div>
+                      <div style="font-size: 0.85rem; color: var(--text-secondary);">Cuenta Bancaria</div>
+                    </div>
+                  </div>
+                </td>
+                <td>
+                  <span class="category-badge" style="background: #10B98120; color: #10B981;">
+                    Salario
+                  </span>
+                </td>
+                <td>Mensual</td>
+                <td><span class="amount-positive">+$25,000.00</span></td>
+                <td>31 Ene 2026</td>
+                <td>
+                  <span class="transaction-type income" style="background: #D1FAE5; color: #047857;">
+                    ✓ Activa
+                  </span>
+                </td>
+                <td>
+                  <div class="action-buttons">
+                    <button class="action-btn" title="Pausar">⏸️</button>
+                    <button class="action-btn" title="Editar">✏️</button>
+                    <button class="action-btn" title="Eliminar">🗑️</button>
+                  </div>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <div style="display: flex; align-items: center; gap: 0.5rem;">
+                    <span style="font-size: 1.25rem;">🏠</span>
+                    <div>
+                      <div style="font-weight: 600;">Renta</div>
+                      <div style="font-size: 0.85rem; color: var(--text-secondary);">Cuenta Bancaria</div>
+                    </div>
+                  </div>
+                </td>
+                <td>
+                  <span class="category-badge" style="background: #8B5CF620; color: #8B5CF6;">
+                    Vivienda
+                  </span>
+                </td>
+                <td>Mensual</td>
+                <td><span class="amount-negative">-$8,000.00</span></td>
+                <td>1 Feb 2026</td>
+                <td>
+                  <span class="transaction-type income" style="background: #D1FAE5; color: #047857;">
+                    ✓ Activa
+                  </span>
+                </td>
+                <td>
+                  <div class="action-buttons">
+                    <button class="action-btn" title="Pausar">⏸️</button>
+                    <button class="action-btn" title="Editar">✏️</button>
+                    <button class="action-btn" title="Eliminar">🗑️</button>
+                  </div>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <!-- New Transaction Modal -->
+  <div id="newTransactionModal" class="modal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3 class="modal-title">Nueva Transacción</h3>
+        <button class="modal-close" onclick="closeModal('newTransactionModal')">×</button>
+      </div>
+      <div class="modal-body">
+        <form>
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label">Tipo</label>
+              <select class="form-select">
+                <option value="expense">Gasto</option>
+                <option value="income">Ingreso</option>
+                <option value="transfer">Transferencia</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Monto</label>
+              <input type="number" class="form-input" placeholder="0.00" step="0.01">
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">Descripción</label>
+            <input type="text" class="form-input" placeholder="Ej: Supermercado Walmart">
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label">Categoría</label>
+              <select class="form-select">
+                <option>Comida</option>
+                <option>Transporte</option>
+                <option>Entretenimiento</option>
+                <option>Salud</option>
+                <option>Vivienda</option>
+                <option>Tecnología</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Cuenta</label>
+              <select class="form-select">
+                <option>Cuenta Bancaria</option>
+                <option>Tarjeta Crédito</option>
+                <option>Efectivo</option>
+                <option>Ahorros</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">Fecha</label>
+            <input type="date" class="form-input" value="2025-12-26">
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">Etiquetas (separadas por comas)</label>
+            <input type="text" class="form-input" placeholder="urgente, trabajo, deducible">
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">Notas (Opcional)</label>
+            <textarea class="form-textarea" placeholder="Agregar notas adicionales..."></textarea>
+          </div>
+
+          <div class="form-group">
+            <label style="display: flex; align-items: center; gap: 0.5rem; cursor: pointer;">
+              <input type="checkbox" style="width: auto;">
+              <span class="form-label" style="margin: 0;">Marcar como recurrente</span>
+            </label>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-secondary" onclick="closeModal('newTransactionModal')">Cancelar</button>
+        <button class="btn btn-primary" onclick="alert('Transacción guardada'); closeModal('newTransactionModal')">
+          Guardar
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- New Recurring Transaction Modal -->
+  <div id="newRecurringModal" class="modal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3 class="modal-title">Nueva Transacción Recurrente</h3>
+        <button class="modal-close" onclick="closeModal('newRecurringModal')">×</button>
+      </div>
+      <div class="modal-body">
+        <form>
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label">Tipo</label>
+              <select class="form-select">
+                <option value="expense">Gasto</option>
+                <option value="income">Ingreso</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Monto</label>
+              <input type="number" class="form-input" placeholder="0.00" step="0.01">
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">Descripción</label>
+            <input type="text" class="form-input" placeholder="Ej: Netflix">
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label">Categoría</label>
+              <select class="form-select">
+                <option>Comida</option>
+                <option>Transporte</option>
+                <option>Entretenimiento</option>
+                <option>Salud</option>
+                <option>Vivienda</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Cuenta</label>
+              <select class="form-select">
+                <option>Cuenta Bancaria</option>
+                <option>Tarjeta Crédito</option>
+                <option>Efectivo</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label">Frecuencia</label>
+              <select class="form-select">
+                <option>Diaria</option>
+                <option>Semanal</option>
+                <option selected>Mensual</option>
+                <option>Anual</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Fecha de Inicio</label>
+              <input type="date" class="form-input" value="2025-12-26">
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">Fecha de Fin (Opcional)</label>
+            <input type="date" class="form-input">
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-secondary" onclick="closeModal('newRecurringModal')">Cancelar</button>
+        <button class="btn btn-primary" onclick="alert('Transacción recurrente creada'); closeModal('newRecurringModal')">
+          Crear Recurrente
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Scripts -->
+  <script src="js/app.js"></script>
+</body>
+</html>
