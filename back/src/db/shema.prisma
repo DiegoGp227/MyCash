@@ -1,0 +1,257 @@
+// schema.prisma
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// ========================================
+// AUTH & USER
+// ========================================
+
+model User {
+  id        String   @id @default(cuid())
+  email     String   @unique
+  password  String
+  name      String
+  username  String?  @unique
+  
+  cutoffDay Int      @default(1)
+  currency  String   @default("COP")
+  
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  
+  accounts     Account[]
+  categories   Category[]
+  transactions Transaction[]
+  budgets      Budget[]
+  goals        Goal[]
+  debts        Debt[]
+  
+  @@index([email])
+}
+
+// ========================================
+// CUENTAS
+// ========================================
+
+model Account {
+  id       String      @id @default(cuid())
+  userId   String
+  user     User        @relation(fields: [userId], references: [id], onDelete: Cascade)
+  
+  name     String
+  type     AccountType
+  balance  Decimal     @default(0) @db.Decimal(15, 2)
+  color    String?
+  icon     String?
+  isActive Boolean     @default(true)
+  
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  
+  transactions Transaction[]
+  
+  @@index([userId])
+}
+
+enum AccountType {
+  CASH
+  BANK
+  CREDIT_CARD
+  SAVINGS
+  INVESTMENT
+  DIGITAL_WALLET
+}
+
+// ========================================
+// CATEGORÍAS
+// ========================================
+
+model Category {
+  id       String          @id @default(cuid())
+  userId   String
+  user     User            @relation(fields: [userId], references: [id], onDelete: Cascade)
+  
+  name     String
+  color    String
+  icon     String?
+  type     TransactionType
+  
+  parentId String?
+  parent   Category?  @relation("Subcategories", fields: [parentId], references: [id], onDelete: Cascade)
+  children Category[] @relation("Subcategories")
+  
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  
+  transactions Transaction[]
+  budgets      Budget[]
+  
+  @@index([userId])
+  @@index([parentId])
+}
+
+// ========================================
+// TRANSACCIONES
+// ========================================
+
+model Transaction {
+  id          String          @id @default(cuid())
+  userId      String
+  user        User            @relation(fields: [userId], references: [id], onDelete: Cascade)
+  
+  accountId   String
+  account     Account         @relation(fields: [accountId], references: [id], onDelete: Restrict)
+  
+  categoryId  String?
+  category    Category?       @relation(fields: [categoryId], references: [id], onDelete: SetNull)
+  
+  type        TransactionType
+  amount      Decimal         @db.Decimal(15, 2)
+  description String?
+  date        DateTime
+  
+  isTransfer         Boolean      @default(false)
+  relatedTransferId  String?      @unique
+  relatedTransfer    Transaction? @relation("TransferRelation", fields: [relatedTransferId], references: [id], onDelete: SetNull)
+  inverseTransfer    Transaction? @relation("TransferRelation")
+  
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  
+  @@index([userId])
+  @@index([accountId])
+  @@index([categoryId])
+  @@index([date])
+  @@index([type])
+}
+
+enum TransactionType {
+  INCOME
+  EXPENSE
+  TRANSFER
+}
+
+// ========================================
+// PRESUPUESTOS
+// ========================================
+
+model Budget {
+  id         String   @id @default(cuid())
+  userId     String
+  user       User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  
+  categoryId String
+  category   Category @relation(fields: [categoryId], references: [id], onDelete: Cascade)
+  
+  amount     Decimal  @db.Decimal(15, 2)
+  
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  
+  @@unique([userId, categoryId])
+  @@index([userId])
+}
+
+// ========================================
+// METAS
+// ========================================
+
+model Goal {
+  id            String     @id @default(cuid())
+  userId        String
+  user          User       @relation(fields: [userId], references: [id], onDelete: Cascade)
+  
+  name          String
+  targetAmount  Decimal    @db.Decimal(15, 2)
+  currentAmount Decimal    @default(0) @db.Decimal(15, 2)
+  
+  startDate     DateTime   @default(now())
+  endDate       DateTime?
+  
+  status        GoalStatus @default(ACTIVE)
+  icon          String?
+  
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  
+  contributions Contribution[]
+  
+  @@index([userId])
+  @@index([status])
+}
+
+enum GoalStatus {
+  ACTIVE
+  COMPLETED
+  CANCELLED
+}
+
+model Contribution {
+  id     String   @id @default(cuid())
+  goalId String
+  goal   Goal     @relation(fields: [goalId], references: [id], onDelete: Cascade)
+  
+  amount Decimal  @db.Decimal(15, 2)
+  note   String?
+  
+  createdAt DateTime @default(now())
+  
+  @@index([goalId])
+}
+
+// ========================================
+// DEUDAS
+// ========================================
+
+model Debt {
+  id              String     @id @default(cuid())
+  userId          String
+  user            User       @relation(fields: [userId], references: [id], onDelete: Cascade)
+  
+  name            String
+  creditor        String
+  totalAmount     Decimal    @db.Decimal(15, 2)
+  remainingAmount Decimal    @db.Decimal(15, 2)
+  
+  startDate       DateTime   @default(now())
+  dueDate         DateTime?
+  paymentDay      Int?
+  
+  status          DebtStatus @default(ACTIVE)
+  notes           String?
+  
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  
+  payments Payment[]
+  
+  @@index([userId])
+  @@index([status])
+}
+
+enum DebtStatus {
+  ACTIVE
+  PAID
+  OVERDUE
+}
+
+model Payment {
+  id     String   @id @default(cuid())
+  debtId String
+  debt   Debt     @relation(fields: [debtId], references: [id], onDelete: Cascade)
+  
+  amount Decimal  @db.Decimal(15, 2)
+  note   String?
+  
+  paidAt    DateTime @default(now())
+  createdAt DateTime @default(now())
+  
+  @@index([debtId])
+}
