@@ -1,14 +1,15 @@
-# Node
+# Node / pnpm
 node_modules/
-npm-debug.log*
-yarn-debug.log*
-yarn-error.log*
+.pnpm-store/
+pnpm-debug.log*
+
+# Next.js
+.next/
+out/
 
 # Build outputs
-.next/
 dist/
 build/
-out/
 
 # Env files
 .env
