@@ -4,6 +4,8 @@ import type { Metadata } from "next";
 // import Header from "./components/organisms/layout/Header";
 // import Footer from "./components/organisms/layout/Footer";
 import { SWRProvider } from "@/provider/StoreProvider";
+import { Assistant } from "next/font/google";
+
 
 const assistant = Assistant({
   weight: ["200", "300", "400", "500", "600", "700", "800"],
@@ -12,8 +14,8 @@ const assistant = Assistant({
 });
 
 export const metadata: Metadata = {
-  title: "Impact",
-  description: "Impact app",
+  title: "My Cash",
+  description: "My Cash App",
 };
 
 export default function RootLayout({
@@ -27,11 +29,11 @@ export default function RootLayout({
         className={`${assistant.variable} antialiased bg-main-gray w-full min-h-screen flex flex-col`}
       >
         <SWRProvider>
-          <Header />
+          {/* <Header /> */}
           <div className="max-w-screen-2xl mx-auto flex-1 w-full">
             {children}
           </div>
-          <Footer />
+          {/* <Footer /> */}
         </SWRProvider>
       </body>
     </html>

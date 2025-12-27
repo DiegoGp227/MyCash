@@ -1,0 +1,57 @@
+@import "tailwindcss";
+
+@theme {
+  --color-main-black: #141414;
+  --color-soft-red: #bf1e2e;
+  --color-hard-red: #b83744;
+  --color-soft-gray: #f0ecec;
+  --color-hard-gray: #d9d6d6;
+  --color-main-blue: #0066CC;
+  --color-link-blue: #4D9FFE;
+  --color-light-gray: #D7D7D7;
+}
+
+@import 'react-vertical-timeline-component/style.min.css';
+
+body {
+  font-family: var(--font-assistant), Arial, Helvetica, sans-serif;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+.input {
+    border: 1px solid #bf1e2e;
+    padding: 5px 7px;
+    border-radius: 8px;
+}
+
+/* Animations */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fadeIn {
+  animation: fadeIn 0.3s ease-in-out;
+}
+
+@keyframes modalSlideIn {
+  from {
+    transform: translateY(-50px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
