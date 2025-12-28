@@ -35,3 +35,32 @@ CoinMaster/
     ├── Día de corte
     ├── Moneda
     └── Apariencia
+
+    📄 PÁGINAS DE LA APP
+Públicas (sin autenticación):
+
+/login - Inicio de sesión
+/signup - Registro de usuario
+/forgot-password - Recuperar contraseña
+/reset-password/[token] - Restablecer contraseña
+
+
+Privadas (requieren autenticación):
+
+/ - Dashboard principal
+/transactions - Lista de transacciones
+/transactions/new - Crear transacción (puede ser modal)
+/transactions/[id] - Editar transacción (puede ser modal)
+/accounts - Lista de cuentas
+/accounts/[id] - Detalle de cuenta
+/categories - Gestión de categorías
+/budgets - Presupuestos
+/goals - Lista de metas
+/goals/[id] - Detalle de meta
+/debts - Lista de deudas
+/debts/[id] - Detalle de deuda
+/settings - Configuración (con tabs internos)
+
+<BanknoteArrowDown />
+
+<BanknoteArrowUp />

@@ -20,6 +20,12 @@ importers:
       easy-peasy:
         specifier: ^6.1.0
         version: 6.1.0(@types/react-dom@19.2.3(@types/react@19.2.7))(@types/react@19.2.7)(react-dom@19.2.3(react@19.2.3))(react@19.2.3)
+      lucide:
+        specifier: ^0.562.0
+        version: 0.562.0
+      lucide-react:
+        specifier: ^0.562.0
+        version: 0.562.0(react@19.2.3)
       next:
         specifier: ^16.0.10
         version: 16.1.1(@babel/core@7.0.0-beta.56)(react-dom@19.2.3(react@19.2.3))(react@19.2.3)
@@ -35,9 +41,6 @@ importers:
       react-hook-form:
         specifier: ^7.62.0
         version: 7.69.0(react@19.2.3)
-      react-icons:
-        specifier: ^5.5.0
-        version: 5.5.0(react@19.2.3)
       react-vertical-timeline-component:
         specifier: ^3.5.3
         version: 3.5.3(@babel/core@7.0.0-beta.56)(react@19.2.3)
@@ -1893,6 +1896,14 @@ packages:
     resolution: {integrity: sha512-lyuxPGr/Wfhrlem2CL/UcnUc1zcqKAImBDzukY7Y5F/yQiNdko6+fRLevlw1HgMySw7f611UIY408EtxRSoK3Q==}
     hasBin: true
 
+  lucide-react@0.562.0:
+    resolution: {integrity: sha512-82hOAu7y0dbVuFfmO4bYF1XEwYk/mEbM5E+b1jgci/udUBEE/R7LF5Ip0CCEmXe8AybRM8L+04eP+LGZeDvkiw==}
+    peerDependencies:
+      react: ^16.5.1 || ^17.0.0 || ^18.0.0 || ^19.0.0
+
+  lucide@0.562.0:
+    resolution: {integrity: sha512-k1Fb8ZMnRQovWRlea7Jr0b9UKA29IM7/cu79+mJrhVohvA2YC/Ti3Sk+G+h/SIu3IlrKT4RAbWMHUBBQd1O6XA==}
+
   magic-string@0.30.21:
     resolution: {integrity: sha512-vd2F4YUyEXKGcLHoq+TEyCjxueSeHnFxyyjNp80yg0XV4vUhnDer/lvvlqM/arB5bXQN5K2/3oinyCRyx8T2CQ==}
 
@@ -2094,11 +2105,6 @@ packages:
     engines: {node: '>=18.0.0'}
     peerDependencies:
       react: ^16.8.0 || ^17 || ^18 || ^19
-
-  react-icons@5.5.0:
-    resolution: {integrity: sha512-MEFcXdkP3dLo8uumGI5xN3lDFNsRtrjbOEKDLD7yv76v4wpnEq2Lt2qeHaQOr34I/wPN3s3+N08WkQ+CW37Xiw==}
-    peerDependencies:
-      react: '*'
 
   react-intersection-observer@8.34.0:
     resolution: {integrity: sha512-TYKh52Zc0Uptp5/b4N91XydfSGKubEhgZRtcg1rhTKABXijc4Sdr1uTp5lJ8TN27jwUsdXxjHXtHa0kPj704sw==}
@@ -4511,6 +4517,12 @@ snapshots:
     dependencies:
       js-tokens: 4.0.0
 
+  lucide-react@0.562.0(react@19.2.3):
+    dependencies:
+      react: 19.2.3
+
+  lucide@0.562.0: {}
+
   magic-string@0.30.21:
     dependencies:
       '@jridgewell/sourcemap-codec': 1.5.5
@@ -4708,10 +4720,6 @@ snapshots:
       scheduler: 0.27.0
 
   react-hook-form@7.69.0(react@19.2.3):
-    dependencies:
-      react: 19.2.3
-
-  react-icons@5.5.0(react@19.2.3):
     dependencies:
       react: 19.2.3
 
