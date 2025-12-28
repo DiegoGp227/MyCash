@@ -3,6 +3,8 @@ import type { Metadata } from "next";
 import { SWRProvider } from "@/provider/StoreProvider";
 import { Assistant } from "next/font/google";
 import Sidelbar from "./components/organism/Sidebar";
+import ThemeProvider from "@/provider/ThemeProvider";
+
 
 const assistant = Assistant({
   weight: ["200", "300", "400", "500", "600", "700", "800"],
@@ -17,21 +19,22 @@ export const metadata: Metadata = {
 
 export default function RootLayout({
   children,
-}: Readonly<{
+}: {
   children: React.ReactNode;
-}>) {
+}) {
   return (
     <html lang="es">
       <body
-        className={`${assistant.variable} antialiased bg-main-gray w-full min-h-screen flex`}
+        className={`${assistant.variable} antialiased w-full min-h-screen flex 
+        bg-light-bg text-light-text-main 
+        dark:bg-dark-bg dark:text-dark-text-main`}
       >
-        <SWRProvider>
-          <Sidelbar />
-          <div className="max-w-screen-2xl mx-auto flex-1 w-full">
-            {children}
-          </div>
-          {/* <Footer /> */}
-        </SWRProvider>
+        <ThemeProvider>
+          <SWRProvider>
+            <Sidelbar />
+            <div className="w-full">{children}</div>
+          </SWRProvider>
+        </ThemeProvider>
       </body>
     </html>
   );

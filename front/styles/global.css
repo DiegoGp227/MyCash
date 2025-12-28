@@ -1,6 +1,9 @@
 @import "tailwindcss";
 
+@custom-variant dark (&:where(.dark, .dark *));
+
 @theme {
+  /* Legacy colors */
   --color-main-black: #141414;
   --color-soft-red: #bf1e2e;
   --color-hard-red: #b83744;
@@ -9,6 +12,34 @@
   --color-main-blue: #0066CC;
   --color-link-blue: #4D9FFE;
   --color-light-gray: #D7D7D7;
+
+  /* Brand / Accent colors */
+  --color-primary-purple: #6D28D9;
+  --color-primary-purple-hover: #5B21B6;
+  --color-primary-purple-soft: #EDE9FE;
+
+  /* Dark mode colors */
+  --color-dark-bg: #121212;
+  --color-dark-surface: #1A1A1E;
+  --color-dark-border: #2A2A2E;
+  --color-dark-text-main: #E5E7EB;
+  --color-dark-text-secondary: #9CA3AF;
+
+  /* Light mode colors */
+  --color-light-bg: #F6F7FB;
+  --color-light-surface: #FFFFFF;
+  --color-light-border: #E5E7EB;
+  --color-light-text-main: #111827;
+  --color-light-text-secondary: #4B5563;
+
+  /* Status colors */
+  --color-success: #16A34A;
+  --color-warning: #D97706;
+  --color-error: #DC2626;
+
+  /* Font family */
+  --font-family-sans: var(--font-assistant), Arial, Helvetica, sans-serif;
+  --font-family-assistant: var(--font-assistant), Arial, Helvetica, sans-serif;
 }
 
 @import 'react-vertical-timeline-component/style.min.css';
