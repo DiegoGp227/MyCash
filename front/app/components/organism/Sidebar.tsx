@@ -13,12 +13,21 @@ import {
   Wallet,
 } from "lucide-react";
 import { useEffect, useState } from "react";
+import { usePathname } from "next/navigation";
 
 export default function Sidebar() {
   const [isDark, setIsDark] = useState(false);
 
+  const pathname = usePathname();
+  const [isLogin, setIsLogin] = useState<boolean>(false);
+
   useEffect(() => {
-    // Sincronizar con el estado real del DOM que ThemeProvider ya aplicó
+    if (pathname === "/auth") {
+      setIsLogin(true);
+    }
+  }, [pathname]);
+
+  useEffect(() => {
     setIsDark(document.documentElement.classList.contains("dark"));
   }, []);
 
@@ -33,12 +42,13 @@ export default function Sidebar() {
 
   return (
     <aside
-      className="
-        group w-14 hover:w-64 h-screen overflow-hidden
-        transition-all duration-300 ease-in-out
-        bg-light-surface dark:bg-dark-surface
-        border-r border-light-border dark:border-dark-border
-      "
+      className={`
+    group w-14 hover:w-64 h-screen overflow-hidden
+    transition-all duration-300 ease-in-out
+    bg-light-surface dark:bg-dark-surface
+    border-r border-light-border dark:border-dark-border
+    ${isLogin ? "hidden" : ""}
+  `}
     >
       <nav className="h-screen">
         <ul className="flex flex-col justify-between py-4 h-screen">

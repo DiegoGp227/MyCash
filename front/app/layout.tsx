@@ -4,8 +4,6 @@ import { SWRProvider } from "@/provider/StoreProvider";
 import { Assistant } from "next/font/google";
 import Sidelbar from "./components/organism/Sidebar";
 import ThemeProvider from "@/provider/ThemeProvider";
-
-
 const assistant = Assistant({
   weight: ["200", "300", "400", "500", "600", "700", "800"],
   variable: "--font-assistant",
