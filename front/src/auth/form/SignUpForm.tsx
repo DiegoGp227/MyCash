@@ -136,7 +136,7 @@ export default function SignUpForm({
 
       <button
         type="submit"
-        className="flex border-2 border-primary-purple hover:border-primary-purple-hover justify-center items-center py-2 px-2.5 rounded mt-2 hover:bg-main-purple"
+        className="flex border-2 border-primary-purple hover:border-primary-purple-hover justify-center items-center py-2 px-2.5 rounded mt-2 hover:bg-main-purple gap-1"
         disabled={isLoading}
       >
         <span>Send</span>

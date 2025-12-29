@@ -19,9 +19,15 @@ export default function LoginForm({ onSubmit }: ILoginProps) {
   });
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)} className="w-full flex flex-col gap-2">
+    <form
+      onSubmit={handleSubmit(onSubmit)}
+      className="w-full flex flex-col gap-2"
+    >
       <label htmlFor="email">Email:*</label>
       <input type="text" id="email" {...register("email")} className="input" />
+      {errors.email && (
+        <p className="text-red-500 text-sm">{errors.email.message}</p>
+      )}
 
       <label htmlFor="password">Password:*</label>
       <input
@@ -30,10 +36,13 @@ export default function LoginForm({ onSubmit }: ILoginProps) {
         {...register("password")}
         className="input"
       />
-      
+      {errors.password && (
+        <p className="text-red-500 text-sm">{errors.password.message}</p>
+      )}
+
       <button
         type="submit"
-        className="flex border-2 border-primary-purple hover:border-primary-purple-hover justify-center items-center py-2 px-2.5 rounded mt-2 hover:bg-main-purple"
+        className="flex border-2 border-primary-purple hover:border-primary-purple-hover justify-center items-center py-2 px-2.5 rounded mt-2 hover:bg-main-purple gap-1"
       >
         <span>Send</span>
         <SendHorizontal color="#ffffff" />
