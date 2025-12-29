@@ -23,13 +23,14 @@ export default function LoginForm({ onSubmit }: ILoginProps) {
       <label htmlFor="email">Email:*</label>
       <input type="text" id="email" {...register("email")} className="input" />
 
-      <label htmlFor="email">Email:*</label>
+      <label htmlFor="password">Password:*</label>
       <input
         type="password"
         id="email"
         {...register("password")}
         className="input"
       />
+      
       <button
         type="submit"
         className="flex border-2 border-primary-purple hover:border-primary-purple-hover justify-center items-center py-2 px-2.5 rounded mt-2 hover:bg-main-purple"
