@@ -55,7 +55,7 @@ html {
 }
 
 .input {
-  border: 25rem solid #5b21b6;
+  border: 2px solid #5b21b6;
   padding: 8px 10px;
   border-radius: 2px;
   outline: none;

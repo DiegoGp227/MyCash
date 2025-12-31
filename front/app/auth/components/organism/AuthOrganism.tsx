@@ -6,17 +6,10 @@ import ButtonChangeAuth from "../atoms/ButtonChangeAuth";
 import SignUpForm from "@/src/auth/form/SignUpForm";
 
 export default function AuthOrganism() {
-  const [login, setLogin] = useState<boolean>(true);
+  const [isLoginMode, setIsLoginMode] = useState<boolean>(true);
 
-  function changeForm() {
-    if (login) {
-      setLogin(false);
-      console.log(login);
-    } else {
-      setLogin(true);
-      console.log(login);
-    }
-  }
+  const toggleAuthMode = () => setIsLoginMode((prev) => !prev);
+
   return (
     <div
       className="flex justify-center items-center min-h-screen py-5"
@@ -30,15 +23,15 @@ export default function AuthOrganism() {
     >
       <div className="border-2 border-primary-purple w-full max-w-96 p-5 items-center flex-col flex rounded m-5 gap-5 bg-black">
         <h1 className="text-4xl font-bold text-hard-gray">
-          {login ? "LOGIN" : "SIGN UP"}
+          {isLoginMode ? "LOGIN" : "SIGN UP"}
         </h1>
-        {login ? (
+        {isLoginMode ? (
           <LoginForm onSubmit={() => {}} />
         ) : (
           <SignUpForm onSubmit={() => {}} />
         )}
 
-        <ButtonChangeAuth login={login} onClick={changeForm} />
+        <ButtonChangeAuth login={isLoginMode} onClick={toggleAuthMode} />
       </div>
     </div>
   );
