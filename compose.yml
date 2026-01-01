@@ -49,6 +49,27 @@ services:
       - mycash_network
 
 
+  frontend:
+    build:
+      context: ./front
+      dockerfile: Dockerfile
+    container_name: mycash_frontend
+    restart: always
+
+    depends_on:
+      - backend
+
+    environment:
+      NEXT_PUBLIC_API_URL: ${NEXT_PUBLIC_API_URL}
+      PORT: ${FRONTEND_PORT}
+
+    ports:
+      - "${FRONTEND_PORT}:3000"
+
+    networks:
+      - mycash_network
+
+
 volumes:
   postgres_data:
 
