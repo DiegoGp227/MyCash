@@ -52,7 +52,7 @@ COPY --from=builder /app/pnpm-lock.yaml ./pnpm-lock.yaml
 # Copiar prisma (schema + migraciones si existen)
 COPY prisma ./prisma
 
-EXPOSE 2000
+EXPOSE 4001
 
 # Script de inicio que ejecuta migraciones y luego inicia el servidor
 CMD ["sh", "-c", "pnpm prisma migrate deploy && pnpm start"]

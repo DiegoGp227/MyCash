@@ -28,6 +28,6 @@ COPY --from=builder /app/.next/standalone /app/
 COPY --from=builder /app/.next/static /app/.next/static/
 COPY --from=builder /app/public /app/public/
 
-EXPOSE 3000
+EXPOSE 5001
 CMD ["node", "server.js"]
  
