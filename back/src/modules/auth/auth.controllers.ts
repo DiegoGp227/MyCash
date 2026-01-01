@@ -8,7 +8,7 @@ import { createUser } from "./auth.services.js";
 
 /**
  * @route POST /api/signup
- * @body { email, password }
+ * @body { email, password, name, username?, cutoffDay, currency }
  * @returns { message, token, userInfo }
  */
 
