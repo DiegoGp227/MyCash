@@ -5,7 +5,7 @@ WORKDIR /app
 RUN corepack enable
 
 # Copiar manifests
-COPY package.json pnpm-lock.yaml ./
+COPY package.json pnpm-lock.yaml /app/
 
 # Instalar dependencias
 RUN pnpm install --frozen-lockfile
@@ -24,9 +24,9 @@ WORKDIR /app
 ENV NODE_ENV=production
 
 # Copiar salida standalone
-COPY --from=builder /app/.next/standalone ./
-COPY --from=builder /app/.next/static ./.next/static
-COPY --from=builder /app/public ./public
+COPY --from=builder /app/.next/standalone /app/
+COPY --from=builder /app/.next/static /app/.next/static/
+COPY --from=builder /app/public /app/public/
 
 EXPOSE 3000
 CMD ["node", "server.js"]
