@@ -1,10 +1,10 @@
-import { IResposeAuth } from "@/src/auth/types/types";
+import { IAuthResponse } from "@/src/auth/types/auth.types";
 import { Action, action } from "easy-peasy";
 
 export interface AuthModel {
-  user: IResposeAuth | null;
+  user: IAuthResponse | null;
   isAuthenticated: boolean;
-  setAuth: Action<AuthModel, IResposeAuth>;
+  setAuth: Action<AuthModel, IAuthResponse>;
   clearAuth: Action<AuthModel>;
 }
 

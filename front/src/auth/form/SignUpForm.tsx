@@ -2,8 +2,9 @@
 
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
-import { loginSchema, signupSchema } from "../shemas/auth.shemas";
+import { signupSchema } from "../shemas/auth.shemas";
 import { SendHorizontal } from "lucide-react";
+import { ICredentials } from "../types/auth.types";
 
 interface ILoginProps {
   onSubmit: (data: ICredentials) => void;
