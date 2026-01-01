@@ -1,5 +1,6 @@
 import { Router } from "express";
-import dbCheck from "../controllers/test/test.js";
+import dbCheck from "../modules/test/test.js";
+import { signup } from "../modules/auth/auth.controllers.js";
 
 export const router: Router = Router();
 
@@ -7,4 +8,4 @@ export const router: Router = Router();
 router.get("/db", dbCheck);
 
 //Auth routes
-router.post("/signup", signpContoller);
+router.post("/signup", signup);

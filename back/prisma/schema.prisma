@@ -14,26 +14,40 @@ datasource db {
 // ========================================
 
 model User {
-  id        String   @id @default(cuid())
-  email     String   @unique
+  id        String     @id @default(cuid())
+  email     String     @unique
   password  String
   name      String
-  username  String?  @unique
-  
-  cutoffDay Int      @default(1)
-  currency  String   @default("COP")
-  
+  username  String?    @unique
+
+  role      UserRole   @default(USER)
+  status    UserStatus @default(ACTIVE)
+
+  cutoffDay Int        @default(1)
+  currency  String     @default("COP")
+
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
-  
+
   accounts     Account[]
   categories   Category[]
   transactions Transaction[]
   budgets      Budget[]
   goals        Goal[]
   debts        Debt[]
-  
+
   @@index([email])
+}
+
+enum UserRole {
+  USER
+  ADMIN
+}
+
+enum UserStatus {
+  ACTIVE
+  INACTIVE
+  SUSPENDED
 }
 
 // ========================================

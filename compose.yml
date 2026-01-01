@@ -1,0 +1,57 @@
+services:
+  postgres:
+    image: postgres:17-alpine
+    container_name: mycash_postgres
+    restart: always
+
+    ports:
+      - "5001:5432"
+
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_DB}
+
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+    networks:
+      - mycash_network
+
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER} -d ${POSTGRES_DB}"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+
+
+  backend:
+    build:
+      context: ./back
+      dockerfile: Dockerfile
+    container_name: mycash_backend
+    restart: always
+
+    depends_on:
+      postgres:
+        condition: service_healthy
+
+    environment:
+      DATABASE_URL: postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@postgres:5432/${POSTGRES_DB}
+      PORT: ${PORT}
+      JWT_SECRET: ${JWT_SECRET}
+      TOKEN_EXPIRATION: ${TOKEN_EXPIRATION}
+
+    ports:
+      - "4000:${PORT}"
+
+    networks:
+      - mycash_network
+
+
+volumes:
+  postgres_data:
+
+
+networks:
+  mycash_network:
