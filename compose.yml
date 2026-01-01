@@ -43,7 +43,7 @@ services:
       TOKEN_EXPIRATION: ${TOKEN_EXPIRATION}
 
     ports:
-      - "4001:${PORT}"
+      - ${PORT}:3002"
 
     networks:
       - mycash_network
