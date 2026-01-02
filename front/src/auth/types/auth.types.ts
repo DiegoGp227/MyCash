@@ -3,6 +3,15 @@ export interface ICredentials {
   password: string;
 }
 
+export interface ICreateUserRequest {
+  email: string;
+  password: string;
+  username: string;
+  cutoffDay: number;
+  currency: string;
+  name: string;
+}
+
 export interface IUserInfo {
   userId: string;
   email: string;
