@@ -92,7 +92,9 @@ export default function LoginForm() {
         className="flex border-2 border-primary-purple hover:border-primary-purple-hover justify-center items-center py-2 px-2.5 rounded mt-2 hover:bg-main-purple gap-1"
         disabled={isLoading}
       >
-        <span className="text-hard-gray">Send</span>
+        <span className="text-hard-gray">
+          {isLoading ? "Loading..." : "Send"}
+        </span>
         <SendHorizontal color="#ffffff" />
       </button>
     </form>
