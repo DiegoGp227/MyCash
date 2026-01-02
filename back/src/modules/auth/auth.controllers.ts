@@ -54,6 +54,12 @@ export const signup = async (req: Request, res: Response): Promise<void> => {
   }
 };
 
+/**
+ * @route POST /login
+ * @body { email, password }
+ * @returns { message, token, userInfo }
+ */
+
 export const login = async (req: Request, res: Response): Promise<void> => {
   try {
     const validation = loginSchema.safeParse(req.body);
