@@ -3,6 +3,6 @@ export const BaseURL =
 
 export const SignUpURL = new URL("signup", BaseURL);
 
-// export const LoginURL = new URL("login", BaseURL);
+export const LoginURL = new URL("login", BaseURL);
 
 

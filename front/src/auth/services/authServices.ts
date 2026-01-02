@@ -1,7 +1,11 @@
 // src/services/auth/authService.ts
 import { postFetcher } from "@/utils/utils";
-import { SignUpURL } from "@/shared/constants/urls";
-import { IAuthResponse, ICreateUserRequest } from "../types/auth.types";
+import { LoginURL, SignUpURL } from "@/shared/constants/urls";
+import {
+  IAuthResponse,
+  ICreateUserRequest,
+  ICredentials,
+} from "../types/auth.types";
 
 export const authService = {
   async signUp(credentials: ICreateUserRequest): Promise<IAuthResponse> {
@@ -21,17 +25,17 @@ export const authService = {
     return response;
   },
 
-//   async login(email: string, password: string): Promise<IResposeAuth> {
-//     const url = LoginURL.toString();
-//     const response = await postFetcher<IResposeAuth>(
-//       url,
-//       { email, password },
-//       "application/json"
-//     );
-//     return response;
-//   },
+  async login(credentials: ICredentials): Promise<IAuthResponse> {
+    const url = LoginURL.toString();
+    const response = await postFetcher<IAuthResponse>(
+      url,
+      { email: credentials.email, password: credentials.password },
+      "application/json"
+    );
+    return response;
+  },
 
-//   async logout() {
-//     // Lógica de logout si la necesitas
-//   },
+  //   async logout() {
+  //     // Lógica de logout si la necesitas
+  //   },
 };

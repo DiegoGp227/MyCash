@@ -3,6 +3,7 @@ import { useRouter } from "next/navigation";
 import { useCallback, useState } from "react";
 import { ICredentials } from "../types/auth.types";
 import { parseAuthError } from "@/utils/parseAuthError";
+import { authService } from "../services/authServices";
 
 export function useLogin() {
   const [isLoading, setIsLoading] = useState<boolean>(false);
