@@ -16,7 +16,7 @@ export default function ButtonChangeAuth({
   "
       onClick={onClick}
     >
-      <span className="text-light-muted dark:text-dark-muted">
+      <span className="text-light-muted dark:text-dark-muted text-hard-gray">
         {login ? "¿Do you have an account?" : "¿Don't have an account?"}
       </span>{" "}
       <span
