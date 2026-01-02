@@ -25,11 +25,7 @@ export default function AuthOrganism() {
         <h1 className="text-4xl font-bold text-hard-gray">
           {isLoginMode ? "LOGIN" : "SIGN UP"}
         </h1>
-        {isLoginMode ? (
-          <LoginForm onSubmit={() => {}} />
-        ) : (
-          <SignUpForm onSubmit={() => {}} />
-        )}
+        {isLoginMode ? <LoginForm onSubmit={() => {}} /> : <SignUpForm />}
 
         <ButtonChangeAuth login={isLoginMode} onClick={toggleAuthMode} />
       </div>

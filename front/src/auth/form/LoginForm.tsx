@@ -5,10 +5,12 @@ import { useForm } from "react-hook-form";
 import { loginSchema } from "../shemas/auth.shemas";
 import { SendHorizontal } from "lucide-react";
 import { ICredentials } from "../types/auth.types";
+import { useSignUp } from "../hooks/useSignUp";
 
 interface ILoginProps {
   onSubmit: (data: ICredentials) => void;
 }
+
 
 export default function LoginForm({ onSubmit }: ILoginProps) {
   const {
@@ -37,6 +39,7 @@ export default function LoginForm({ onSubmit }: ILoginProps) {
         {...register("password")}
         className="input"
       />
+
       {errors.password && (
         <p className="text-red-500 text-sm">{errors.password.message}</p>
       )}
