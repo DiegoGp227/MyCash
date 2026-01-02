@@ -1,8 +1,11 @@
 import bcrypt from "bcryptjs";
 import jwt, { SignOptions } from "jsonwebtoken";
-import { ICreateUser, IUserResponse } from "./auth.types";
+import { ICreateUser, IloginUser, IUserResponse } from "./auth.types";
 import prisma from "../../db/prisma.js";
-import { EmailAlreadyInUseError } from "../../errors/businessErrors";
+import {
+  EmailAlreadyInUseError,
+  InvalidCredentialsError,
+} from "../../errors/businessErrors";
 
 export const createUser = async (
   userData: ICreateUser
@@ -35,6 +38,46 @@ export const createUser = async (
       updatedAt: true,
     },
   });
+
+  const token = jwt.sign(
+    { id: user.id, email: user.email, role: user.role },
+    process.env.JWT_SECRET || "default_secret",
+    {
+      expiresIn: (process.env.TOKEN_EXPIRATION || "1h") as string,
+    } as SignOptions
+  );
+
+  return { user, token };
+};
+
+export const validateUser = async (
+  userData: IloginUser
+): Promise<{ user: IUserResponse; token: string }> => {
+  const existingUser = await prisma.user.findUnique({
+    where: { email: userData.email },
+  });
+
+  if (!existingUser) {
+    throw new InvalidCredentialsError(userData.email);
+  }
+
+  const isPasswordValid = await bcrypt.compare(
+    userData.password,
+    existingUser.password
+  );
+
+  if (!isPasswordValid) {
+    throw new InvalidCredentialsError(userData.email);
+  }
+
+  const user = {
+    id: existingUser.id,
+    email: existingUser.email,
+    role: existingUser.role,
+    status: existingUser.status,
+    createdAt: existingUser.createdAt,
+    updatedAt: existingUser.updatedAt,
+  };
 
   const token = jwt.sign(
     { id: user.id, email: user.email, role: user.role },

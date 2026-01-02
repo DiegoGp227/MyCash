@@ -1,4 +1,9 @@
-import { UserRole, UserStatus } from '@prisma/client';
+import { UserRole, UserStatus } from "@prisma/client";
+
+export interface IloginUser {
+  email: string;
+  password: string;
+}
 
 export interface ICreateUser {
   email: string;
