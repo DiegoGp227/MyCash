@@ -11,7 +11,6 @@ interface ILoginProps {
   onSubmit: (data: ICredentials) => void;
 }
 
-
 export default function LoginForm({ onSubmit }: ILoginProps) {
   const {
     register,
@@ -26,18 +25,27 @@ export default function LoginForm({ onSubmit }: ILoginProps) {
       onSubmit={handleSubmit(onSubmit)}
       className="w-full flex flex-col gap-2"
     >
-      <label htmlFor="email">Email:*</label>
-      <input type="text" id="email" {...register("email")} className="input" />
+      <label htmlFor="email" className="text-hard-gray">
+        Email:*
+      </label>
+      <input
+        type="text"
+        id="email"
+        {...register("email")}
+        className="input text-hard-gray"
+      />
       {errors.email && (
         <p className="text-red-500 text-sm">{errors.email.message}</p>
       )}
 
-      <label htmlFor="password">Password:*</label>
+      <label htmlFor="password" className="text-hard-gray">
+        Password:*
+      </label>
       <input
         type="password"
         id="email"
         {...register("password")}
-        className="input"
+        className="input text-hard-gray"
       />
 
       {errors.password && (
@@ -48,7 +56,7 @@ export default function LoginForm({ onSubmit }: ILoginProps) {
         type="submit"
         className="flex border-2 border-primary-purple hover:border-primary-purple-hover justify-center items-center py-2 px-2.5 rounded mt-2 hover:bg-main-purple gap-1"
       >
-        <span>Send</span>
+        <span className="text-hard-gray">Send</span>
         <SendHorizontal color="#ffffff" />
       </button>
     </form>
