@@ -2,13 +2,15 @@
 
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
-import { SendHorizontal } from "lucide-react";
+import { Eye, EyeClosed, SendHorizontal } from "lucide-react";
 import { ICreateUserRequest } from "../types/auth.types";
 import { useSignUp } from "../hooks/useSignUp";
 import { signupSchema, SignupInput } from "../shemas/auth.shemas";
+import { useState } from "react";
 
 export default function SignUpForm() {
   const { error: apiError, isLoading, signup } = useSignUp();
+  const [showPassword, setShowPassword] = useState<boolean>(true);
 
   const {
     register,
@@ -45,17 +47,31 @@ export default function SignUpForm() {
       {errors.email && (
         <p className="text-red-500 text-sm">{errors.email.message}</p>
       )}
-
       <label htmlFor="password" className="text-hard-gray">
         Password:*
       </label>
-      <input
-        type="password"
-        id="password"
-        {...register("password")}
-        className="input text-hard-gray"
-        disabled={isLoading}
-      />
+      <div className="relative">
+        <input
+          type={showPassword ? "text" : "password"}
+          id="password"
+          {...register("password")}
+          className="input text-hard-gray pr-10 w-full"
+          disabled={isLoading}
+        />
+        <button
+          type="button"
+          onClick={() => setShowPassword((prev) => !prev)}
+          className="absolute right-2 top-1/2 -translate-y-1/2 flex items-center justify-center p-1 hover:bg-primary-purple/10 rounded transition-colors"
+          aria-label={showPassword ? "Hide password" : "Show password"}
+        >
+          {showPassword ? (
+            <Eye color="#9333ea" size={20} />
+          ) : (
+            <EyeClosed color="#9333ea" size={20} />
+          )}
+        </button>
+      </div>
+
       {errors.password && (
         <p className="text-red-500 text-sm">{errors.password.message}</p>
       )}
@@ -63,13 +79,27 @@ export default function SignUpForm() {
       <label htmlFor="confirmPassword" className="text-hard-gray">
         Confirm Password:*
       </label>
-      <input
-        type="password"
-        id="confirmPassword"
-        {...register("confirmPassword")}
-        className="input text-hard-gray"
-        disabled={isLoading}
-      />
+      <div className="relative">
+        <input
+          type={showPassword ? "text" : "password"}
+          id="confirmPassword"
+          {...register("confirmPassword")}
+          className="input text-hard-gray pr-10 w-full"
+          disabled={isLoading}
+        />
+        <button
+          type="button"
+          onClick={() => setShowPassword((prev) => !prev)}
+          className="absolute right-2 top-1/2 -translate-y-1/2 flex items-center justify-center p-1 hover:bg-primary-purple/10 rounded transition-colors"
+          aria-label={showPassword ? "Hide password" : "Show password"}
+        >
+          {showPassword ? (
+            <Eye color="#9333ea" size={20} />
+          ) : (
+            <EyeClosed color="#9333ea" size={20} />
+          )}
+        </button>
+      </div>
       {errors.confirmPassword && (
         <p className="text-red-500 text-sm">{errors.confirmPassword.message}</p>
       )}
