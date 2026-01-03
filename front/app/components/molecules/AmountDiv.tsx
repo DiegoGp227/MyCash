@@ -1,7 +1,7 @@
 interface IAmountDiv {
   title: string;
-  amount: number;
-  PercentageChange?: number;
+  amount: string;
+  PercentageChange?: string;
 }
 
 export default function AmountDiv({
@@ -12,7 +12,7 @@ export default function AmountDiv({
   return (
     <div className=" w-80 h-40 p-4  rounded border-2 border-primary-purple bg-gray-200 dark:bg-black">
       <div className="dark:text-white font-bold text-2xl">{title}</div>
-      <div>{amount}</div>
+      <div className="text-4xl">{amount}</div>
       {PercentageChange ?? (
         <div className="w-full">
           <p>{PercentageChange}</p>
