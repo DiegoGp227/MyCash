@@ -22,9 +22,8 @@ export default function Sidebar() {
   const [isLogin, setIsLogin] = useState<boolean>(false);
 
   useEffect(() => {
-    if (pathname === "/auth") {
-      setIsLogin(true);
-    }
+    // Ocultar sidebar solo en la ruta de autenticación
+    setIsLogin(pathname === "/auth");
   }, [pathname]);
 
   useEffect(() => {
