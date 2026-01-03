@@ -22,7 +22,7 @@ export function useSignUp() {
           localStorage.setItem("token", response.token);
           localStorage.setItem("userInfo", JSON.stringify(response.userInfo));
           setAuth(response);
-          router.push("/profile");
+          router.push("/");
         }
 
         return response;
