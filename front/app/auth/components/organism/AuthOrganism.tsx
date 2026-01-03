@@ -11,16 +11,7 @@ export default function AuthOrganism() {
   const toggleAuthMode = () => setIsLoginMode((prev) => !prev);
 
   return (
-    <div
-      className="flex justify-center items-center min-h-screen py-5"
-      style={{
-        backgroundImage: "url('/backgrown.jpg')",
-        backgroundSize: "cover",
-        backgroundPosition: "center",
-        backgroundRepeat: "no-repeat",
-        backgroundAttachment: "fixed",
-      }}
-    >
+    <div className="flex justify-center items-center min-h-screen py-5">
       <div className="border-2 border-primary-purple w-full max-w-96 p-5 items-center flex-col flex rounded m-5 gap-5 bg-black">
         <h1 className="text-4xl font-bold text-hard-gray">
           {isLoginMode ? "LOGIN" : "SIGN UP"}

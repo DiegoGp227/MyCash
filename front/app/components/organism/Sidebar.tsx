@@ -44,8 +44,8 @@ export default function Sidebar() {
       className={`
     group w-14 hover:w-64 h-screen overflow-hidden
     transition-all duration-300 ease-in-out
-    bg-light-surface dark:bg-dark-surface
-    border-r border-light-border dark:border-dark-border
+    bg-[#e3ddfc] dark:bg-black
+   dark:border-dark-border
     ${isLogin ? "hidden" : ""}
   `}
     >
