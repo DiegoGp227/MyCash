@@ -23,10 +23,23 @@ export default function RootLayout({
   return (
     <html lang="es">
       <body
-        className={`${assistant.variable} antialiased w-full min-h-screen flex 
-        bg-light-bg text-light-text-main 
-        dark:bg-dark-bg dark:text-dark-text-main`}
+        className={`${assistant.variable} antialiased w-full min-h-screen flex relative
+        text-light-text-main dark:text-dark-text-main`}
       >
+        {/* Degradado diagonal suave para toda la aplicación */}
+        <div
+          className="fixed inset-0 -z-10"
+          style={{
+            background: 'linear-gradient(135deg, #f5f5f5 0%, #ddd6fe 40%, #8b5cf6 100%)',
+          }}
+        />
+        <div
+          className="fixed inset-0 -z-10 dark:opacity-100 opacity-0 transition-opacity duration-300"
+          style={{
+            background: 'linear-gradient(135deg, #000000 0%, #1a0a28 50%, #3d2663 100%)',
+          }}
+        />
+
         <ThemeProvider>
           <SWRProvider>
             <Sidelbar />
