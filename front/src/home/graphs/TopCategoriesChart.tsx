@@ -20,13 +20,7 @@ interface TopCategoriesChartProps {
   data: TopCategoryData[];
 }
 
-const BAR_COLORS = [
-  "#7C3AED",
-  "#10B981",
-  "#EF4444",
-  "#3B82F6",
-  "#F59E0B",
-];
+const BAR_COLORS = ["#7C3AED", "#10B981", "#EF4444", "#3B82F6", "#F59E0B"];
 
 // Tooltip personalizado
 const CustomTooltip = ({ active, payload }: any) => {
@@ -41,20 +35,16 @@ const CustomTooltip = ({ active, payload }: any) => {
         <p className="text-sm text-green-400">
           Gasto: ${data.value?.toLocaleString()}
         </p>
-        <p className="text-sm text-purple-400">
-          {percentage}% del total
-        </p>
+        <p className="text-sm text-purple-400">{percentage}% del total</p>
       </div>
     );
   }
   return null;
 };
 
-export default function TopCategoriesChart({
-  data,
-}: TopCategoriesChartProps) {
+export default function TopCategoriesChart({ data }: TopCategoriesChartProps) {
   return (
-    <div className="flex-1 rounded-lg bg-light-bg p-6 shadow-md dark:bg-black">
+    <div className="flex-1 rounded-lg border-2 bg-light-bg p-6 shadow-md dark:bg-black border-primary-purple">
       <h3 className="mb-4 text-lg font-semibold text-gray-800 dark:text-gray-200">
         Top 5 Categorías de Gasto
       </h3>
