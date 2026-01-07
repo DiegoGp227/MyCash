@@ -42,15 +42,15 @@ export default function Sidebar() {
   return (
     <aside
       className={`
-    group w-14 hover:w-64 h-screen overflow-hidden
-    transition-all duration-300 ease-in-out
+    group fixed left-0 top-0 w-14 hover:w-64 h-screen overflow-hidden
+    transition-all duration-300 ease-in-out z-50
     bg-[#e3ddfc] dark:bg-black
    dark:border-dark-border
     ${isLogin ? "hidden" : ""}
   `}
     >
-      <nav className="h-screen">
-        <ul className="flex flex-col justify-between py-4 h-screen">
+      <nav className="h-full">
+        <ul className="flex flex-col justify-between py-4 h-full">
           {/* Parte superior */}
           <div>
             {[

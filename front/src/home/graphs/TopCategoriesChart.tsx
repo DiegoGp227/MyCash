@@ -9,6 +9,7 @@ import {
   Tooltip,
   ResponsiveContainer,
   Cell,
+  TooltipProps,
 } from "recharts";
 
 interface TopCategoryData {
@@ -28,6 +29,31 @@ const BAR_COLORS = [
   "#F59E0B",
 ];
 
+// Tooltip personalizado
+const CustomTooltip = ({
+  active,
+  payload,
+}: TooltipProps<number, string>) => {
+  if (active && payload && payload.length) {
+    const data = payload[0];
+    const total = payload[0].payload.total || 15748; // Total de gastos ejemplo
+    const percentage = ((data.value! / total) * 100).toFixed(1);
+
+    return (
+      <div className="rounded-lg border border-gray-700 bg-gray-900 p-3 shadow-xl">
+        <p className="mb-1 font-semibold text-white">{data.payload.category}</p>
+        <p className="text-sm text-green-400">
+          Gasto: ${data.value?.toLocaleString()}
+        </p>
+        <p className="text-sm text-purple-400">
+          {percentage}% del total
+        </p>
+      </div>
+    );
+  }
+  return null;
+};
+
 export default function TopCategoriesChart({
   data,
 }: TopCategoriesChartProps) {
@@ -45,17 +71,7 @@ export default function TopCategoriesChart({
             tickFormatter={(value) => `$${value / 1000}k`}
           />
           <YAxis type="category" dataKey="category" stroke="#6B7280" />
-          <Tooltip
-            formatter={(value: number | undefined) =>
-              value !== undefined ? `$${value.toLocaleString()}` : "$0"
-            }
-            contentStyle={{
-              backgroundColor: "rgba(0, 0, 0, 0.8)",
-              border: "none",
-              borderRadius: "8px",
-              color: "#fff",
-            }}
-          />
+          <Tooltip content={<CustomTooltip />} />
           <Bar dataKey="gasto" radius={[0, 8, 8, 0]}>
             {data.map((entry, index) => (
               <Cell

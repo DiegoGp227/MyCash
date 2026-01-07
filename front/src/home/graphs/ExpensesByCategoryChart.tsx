@@ -6,11 +6,13 @@ import {
   Tooltip,
   ResponsiveContainer,
   Cell,
+  TooltipProps,
 } from "recharts";
 
 interface ExpensesCategoryData {
   name: string;
   value: number;
+  [key: string]: string | number;
 }
 
 interface ExpensesByCategoryChartProps {
@@ -25,6 +27,33 @@ const PIE_COLORS = [
   "#3B82F6",
   "#8B5CF6",
 ];
+
+// Tooltip personalizado
+const CustomTooltip = ({
+  active,
+  payload,
+}: TooltipProps<number, string>) => {
+  if (active && payload && payload.length) {
+    const data = payload[0];
+    const total = payload[0].payload.percent
+      ? (payload[0].value! / payload[0].payload.percent) * 100
+      : 0;
+    const percentage = payload[0].payload.percent
+      ? (payload[0].payload.percent * 100).toFixed(1)
+      : 0;
+
+    return (
+      <div className="rounded-lg border border-gray-700 bg-gray-900 p-3 shadow-xl">
+        <p className="mb-1 font-semibold text-white">{data.name}</p>
+        <p className="text-sm text-green-400">
+          Monto: ${data.value?.toLocaleString()}
+        </p>
+        <p className="text-sm text-purple-400">Porcentaje: {percentage}%</p>
+      </div>
+    );
+  }
+  return null;
+};
 
 export default function ExpensesByCategoryChart({
   data,
@@ -55,17 +84,7 @@ export default function ExpensesByCategoryChart({
               />
             ))}
           </Pie>
-          <Tooltip
-            formatter={(value: number | undefined) =>
-              value !== undefined ? `$${value.toLocaleString()}` : "$0"
-            }
-            contentStyle={{
-              backgroundColor: "rgba(0, 0, 0, 0.8)",
-              border: "none",
-              borderRadius: "8px",
-              color: "#fff",
-            }}
-          />
+          <Tooltip content={<CustomTooltip />} />
         </PieChart>
       </ResponsiveContainer>
     </div>

@@ -2,8 +2,9 @@ import "../styles/global.css";
 import type { Metadata } from "next";
 import { SWRProvider } from "@/provider/StoreProvider";
 import { Assistant } from "next/font/google";
-import Sidelbar from "./components/organism/Sidebar";
 import ThemeProvider from "@/provider/ThemeProvider";
+import LayoutContent from "./LayoutContent";
+
 const assistant = Assistant({
   weight: ["200", "300", "400", "500", "600", "700", "800"],
   variable: "--font-assistant",
@@ -42,8 +43,7 @@ export default function RootLayout({
 
         <ThemeProvider>
           <SWRProvider>
-            <Sidelbar />
-            <div className="w-full">{children}</div>
+            <LayoutContent>{children}</LayoutContent>
           </SWRProvider>
         </ThemeProvider>
       </body>

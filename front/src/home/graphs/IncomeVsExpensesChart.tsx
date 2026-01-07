@@ -9,6 +9,7 @@ import {
   Tooltip,
   Legend,
   ResponsiveContainer,
+  TooltipProps,
 } from "recharts";
 
 interface IncomeExpensesData {
@@ -24,6 +25,41 @@ interface IncomeVsExpensesChartProps {
 const COLORS = {
   success: "#10B981",
   danger: "#EF4444",
+};
+
+// Tooltip personalizado
+const CustomTooltip = ({
+  active,
+  payload,
+  label,
+}: TooltipProps<number, string>) => {
+  if (active && payload && payload.length) {
+    const difference = payload[0].value! - payload[1].value!;
+    const isDifferencePositive = difference > 0;
+
+    return (
+      <div className="rounded-lg border border-gray-700 bg-gray-900 p-3 shadow-xl">
+        <p className="mb-2 font-semibold text-white">{label}</p>
+        <p className="text-sm text-green-400">
+          Ingresos: ${payload[0].value?.toLocaleString()}
+        </p>
+        <p className="text-sm text-red-400">
+          Gastos: ${payload[1].value?.toLocaleString()}
+        </p>
+        <div className="mt-2 border-t border-gray-700 pt-2">
+          <p
+            className={`text-sm font-semibold ${
+              isDifferencePositive ? "text-green-400" : "text-red-400"
+            }`}
+          >
+            Balance: {isDifferencePositive ? "+" : ""}$
+            {difference.toLocaleString()}
+          </p>
+        </div>
+      </div>
+    );
+  }
+  return null;
 };
 
 export default function IncomeVsExpensesChart({
@@ -42,17 +78,7 @@ export default function IncomeVsExpensesChart({
             stroke="#6B7280"
             tickFormatter={(value) => `$${value / 1000}k`}
           />
-          <Tooltip
-            formatter={(value: number | undefined) =>
-              value !== undefined ? `$${value.toLocaleString()}` : "$0"
-            }
-            contentStyle={{
-              backgroundColor: "rgba(0, 0, 0, 0.8)",
-              border: "none",
-              borderRadius: "8px",
-              color: "#fff",
-            }}
-          />
+          <Tooltip content={<CustomTooltip />} />
           <Legend
             wrapperStyle={{
               paddingTop: "20px",
