@@ -6,7 +6,6 @@ import {
   Tooltip,
   ResponsiveContainer,
   Cell,
-  TooltipProps,
 } from "recharts";
 
 interface ExpensesCategoryData {
@@ -29,17 +28,11 @@ const PIE_COLORS = [
 ];
 
 // Tooltip personalizado
-const CustomTooltip = ({
-  active,
-  payload,
-}: TooltipProps<number, string>) => {
+const CustomTooltip = ({ active, payload }: any) => {
   if (active && payload && payload.length) {
     const data = payload[0];
-    const total = payload[0].payload.percent
-      ? (payload[0].value! / payload[0].payload.percent) * 100
-      : 0;
-    const percentage = payload[0].payload.percent
-      ? (payload[0].payload.percent * 100).toFixed(1)
+    const percentage = data.payload.percent
+      ? (data.payload.percent * 100).toFixed(1)
       : 0;
 
     return (

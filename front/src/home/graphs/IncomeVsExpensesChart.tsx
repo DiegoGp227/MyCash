@@ -9,7 +9,6 @@ import {
   Tooltip,
   Legend,
   ResponsiveContainer,
-  TooltipProps,
 } from "recharts";
 
 interface IncomeExpensesData {
@@ -28,13 +27,9 @@ const COLORS = {
 };
 
 // Tooltip personalizado
-const CustomTooltip = ({
-  active,
-  payload,
-  label,
-}: TooltipProps<number, string>) => {
+const CustomTooltip = ({ active, payload, label }: any) => {
   if (active && payload && payload.length) {
-    const difference = payload[0].value! - payload[1].value!;
+    const difference = payload[0].value - payload[1].value;
     const isDifferencePositive = difference > 0;
 
     return (

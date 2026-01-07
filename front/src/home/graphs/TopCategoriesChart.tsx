@@ -9,7 +9,6 @@ import {
   Tooltip,
   ResponsiveContainer,
   Cell,
-  TooltipProps,
 } from "recharts";
 
 interface TopCategoryData {
@@ -30,14 +29,11 @@ const BAR_COLORS = [
 ];
 
 // Tooltip personalizado
-const CustomTooltip = ({
-  active,
-  payload,
-}: TooltipProps<number, string>) => {
+const CustomTooltip = ({ active, payload }: any) => {
   if (active && payload && payload.length) {
     const data = payload[0];
-    const total = payload[0].payload.total || 15748; // Total de gastos ejemplo
-    const percentage = ((data.value! / total) * 100).toFixed(1);
+    const total = data.payload.total || 15748; // Total de gastos ejemplo
+    const percentage = ((data.value / total) * 100).toFixed(1);
 
     return (
       <div className="rounded-lg border border-gray-700 bg-gray-900 p-3 shadow-xl">

@@ -41,7 +41,7 @@ export default function GraphsOrganism() {
       {/* LineChart - Ingresos vs Gastos */}
       <IncomeVsExpensesChart data={incomeExpensesData} />
 
-      <div className="flex w-full gap-8">
+      <div className="flex w-full gap-8 flex-wrap">
         {/* PieChart - Gastos por Categoría */}
         <ExpensesByCategoryChart data={expensesByCategoryData} />
 
