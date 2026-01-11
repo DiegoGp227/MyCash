@@ -1,3 +1,9 @@
 export { default as IncomeVsExpensesChart } from "./IncomeVsExpensesChart";
 export { default as ExpensesByCategoryChart } from "./ExpensesByCategoryChart";
 export { default as TopCategoriesChart } from "./TopCategoriesChart";
+export { default as AccountBalanceChart } from "./AccountBalanceChart";
+export { default as BudgetVsActualChart } from "./BudgetVsActualChart";
+export { default as ExpenseTrendsChart } from "./ExpenseTrendsChart";
+export { default as IncomeDistributionChart } from "./IncomeDistributionChart";
+export { default as CashFlowChart } from "./CashFlowChart";
+export { default as ExpenseHeatmapChart } from "./ExpenseHeatmapChart";

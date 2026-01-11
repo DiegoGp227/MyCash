@@ -1,3 +1,4 @@
+import BudgetsOrganism from "./BudgetsOrganism";
 import GeneralAmount from "./GeneralAmount";
 import GraphsOrganism from "./GraphsOrganism";
 import TransactionsOrganism from "./TransactionsOrganism";
@@ -8,6 +9,7 @@ export default function DashboardOrganism() {
       <GeneralAmount />
       <GraphsOrganism />
       <TransactionsOrganism />
+      <BudgetsOrganism />
     </>
   );
 }
