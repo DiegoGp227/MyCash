@@ -2,7 +2,7 @@ import { ScanEye, SquarePlus } from "lucide-react";
 
 export default function HeaderTransacctionTable() {
   return (
-    <div className="flex justify-between border-b-2 border-gray-400 pb-4">
+    <div className="flex justify-between border-b-2 border-gray-300 pb-4">
       <div>
         <p className="text-2xl font-bold">Transacciones Recientes</p>
       </div>
