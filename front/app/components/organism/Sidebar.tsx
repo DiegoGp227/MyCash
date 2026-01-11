@@ -54,17 +54,21 @@ export default function Sidebar() {
           {/* Parte superior */}
           <div>
             {[
-              { label: "Dashboard", icon: House },
-              { label: "Transactions", icon: ArrowLeftRight },
-              { label: "Accounts", icon: Wallet },
-              { label: "Categories", icon: Tags },
-              { label: "Budgets", icon: Calculator },
-              { label: "Goals", icon: Goal },
-              { label: "Debts", icon: Receipt },
-            ].map(({ label, icon: Icon }) => (
+              { label: "Dashboard", icon: House, route: "/" },
+              {
+                label: "Transactions",
+                icon: ArrowLeftRight,
+                route: "/transactions",
+              },
+              { label: "Accounts", icon: Wallet, route: "/accounts" },
+              { label: "Categories", icon: Tags, route: "/categories" },
+              { label: "Budgets", icon: Calculator, route: "/budgets" },
+              { label: "Goals", icon: Goal, route: "/goals" },
+              { label: "Debts", icon: Receipt, route: "/debts" },
+            ].map(({ label, icon: Icon, route }) => (
               <li key={label}>
                 <a
-                  href=""
+                  href={route}
                   className="
                     flex items-center gap-3 px-4 py-3 transition-colors
                     text-light-text-main dark:text-dark-text-main
