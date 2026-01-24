@@ -1,0 +1,770 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Categorías - MyCash</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #7C3AED;
+            --primary-dark: #5B21B6;
+            --primary-light: #A78BFA;
+            --success: #10B981;
+            --danger: #EF4444;
+            --warning: #F59E0B;
+            --bg: #F9FAFB;
+            --text: #1F2937;
+            --text-light: #6B7280;
+            --border: #E5E7EB;
+            --white: #FFFFFF;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background: var(--bg);
+            color: var(--text);
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+        }
+
+        .header h1 {
+            font-size: 2rem;
+            color: var(--primary-dark);
+        }
+
+        .btn {
+            padding: 0.75rem 1.5rem;
+            border: none;
+            border-radius: 8px;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-weight: 500;
+        }
+
+        .btn-primary {
+            background: var(--primary);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: var(--primary-dark);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(124, 58, 237, 0.3);
+        }
+
+        .tabs {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 2rem;
+            border-bottom: 2px solid var(--border);
+        }
+
+        .tab {
+            padding: 1rem 2rem;
+            background: none;
+            border: none;
+            font-size: 1rem;
+            cursor: pointer;
+            color: var(--text-light);
+            border-bottom: 3px solid transparent;
+            transition: all 0.3s;
+            font-weight: 500;
+        }
+
+        .tab.active {
+            color: var(--primary);
+            border-bottom-color: var(--primary);
+        }
+
+        .tab:hover {
+            color: var(--primary-dark);
+        }
+
+        .categories-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .category-card {
+            background: white;
+            border-radius: 12px;
+            padding: 1.5rem;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s;
+            cursor: pointer;
+            border: 2px solid transparent;
+        }
+
+        .category-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 12px 24px rgba(0, 0, 0, 0.15);
+            border-color: var(--primary-light);
+        }
+
+        .category-card.favorite {
+            border-color: var(--warning);
+            background: linear-gradient(135deg, #FFF7ED 0%, white 100%);
+        }
+
+        .category-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 1rem;
+        }
+
+        .category-icon {
+            font-size: 2.5rem;
+            width: 60px;
+            height: 60px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 12px;
+            margin-bottom: 0.5rem;
+        }
+
+        .category-actions {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .icon-btn {
+            background: none;
+            border: none;
+            font-size: 1.2rem;
+            cursor: pointer;
+            padding: 0.5rem;
+            border-radius: 6px;
+            transition: all 0.2s;
+        }
+
+        .icon-btn:hover {
+            background: var(--bg);
+        }
+
+        .category-name {
+            font-size: 1.25rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            color: var(--text);
+        }
+
+        .category-stats {
+            display: flex;
+            gap: 1.5rem;
+            padding-top: 1rem;
+            border-top: 1px solid var(--border);
+            margin-top: 1rem;
+        }
+
+        .stat {
+            flex: 1;
+        }
+
+        .stat-label {
+            font-size: 0.75rem;
+            color: var(--text-light);
+            margin-bottom: 0.25rem;
+        }
+
+        .stat-value {
+            font-size: 1.1rem;
+            font-weight: 600;
+        }
+
+        .subcategories {
+            margin-top: 1rem;
+        }
+
+        .subcategory-tag {
+            display: inline-block;
+            padding: 0.25rem 0.75rem;
+            background: var(--bg);
+            border-radius: 20px;
+            font-size: 0.85rem;
+            margin: 0.25rem;
+            color: var(--text-light);
+        }
+
+        /* Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal.active {
+            display: flex;
+        }
+
+        .modal-content {
+            background: white;
+            border-radius: 16px;
+            padding: 2rem;
+            width: 90%;
+            max-width: 500px;
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .modal-header h2 {
+            font-size: 1.5rem;
+            color: var(--primary-dark);
+        }
+
+        .close-btn {
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: var(--text-light);
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+            color: var(--text);
+        }
+
+        .form-group input,
+        .form-group select {
+            width: 100%;
+            padding: 0.75rem;
+            border: 2px solid var(--border);
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: border-color 0.3s;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus {
+            outline: none;
+            border-color: var(--primary);
+        }
+
+        .color-picker {
+            display: grid;
+            grid-template-columns: repeat(8, 1fr);
+            gap: 0.5rem;
+        }
+
+        .color-option {
+            width: 40px;
+            height: 40px;
+            border-radius: 8px;
+            cursor: pointer;
+            border: 3px solid transparent;
+            transition: all 0.2s;
+        }
+
+        .color-option:hover {
+            transform: scale(1.1);
+        }
+
+        .color-option.selected {
+            border-color: var(--primary-dark);
+            transform: scale(1.15);
+        }
+
+        .icon-picker {
+            display: grid;
+            grid-template-columns: repeat(8, 1fr);
+            gap: 0.5rem;
+        }
+
+        .icon-option {
+            font-size: 1.5rem;
+            padding: 0.5rem;
+            border: 2px solid var(--border);
+            border-radius: 8px;
+            cursor: pointer;
+            text-align: center;
+            transition: all 0.2s;
+        }
+
+        .icon-option:hover {
+            background: var(--bg);
+            border-color: var(--primary);
+        }
+
+        .icon-option.selected {
+            background: var(--primary-light);
+            border-color: var(--primary-dark);
+        }
+
+        .modal-actions {
+            display: flex;
+            gap: 1rem;
+            margin-top: 2rem;
+        }
+
+        .btn-secondary {
+            background: var(--border);
+            color: var(--text);
+            flex: 1;
+        }
+
+        .btn-secondary:hover {
+            background: var(--text-light);
+            color: white;
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 4rem 2rem;
+            color: var(--text-light);
+        }
+
+        .empty-state-icon {
+            font-size: 4rem;
+            margin-bottom: 1rem;
+        }
+
+        @media (max-width: 768px) {
+            .categories-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>💼 Categorías</h1>
+            <button class="btn btn-primary" onclick="openModal()">+ Nueva Categoría</button>
+        </div>
+
+        <div class="tabs">
+            <button class="tab active" onclick="switchTab('gastos')">Gastos</button>
+            <button class="tab" onclick="switchTab('ingresos')">Ingresos</button>
+        </div>
+
+        <div id="gastosTab" class="tab-content">
+            <div class="categories-grid">
+                <!-- Categoría Favorita -->
+                <div class="category-card favorite">
+                    <div class="category-header">
+                        <div>
+                            <div class="category-icon" style="background: linear-gradient(135deg, #EF4444 0%, #DC2626 100%); color: white;">🍔</div>
+                            <div class="category-name">Comida</div>
+                        </div>
+                        <div class="category-actions">
+                            <button class="icon-btn" title="Favorito">⭐</button>
+                            <button class="icon-btn" onclick="editCategory()">✏️</button>
+                            <button class="icon-btn" onclick="deleteCategory()">🗑️</button>
+                        </div>
+                    </div>
+                    <div class="subcategories">
+                        <span class="subcategory-tag">Restaurantes</span>
+                        <span class="subcategory-tag">Supermercado</span>
+                        <span class="subcategory-tag">Delivery</span>
+                    </div>
+                    <div class="category-stats">
+                        <div class="stat">
+                            <div class="stat-label">Este mes</div>
+                            <div class="stat-value" style="color: var(--danger);">$450.000</div>
+                        </div>
+                        <div class="stat">
+                            <div class="stat-label">Transacciones</div>
+                            <div class="stat-value">23</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="category-card">
+                    <div class="category-header">
+                        <div>
+                            <div class="category-icon" style="background: linear-gradient(135deg, #3B82F6 0%, #2563EB 100%); color: white;">🚗</div>
+                            <div class="category-name">Transporte</div>
+                        </div>
+                        <div class="category-actions">
+                            <button class="icon-btn" title="Marcar favorito">☆</button>
+                            <button class="icon-btn" onclick="editCategory()">✏️</button>
+                            <button class="icon-btn" onclick="deleteCategory()">🗑️</button>
+                        </div>
+                    </div>
+                    <div class="subcategories">
+                        <span class="subcategory-tag">Gasolina</span>
+                        <span class="subcategory-tag">Taxi/Uber</span>
+                        <span class="subcategory-tag">Mantenimiento</span>
+                    </div>
+                    <div class="category-stats">
+                        <div class="stat">
+                            <div class="stat-label">Este mes</div>
+                            <div class="stat-value" style="color: var(--danger);">$320.000</div>
+                        </div>
+                        <div class="stat">
+                            <div class="stat-label">Transacciones</div>
+                            <div class="stat-value">15</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="category-card">
+                    <div class="category-header">
+                        <div>
+                            <div class="category-icon" style="background: linear-gradient(135deg, #10B981 0%, #059669 100%); color: white;">🏠</div>
+                            <div class="category-name">Vivienda</div>
+                        </div>
+                        <div class="category-actions">
+                            <button class="icon-btn" title="Marcar favorito">☆</button>
+                            <button class="icon-btn" onclick="editCategory()">✏️</button>
+                            <button class="icon-btn" onclick="deleteCategory()">🗑️</button>
+                        </div>
+                    </div>
+                    <div class="subcategories">
+                        <span class="subcategory-tag">Alquiler</span>
+                        <span class="subcategory-tag">Servicios</span>
+                        <span class="subcategory-tag">Internet</span>
+                    </div>
+                    <div class="category-stats">
+                        <div class="stat">
+                            <div class="stat-label">Este mes</div>
+                            <div class="stat-value" style="color: var(--danger);">$850.000</div>
+                        </div>
+                        <div class="stat">
+                            <div class="stat-label">Transacciones</div>
+                            <div class="stat-value">8</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="category-card">
+                    <div class="category-header">
+                        <div>
+                            <div class="category-icon" style="background: linear-gradient(135deg, #F59E0B 0%, #D97706 100%); color: white;">🎮</div>
+                            <div class="category-name">Entretenimiento</div>
+                        </div>
+                        <div class="category-actions">
+                            <button class="icon-btn" title="Marcar favorito">☆</button>
+                            <button class="icon-btn" onclick="editCategory()">✏️</button>
+                            <button class="icon-btn" onclick="deleteCategory()">🗑️</button>
+                        </div>
+                    </div>
+                    <div class="subcategories">
+                        <span class="subcategory-tag">Streaming</span>
+                        <span class="subcategory-tag">Videojuegos</span>
+                        <span class="subcategory-tag">Salidas</span>
+                    </div>
+                    <div class="category-stats">
+                        <div class="stat">
+                            <div class="stat-label">Este mes</div>
+                            <div class="stat-value" style="color: var(--danger);">$180.000</div>
+                        </div>
+                        <div class="stat">
+                            <div class="stat-label">Transacciones</div>
+                            <div class="stat-value">12</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="category-card">
+                    <div class="category-header">
+                        <div>
+                            <div class="category-icon" style="background: linear-gradient(135deg, #EC4899 0%, #DB2777 100%); color: white;">🏥</div>
+                            <div class="category-name">Salud</div>
+                        </div>
+                        <div class="category-actions">
+                            <button class="icon-btn" title="Marcar favorito">☆</button>
+                            <button class="icon-btn" onclick="editCategory()">✏️</button>
+                            <button class="icon-btn" onclick="deleteCategory()">🗑️</button>
+                        </div>
+                    </div>
+                    <div class="subcategories">
+                        <span class="subcategory-tag">Medicamentos</span>
+                        <span class="subcategory-tag">Consultas</span>
+                        <span class="subcategory-tag">Gym</span>
+                    </div>
+                    <div class="category-stats">
+                        <div class="stat">
+                            <div class="stat-label">Este mes</div>
+                            <div class="stat-value" style="color: var(--danger);">$95.000</div>
+                        </div>
+                        <div class="stat">
+                            <div class="stat-label">Transacciones</div>
+                            <div class="stat-value">6</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="category-card">
+                    <div class="category-header">
+                        <div>
+                            <div class="category-icon" style="background: linear-gradient(135deg, #8B5CF6 0%, #7C3AED 100%); color: white;">👔</div>
+                            <div class="category-name">Ropa</div>
+                        </div>
+                        <div class="category-actions">
+                            <button class="icon-btn" title="Marcar favorito">☆</button>
+                            <button class="icon-btn" onclick="editCategory()">✏️</button>
+                            <button class="icon-btn" onclick="deleteCategory()">🗑️</button>
+                        </div>
+                    </div>
+                    <div class="subcategories">
+                        <span class="subcategory-tag">Vestuario</span>
+                        <span class="subcategory-tag">Calzado</span>
+                    </div>
+                    <div class="category-stats">
+                        <div class="stat">
+                            <div class="stat-label">Este mes</div>
+                            <div class="stat-value" style="color: var(--danger);">$120.000</div>
+                        </div>
+                        <div class="stat">
+                            <div class="stat-label">Transacciones</div>
+                            <div class="stat-value">4</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="ingresosTab" class="tab-content" style="display: none;">
+            <div class="categories-grid">
+                <div class="category-card favorite">
+                    <div class="category-header">
+                        <div>
+                            <div class="category-icon" style="background: linear-gradient(135deg, #10B981 0%, #059669 100%); color: white;">💰</div>
+                            <div class="category-name">Salario</div>
+                        </div>
+                        <div class="category-actions">
+                            <button class="icon-btn" title="Favorito">⭐</button>
+                            <button class="icon-btn" onclick="editCategory()">✏️</button>
+                            <button class="icon-btn" onclick="deleteCategory()">🗑️</button>
+                        </div>
+                    </div>
+                    <div class="category-stats">
+                        <div class="stat">
+                            <div class="stat-label">Este mes</div>
+                            <div class="stat-value" style="color: var(--success);">$2.500.000</div>
+                        </div>
+                        <div class="stat">
+                            <div class="stat-label">Transacciones</div>
+                            <div class="stat-value">1</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="category-card">
+                    <div class="category-header">
+                        <div>
+                            <div class="category-icon" style="background: linear-gradient(135deg, #3B82F6 0%, #2563EB 100%); color: white;">💼</div>
+                            <div class="category-name">Freelance</div>
+                        </div>
+                        <div class="category-actions">
+                            <button class="icon-btn" title="Marcar favorito">☆</button>
+                            <button class="icon-btn" onclick="editCategory()">✏️</button>
+                            <button class="icon-btn" onclick="deleteCategory()">🗑️</button>
+                        </div>
+                    </div>
+                    <div class="subcategories">
+                        <span class="subcategory-tag">Proyectos</span>
+                        <span class="subcategory-tag">Consultoría</span>
+                    </div>
+                    <div class="category-stats">
+                        <div class="stat">
+                            <div class="stat-label">Este mes</div>
+                            <div class="stat-value" style="color: var(--success);">$450.000</div>
+                        </div>
+                        <div class="stat">
+                            <div class="stat-label">Transacciones</div>
+                            <div class="stat-value">3</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="category-card">
+                    <div class="category-header">
+                        <div>
+                            <div class="category-icon" style="background: linear-gradient(135deg, #F59E0B 0%, #D97706 100%); color: white;">🎁</div>
+                            <div class="category-name">Otros Ingresos</div>
+                        </div>
+                        <div class="category-actions">
+                            <button class="icon-btn" title="Marcar favorito">☆</button>
+                            <button class="icon-btn" onclick="editCategory()">✏️</button>
+                            <button class="icon-btn" onclick="deleteCategory()">🗑️</button>
+                        </div>
+                    </div>
+                    <div class="subcategories">
+                        <span class="subcategory-tag">Regalos</span>
+                        <span class="subcategory-tag">Reembolsos</span>
+                    </div>
+                    <div class="category-stats">
+                        <div class="stat">
+                            <div class="stat-label">Este mes</div>
+                            <div class="stat-value" style="color: var(--success);">$80.000</div>
+                        </div>
+                        <div class="stat">
+                            <div class="stat-label">Transacciones</div>
+                            <div class="stat-value">2</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Nueva Categoría -->
+    <div class="modal" id="categoryModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Nueva Categoría</h2>
+                <button class="close-btn" onclick="closeModal()">✕</button>
+            </div>
+
+            <form onsubmit="event.preventDefault(); saveCategory();">
+                <div class="form-group">
+                    <label>Nombre</label>
+                    <input type="text" placeholder="Ej: Educación" required>
+                </div>
+
+                <div class="form-group">
+                    <label>Tipo</label>
+                    <select>
+                        <option value="gasto">Gasto</option>
+                        <option value="ingreso">Ingreso</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label>Elige un color</label>
+                    <div class="color-picker">
+                        <div class="color-option selected" style="background: #EF4444;"></div>
+                        <div class="color-option" style="background: #F59E0B;"></div>
+                        <div class="color-option" style="background: #10B981;"></div>
+                        <div class="color-option" style="background: #3B82F6;"></div>
+                        <div class="color-option" style="background: #8B5CF6;"></div>
+                        <div class="color-option" style="background: #EC4899;"></div>
+                        <div class="color-option" style="background: #6366F1;"></div>
+                        <div class="color-option" style="background: #14B8A6;"></div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>Elige un icono</label>
+                    <div class="icon-picker">
+                        <div class="icon-option selected">🍔</div>
+                        <div class="icon-option">🚗</div>
+                        <div class="icon-option">🏠</div>
+                        <div class="icon-option">🎮</div>
+                        <div class="icon-option">🏥</div>
+                        <div class="icon-option">👔</div>
+                        <div class="icon-option">📚</div>
+                        <div class="icon-option">✈️</div>
+                        <div class="icon-option">💼</div>
+                        <div class="icon-option">🎁</div>
+                        <div class="icon-option">💰</div>
+                        <div class="icon-option">📱</div>
+                        <div class="icon-option">🛒</div>
+                        <div class="icon-option">🎵</div>
+                        <div class="icon-option">⚽</div>
+                        <div class="icon-option">🎨</div>
+                    </div>
+                </div>
+
+                <div class="modal-actions">
+                    <button type="button" class="btn btn-secondary" onclick="closeModal()">Cancelar</button>
+                    <button type="submit" class="btn btn-primary">Guardar Categoría</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        function switchTab(tab) {
+            // Actualizar tabs activos
+            document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+            event.target.classList.add('active');
+
+            // Mostrar contenido correcto
+            if (tab === 'gastos') {
+                document.getElementById('gastosTab').style.display = 'block';
+                document.getElementById('ingresosTab').style.display = 'none';
+            } else {
+                document.getElementById('gastosTab').style.display = 'none';
+                document.getElementById('ingresosTab').style.display = 'block';
+            }
+        }
+
+        function openModal() {
+            document.getElementById('categoryModal').classList.add('active');
+        }
+
+        function closeModal() {
+            document.getElementById('categoryModal').classList.remove('active');
+        }
+
+        function editCategory() {
+            alert('Funcionalidad de edición - En mockup esto abriría el modal con datos precargados');
+        }
+
+        function deleteCategory() {
+            if (confirm('¿Estás seguro de eliminar esta categoría?')) {
+                alert('Categoría eliminada (mockup)');
+            }
+        }
+
+        function saveCategory() {
+            alert('Categoría guardada exitosamente (mockup)');
+            closeModal();
+        }
+
+        // Interactividad de selección de colores e iconos
+        document.addEventListener('click', (e) => {
+            if (e.target.classList.contains('color-option')) {
+                document.querySelectorAll('.color-option').forEach(c => c.classList.remove('selected'));
+                e.target.classList.add('selected');
+            }
+            if (e.target.classList.contains('icon-option')) {
+                document.querySelectorAll('.icon-option').forEach(i => i.classList.remove('selected'));
+                e.target.classList.add('selected');
+            }
+        });
+
+        // Cerrar modal al hacer click fuera
+        document.getElementById('categoryModal').addEventListener('click', (e) => {
+            if (e.target.id === 'categoryModal') {
+                closeModal();
+            }
+        });
+    </script>
+</body>
+</html>

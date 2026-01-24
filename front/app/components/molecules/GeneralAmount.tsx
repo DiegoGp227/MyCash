@@ -1,4 +1,4 @@
-import AmountDiv from "../molecules/AmountDiv";
+import AmountDiv from "./AmountDiv";
 
 export default function GeneralAmount() {
   return (

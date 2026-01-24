@@ -1,5 +1,5 @@
 import BudgetsOrganism from "./BudgetsOrganism";
-import GeneralAmount from "./GeneralAmount";
+import GeneralAmount from "../molecules/GeneralAmount";
 import GraphsOrganism from "./GraphsOrganism";
 import TransactionsOrganism from "./TransactionsOrganism";
 
