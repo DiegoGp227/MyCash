@@ -5,6 +5,7 @@ import {
   createCategorySchema,
   updateCategorySchema,
   categoryIdSchema,
+  categoryQuerySchema,
 } from "./categories.shema.js";
 import {
   createCategory,
@@ -61,6 +62,7 @@ export const createCategoryController = async (
 
 /**
  * @route GET /categories
+ * @query { type?: "INCOME" | "EXPENSE" }
  * @returns { categories }
  * @requires Authentication
  */
@@ -71,7 +73,20 @@ export const getCategoriesController = async (
   try {
     const { id: userId } = req.user!;
 
-    const categories = await getCategories(userId);
+    const queryValidation = categoryQuerySchema.safeParse(req.query);
+
+    if (!queryValidation.success) {
+      const errors = queryValidation.error.issues.reduce(
+        (acc: Record<string, string>, err) => {
+          acc[err.path.join(".")] = err.message;
+          return acc;
+        },
+        {}
+      );
+      throw new ValidationError("Validation errors", errors);
+    }
+
+    const categories = await getCategories(userId, queryValidation.data.type);
 
     res.status(200).json({ categories });
   } catch (error) {

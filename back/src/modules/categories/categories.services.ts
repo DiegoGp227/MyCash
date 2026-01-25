@@ -56,10 +56,14 @@ export const createCategory = async (
 };
 
 export const getCategories = async (
-  userId: string
+  userId: string,
+  type?: "INCOME" | "EXPENSE"
 ): Promise<ICategoryResponse[]> => {
   const categories = await prisma.category.findMany({
-    where: { userId },
+    where: {
+      userId,
+      ...(type && { type }),
+    },
     select: categorySelect,
     orderBy: { name: "asc" },
   });

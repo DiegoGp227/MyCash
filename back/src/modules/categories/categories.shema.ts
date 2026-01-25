@@ -31,4 +31,8 @@ export const updateCategorySchema = z.object({
 export const categoryIdSchema = z.object({
   id: z.string().min(1, "Category ID is required"),
 });
+
+export const categoryQuerySchema = z.object({
+  type: z.enum(["INCOME", "EXPENSE"]).optional(),
+});
  
