@@ -1,69 +1,61 @@
 import { Request, Response, NextFunction } from "express";
-import jwt from "jsonwebtoken";
-import {
-  UnauthorizedError,
-  TokenExpiredError,
-  InvalidTokenError,
-} from "../errors/400Errors.js";
-import { AppError, InternalServerError } from "../errors/appError.js";
+import jwt, { JwtPayload } from "jsonwebtoken";
+import { InvalidTokenError, UnauthorizedError } from "../errors/400Errors";
 
-export interface JwtPayload {
+
+export interface AuthPayload {
   id: string;
   email: string;
   role: string;
 }
 
-export interface AuthenticatedRequest extends Request {
-  user: JwtPayload;
-}
-
 export const authMiddleware = (
   req: Request,
-  res: Response,
+  _res: Response,
   next: NextFunction
 ): void => {
   try {
     const authHeader = req.headers.authorization;
 
     if (!authHeader) {
-      throw new UnauthorizedError("No token provided");
+      throw new UnauthorizedError("Authorization header missing");
     }
 
-    const parts = authHeader.split(" ");
+    const [scheme, token] = authHeader.split(" ");
 
-    if (parts.length !== 2 || parts[0] !== "Bearer") {
+    if (scheme !== "Bearer" || !token) {
       throw new InvalidTokenError("Token format invalid. Use: Bearer <token>");
     }
 
-    const token = parts[1];
-
     const decoded = jwt.verify(
       token,
-      process.env.JWT_SECRET || "default_secret"
+      process.env.JWT_SECRET!
     ) as JwtPayload;
 
-    (req as AuthenticatedRequest).user = decoded;
+    const { id, email, role } = decoded as AuthPayload;
+
+    if (!id || !email || !role) {
+      throw new InvalidTokenError("Token payload is invalid");
+    }
+
+    req.user = {
+      id,
+      email,
+      role
+    };
 
     next();
   } catch (error) {
-    if (error instanceof AppError) {
-      res.status(error.statusCode).json(error.toJSON());
-      return;
-    }
-
     if (error instanceof jwt.TokenExpiredError) {
-      const tokenError = new TokenExpiredError("Token has expired");
-      res.status(tokenError.statusCode).json(tokenError.toJSON());
+      next(new InvalidTokenError("Token has expired"));
       return;
     }
 
     if (error instanceof jwt.JsonWebTokenError) {
-      const invalidError = new InvalidTokenError("Invalid token");
-      res.status(invalidError.statusCode).json(invalidError.toJSON());
+      next(new InvalidTokenError("Invalid or malformed token"));
       return;
     }
 
-    const internalError = new InternalServerError("Authentication error");
-    res.status(internalError.statusCode).json(internalError.toJSON());
+    next(error);
   }
 };
