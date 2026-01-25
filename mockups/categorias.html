@@ -165,120 +165,94 @@
               </button>
             </div>
           </div>
-          <table>
-            <thead>
-              <tr>
-                <th>⭐</th>
-                <th>Categoría</th>
-                <th>Color</th>
-                <th>Subcategorías</th>
-                <th>Transacciones</th>
-                <th>Total del Mes</th>
-                <th>Acciones</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td><button class="action-btn" style="font-size: 1.25rem;">⭐</button></td>
-                <td>
-                  <div style="display: flex; align-items: center; gap: 0.75rem;">
-                    <div style="width: 40px; height: 40px; border-radius: 8px; background: #10B98120; display: flex; align-items: center; justify-content: center; font-size: 1.25rem;">
-                      💰
-                    </div>
-                    <div>
-                      <div style="font-weight: 600;">Salario</div>
-                    </div>
-                  </div>
-                </td>
-                <td>
-                  <div style="display: flex; align-items: center; gap: 0.5rem;">
-                    <div style="width: 24px; height: 24px; border-radius: 4px; background: #10B981;"></div>
-                    <span style="font-size: 0.875rem; color: var(--text-secondary);">#10B981</span>
-                  </div>
-                </td>
-                <td>
-                  <span class="category-badge" style="background: var(--bg-primary); color: var(--text-secondary);">
-                    0 subcategorías
-                  </span>
-                </td>
-                <td>12</td>
-                <td><span class="amount-positive">+$25,000.00</span></td>
-                <td>
-                  <div class="action-buttons">
-                    <button class="action-btn" onclick="openModal('editCategoryModal')" title="Editar">✏️</button>
-                    <button class="action-btn" title="Archivar">📦</button>
-                    <button class="action-btn" title="Ver Transacciones">👁️</button>
-                  </div>
-                </td>
-              </tr>
-              <tr>
-                <td><button class="action-btn" style="font-size: 1.25rem; opacity: 0.3;">☆</button></td>
-                <td>
-                  <div style="display: flex; align-items: center; gap: 0.75rem;">
-                    <div style="width: 40px; height: 40px; border-radius: 8px; background: #8B5CF620; display: flex; align-items: center; justify-content: center; font-size: 1.25rem;">
-                      💼
-                    </div>
-                    <div>
-                      <div style="font-weight: 600;">Freelance</div>
-                    </div>
-                  </div>
-                </td>
-                <td>
-                  <div style="display: flex; align-items: center; gap: 0.5rem;">
-                    <div style="width: 24px; height: 24px; border-radius: 4px; background: #8B5CF6;"></div>
-                    <span style="font-size: 0.875rem; color: var(--text-secondary);">#8B5CF6</span>
-                  </div>
-                </td>
-                <td>
-                  <span class="category-badge" style="background: var(--primary-lighter); color: var(--primary);">
-                    3 subcategorías
-                  </span>
-                </td>
-                <td>8</td>
-                <td><span class="amount-positive">+$5,000.00</span></td>
-                <td>
-                  <div class="action-buttons">
-                    <button class="action-btn" onclick="openModal('editCategoryModal')" title="Editar">✏️</button>
-                    <button class="action-btn" title="Archivar">📦</button>
-                    <button class="action-btn" title="Ver Transacciones">👁️</button>
-                  </div>
-                </td>
-              </tr>
-              <tr>
-                <td><button class="action-btn" style="font-size: 1.25rem; opacity: 0.3;">☆</button></td>
-                <td>
-                  <div style="display: flex; align-items: center; gap: 0.75rem;">
-                    <div style="width: 40px; height: 40px; border-radius: 8px; background: #F59E0B20; display: flex; align-items: center; justify-content: center; font-size: 1.25rem;">
-                      📊
-                    </div>
-                    <div>
-                      <div style="font-weight: 600;">Inversiones</div>
-                    </div>
-                  </div>
-                </td>
-                <td>
-                  <div style="display: flex; align-items: center; gap: 0.5rem;">
-                    <div style="width: 24px; height: 24px; border-radius: 4px; background: #F59E0B;"></div>
-                    <span style="font-size: 0.875rem; color: var(--text-secondary);">#F59E0B</span>
-                  </div>
-                </td>
-                <td>
-                  <span class="category-badge" style="background: var(--bg-primary); color: var(--text-secondary);">
-                    0 subcategorías
-                  </span>
-                </td>
-                <td>0</td>
-                <td><span class="amount-positive">+$0.00</span></td>
-                <td>
-                  <div class="action-buttons">
-                    <button class="action-btn" onclick="openModal('editCategoryModal')" title="Editar">✏️</button>
-                    <button class="action-btn" title="Eliminar">🗑️</button>
-                    <button class="action-btn" title="Ver Transacciones">👁️</button>
-                  </div>
-                </td>
-              </tr>
-            </tbody>
-          </table>
+          <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 1rem; padding: 1rem;">
+            <!-- Card: Salario -->
+            <div style="background: var(--bg-secondary); border-radius: 12px; padding: 1.25rem; border: 1px solid var(--border); position: relative; transition: all 0.2s ease;">
+              <button class="action-btn" style="position: absolute; top: 0.75rem; right: 0.75rem; font-size: 1.25rem;">⭐</button>
+              <div style="display: flex; align-items: center; gap: 1rem; margin-bottom: 1rem;">
+                <div style="width: 56px; height: 56px; border-radius: 12px; background: #10B98120; display: flex; align-items: center; justify-content: center; font-size: 1.75rem; border-left: 4px solid #10B981;">
+                  💰
+                </div>
+                <div>
+                  <div style="font-weight: 600; font-size: 1.1rem;">Salario</div>
+                  <div style="font-size: 0.8rem; color: var(--text-secondary);">0 subcategorías</div>
+                </div>
+              </div>
+              <div style="display: flex; justify-content: space-between; align-items: center; padding-top: 1rem; border-top: 1px solid var(--border);">
+                <div>
+                  <div style="font-size: 0.75rem; color: var(--text-secondary);">Este mes</div>
+                  <div style="font-weight: 600; color: #10B981; font-size: 1.1rem;">+$25,000.00</div>
+                </div>
+                <div style="text-align: right;">
+                  <div style="font-size: 0.75rem; color: var(--text-secondary);">Transacciones</div>
+                  <div style="font-weight: 500;">12</div>
+                </div>
+              </div>
+              <div style="display: flex; gap: 0.5rem; margin-top: 1rem;">
+                <button class="btn btn-secondary btn-sm" style="flex: 1;" onclick="openModal('editCategoryModal')">✏️ Editar</button>
+                <button class="action-btn" title="Archivar">📦</button>
+                <button class="action-btn" title="Ver Transacciones">👁️</button>
+              </div>
+            </div>
+
+            <!-- Card: Freelance -->
+            <div style="background: var(--bg-secondary); border-radius: 12px; padding: 1.25rem; border: 1px solid var(--border); position: relative; transition: all 0.2s ease;">
+              <button class="action-btn" style="position: absolute; top: 0.75rem; right: 0.75rem; font-size: 1.25rem; opacity: 0.3;">☆</button>
+              <div style="display: flex; align-items: center; gap: 1rem; margin-bottom: 1rem;">
+                <div style="width: 56px; height: 56px; border-radius: 12px; background: #8B5CF620; display: flex; align-items: center; justify-content: center; font-size: 1.75rem; border-left: 4px solid #8B5CF6;">
+                  💼
+                </div>
+                <div>
+                  <div style="font-weight: 600; font-size: 1.1rem;">Freelance</div>
+                  <div style="font-size: 0.8rem; color: var(--text-secondary);">3 subcategorías</div>
+                </div>
+              </div>
+              <div style="display: flex; justify-content: space-between; align-items: center; padding-top: 1rem; border-top: 1px solid var(--border);">
+                <div>
+                  <div style="font-size: 0.75rem; color: var(--text-secondary);">Este mes</div>
+                  <div style="font-weight: 600; color: #10B981; font-size: 1.1rem;">+$5,000.00</div>
+                </div>
+                <div style="text-align: right;">
+                  <div style="font-size: 0.75rem; color: var(--text-secondary);">Transacciones</div>
+                  <div style="font-weight: 500;">8</div>
+                </div>
+              </div>
+              <div style="display: flex; gap: 0.5rem; margin-top: 1rem;">
+                <button class="btn btn-secondary btn-sm" style="flex: 1;" onclick="openModal('editCategoryModal')">✏️ Editar</button>
+                <button class="action-btn" title="Archivar">📦</button>
+                <button class="action-btn" title="Ver Transacciones">👁️</button>
+              </div>
+            </div>
+
+            <!-- Card: Inversiones -->
+            <div style="background: var(--bg-secondary); border-radius: 12px; padding: 1.25rem; border: 1px solid var(--border); position: relative; transition: all 0.2s ease;">
+              <button class="action-btn" style="position: absolute; top: 0.75rem; right: 0.75rem; font-size: 1.25rem; opacity: 0.3;">☆</button>
+              <div style="display: flex; align-items: center; gap: 1rem; margin-bottom: 1rem;">
+                <div style="width: 56px; height: 56px; border-radius: 12px; background: #F59E0B20; display: flex; align-items: center; justify-content: center; font-size: 1.75rem; border-left: 4px solid #F59E0B;">
+                  📊
+                </div>
+                <div>
+                  <div style="font-weight: 600; font-size: 1.1rem;">Inversiones</div>
+                  <div style="font-size: 0.8rem; color: var(--text-secondary);">0 subcategorías</div>
+                </div>
+              </div>
+              <div style="display: flex; justify-content: space-between; align-items: center; padding-top: 1rem; border-top: 1px solid var(--border);">
+                <div>
+                  <div style="font-size: 0.75rem; color: var(--text-secondary);">Este mes</div>
+                  <div style="font-weight: 600; color: #10B981; font-size: 1.1rem;">+$0.00</div>
+                </div>
+                <div style="text-align: right;">
+                  <div style="font-size: 0.75rem; color: var(--text-secondary);">Transacciones</div>
+                  <div style="font-weight: 500;">0</div>
+                </div>
+              </div>
+              <div style="display: flex; gap: 0.5rem; margin-top: 1rem;">
+                <button class="btn btn-secondary btn-sm" style="flex: 1;" onclick="openModal('editCategoryModal')">✏️ Editar</button>
+                <button class="action-btn" title="Eliminar">🗑️</button>
+                <button class="action-btn" title="Ver Transacciones">👁️</button>
+              </div>
+            </div>
+          </div>
         </div>
 
         <!-- Expense Categories -->
@@ -291,186 +265,152 @@
               </button>
             </div>
           </div>
-          <table>
-            <thead>
-              <tr>
-                <th>⭐</th>
-                <th>Categoría</th>
-                <th>Color</th>
-                <th>Subcategorías</th>
-                <th>Transacciones</th>
-                <th>Total del Mes</th>
-                <th>Acciones</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td><button class="action-btn" style="font-size: 1.25rem;">⭐</button></td>
-                <td>
-                  <div style="display: flex; align-items: center; gap: 0.75rem;">
-                    <div style="width: 40px; height: 40px; border-radius: 8px; background: #7C3AED20; display: flex; align-items: center; justify-content: center; font-size: 1.25rem;">
-                      🛒
-                    </div>
-                    <div>
-                      <div style="font-weight: 600;">Comida</div>
-                    </div>
-                  </div>
-                </td>
-                <td>
-                  <div style="display: flex; align-items: center; gap: 0.5rem;">
-                    <div style="width: 24px; height: 24px; border-radius: 4px; background: #7C3AED;"></div>
-                    <span style="font-size: 0.875rem; color: var(--text-secondary);">#7C3AED</span>
-                  </div>
-                </td>
-                <td>
-                  <span class="category-badge" style="background: var(--primary-lighter); color: var(--primary);">
-                    5 subcategorías
-                  </span>
-                </td>
-                <td>45</td>
-                <td><span class="amount-negative">-$3,250.00</span></td>
-                <td>
-                  <div class="action-buttons">
-                    <button class="action-btn" onclick="openModal('editCategoryModal')" title="Editar">✏️</button>
-                    <button class="action-btn" title="Archivar">📦</button>
-                    <button class="action-btn" title="Ver Transacciones">👁️</button>
-                  </div>
-                </td>
-              </tr>
-              <tr>
-                <td><button class="action-btn" style="font-size: 1.25rem;">⭐</button></td>
-                <td>
-                  <div style="display: flex; align-items: center; gap: 0.75rem;">
-                    <div style="width: 40px; height: 40px; border-radius: 8px; background: #3B82F620; display: flex; align-items: center; justify-content: center; font-size: 1.25rem;">
-                      🚗
-                    </div>
-                    <div>
-                      <div style="font-weight: 600;">Transporte</div>
-                    </div>
-                  </div>
-                </td>
-                <td>
-                  <div style="display: flex; align-items: center; gap: 0.5rem;">
-                    <div style="width: 24px; height: 24px; border-radius: 4px; background: #3B82F6;"></div>
-                    <span style="font-size: 0.875rem; color: var(--text-secondary);">#3B82F6</span>
-                  </div>
-                </td>
-                <td>
-                  <span class="category-badge" style="background: #3B82F620; color: #3B82F6;">
-                    4 subcategorías
-                  </span>
-                </td>
-                <td>28</td>
-                <td><span class="amount-negative">-$1,200.00</span></td>
-                <td>
-                  <div class="action-buttons">
-                    <button class="action-btn" onclick="openModal('editCategoryModal')" title="Editar">✏️</button>
-                    <button class="action-btn" title="Archivar">📦</button>
-                    <button class="action-btn" title="Ver Transacciones">👁️</button>
-                  </div>
-                </td>
-              </tr>
-              <tr>
-                <td><button class="action-btn" style="font-size: 1.25rem; opacity: 0.3;">☆</button></td>
-                <td>
-                  <div style="display: flex; align-items: center; gap: 0.75rem;">
-                    <div style="width: 40px; height: 40px; border-radius: 8px; background: #F59E0B20; display: flex; align-items: center; justify-content: center; font-size: 1.25rem;">
-                      🎬
-                    </div>
-                    <div>
-                      <div style="font-weight: 600;">Entretenimiento</div>
-                    </div>
-                  </div>
-                </td>
-                <td>
-                  <div style="display: flex; align-items: center; gap: 0.5rem;">
-                    <div style="width: 24px; height: 24px; border-radius: 4px; background: #F59E0B;"></div>
-                    <span style="font-size: 0.875rem; color: var(--text-secondary);">#F59E0B</span>
-                  </div>
-                </td>
-                <td>
-                  <span class="category-badge" style="background: #F59E0B20; color: #F59E0B;">
-                    6 subcategorías
-                  </span>
-                </td>
-                <td>15</td>
-                <td><span class="amount-negative">-$899.00</span></td>
-                <td>
-                  <div class="action-buttons">
-                    <button class="action-btn" onclick="openModal('editCategoryModal')" title="Editar">✏️</button>
-                    <button class="action-btn" title="Archivar">📦</button>
-                    <button class="action-btn" title="Ver Transacciones">👁️</button>
-                  </div>
-                </td>
-              </tr>
-              <tr>
-                <td><button class="action-btn" style="font-size: 1.25rem; opacity: 0.3;">☆</button></td>
-                <td>
-                  <div style="display: flex; align-items: center; gap: 0.75rem;">
-                    <div style="width: 40px; height: 40px; border-radius: 8px; background: #EF444420; display: flex; align-items: center; justify-content: center; font-size: 1.25rem;">
-                      💊
-                    </div>
-                    <div>
-                      <div style="font-weight: 600;">Salud</div>
-                    </div>
-                  </div>
-                </td>
-                <td>
-                  <div style="display: flex; align-items: center; gap: 0.5rem;">
-                    <div style="width: 24px; height: 24px; border-radius: 4px; background: #EF4444;"></div>
-                    <span style="font-size: 0.875rem; color: var(--text-secondary);">#EF4444</span>
-                  </div>
-                </td>
-                <td>
-                  <span class="category-badge" style="background: #EF444420; color: #EF4444;">
-                    3 subcategorías
-                  </span>
-                </td>
-                <td>8</td>
-                <td><span class="amount-negative">-$1,500.00</span></td>
-                <td>
-                  <div class="action-buttons">
-                    <button class="action-btn" onclick="openModal('editCategoryModal')" title="Editar">✏️</button>
-                    <button class="action-btn" title="Archivar">📦</button>
-                    <button class="action-btn" title="Ver Transacciones">👁️</button>
-                  </div>
-                </td>
-              </tr>
-              <tr>
-                <td><button class="action-btn" style="font-size: 1.25rem; opacity: 0.3;">☆</button></td>
-                <td>
-                  <div style="display: flex; align-items: center; gap: 0.75rem;">
-                    <div style="width: 40px; height: 40px; border-radius: 8px; background: #EC489920; display: flex; align-items: center; justify-content: center; font-size: 1.25rem;">
-                      🏠
-                    </div>
-                    <div>
-                      <div style="font-weight: 600;">Vivienda</div>
-                    </div>
-                  </div>
-                </td>
-                <td>
-                  <div style="display: flex; align-items: center; gap: 0.5rem;">
-                    <div style="width: 24px; height: 24px; border-radius: 4px; background: #EC4899;"></div>
-                    <span style="font-size: 0.875rem; color: var(--text-secondary);">#EC4899</span>
-                  </div>
-                </td>
-                <td>
-                  <span class="category-badge" style="background: #EC489920; color: #EC4899;">
-                    7 subcategorías
-                  </span>
-                </td>
-                <td>12</td>
-                <td><span class="amount-negative">-$8,000.00</span></td>
-                <td>
-                  <div class="action-buttons">
-                    <button class="action-btn" onclick="openModal('editCategoryModal')" title="Editar">✏️</button>
-                    <button class="action-btn" title="Archivar">📦</button>
-                    <button class="action-btn" title="Ver Transacciones">👁️</button>
-                  </div>
-                </td>
-              </tr>
-            </tbody>
-          </table>
+          <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 1rem; padding: 1rem;">
+            <!-- Card: Comida -->
+            <div style="background: var(--bg-secondary); border-radius: 12px; padding: 1.25rem; border: 1px solid var(--border); position: relative; transition: all 0.2s ease;">
+              <button class="action-btn" style="position: absolute; top: 0.75rem; right: 0.75rem; font-size: 1.25rem;">⭐</button>
+              <div style="display: flex; align-items: center; gap: 1rem; margin-bottom: 1rem;">
+                <div style="width: 56px; height: 56px; border-radius: 12px; background: #7C3AED20; display: flex; align-items: center; justify-content: center; font-size: 1.75rem; border-left: 4px solid #7C3AED;">
+                  🛒
+                </div>
+                <div>
+                  <div style="font-weight: 600; font-size: 1.1rem;">Comida</div>
+                  <div style="font-size: 0.8rem; color: var(--text-secondary);">5 subcategorías</div>
+                </div>
+              </div>
+              <div style="display: flex; justify-content: space-between; align-items: center; padding-top: 1rem; border-top: 1px solid var(--border);">
+                <div>
+                  <div style="font-size: 0.75rem; color: var(--text-secondary);">Este mes</div>
+                  <div style="font-weight: 600; color: #EF4444; font-size: 1.1rem;">-$3,250.00</div>
+                </div>
+                <div style="text-align: right;">
+                  <div style="font-size: 0.75rem; color: var(--text-secondary);">Transacciones</div>
+                  <div style="font-weight: 500;">45</div>
+                </div>
+              </div>
+              <div style="display: flex; gap: 0.5rem; margin-top: 1rem;">
+                <button class="btn btn-secondary btn-sm" style="flex: 1;" onclick="openModal('editCategoryModal')">✏️ Editar</button>
+                <button class="action-btn" title="Archivar">📦</button>
+                <button class="action-btn" title="Ver Transacciones">👁️</button>
+              </div>
+            </div>
+
+            <!-- Card: Transporte -->
+            <div style="background: var(--bg-secondary); border-radius: 12px; padding: 1.25rem; border: 1px solid var(--border); position: relative; transition: all 0.2s ease;">
+              <button class="action-btn" style="position: absolute; top: 0.75rem; right: 0.75rem; font-size: 1.25rem;">⭐</button>
+              <div style="display: flex; align-items: center; gap: 1rem; margin-bottom: 1rem;">
+                <div style="width: 56px; height: 56px; border-radius: 12px; background: #3B82F620; display: flex; align-items: center; justify-content: center; font-size: 1.75rem; border-left: 4px solid #3B82F6;">
+                  🚗
+                </div>
+                <div>
+                  <div style="font-weight: 600; font-size: 1.1rem;">Transporte</div>
+                  <div style="font-size: 0.8rem; color: var(--text-secondary);">4 subcategorías</div>
+                </div>
+              </div>
+              <div style="display: flex; justify-content: space-between; align-items: center; padding-top: 1rem; border-top: 1px solid var(--border);">
+                <div>
+                  <div style="font-size: 0.75rem; color: var(--text-secondary);">Este mes</div>
+                  <div style="font-weight: 600; color: #EF4444; font-size: 1.1rem;">-$1,200.00</div>
+                </div>
+                <div style="text-align: right;">
+                  <div style="font-size: 0.75rem; color: var(--text-secondary);">Transacciones</div>
+                  <div style="font-weight: 500;">28</div>
+                </div>
+              </div>
+              <div style="display: flex; gap: 0.5rem; margin-top: 1rem;">
+                <button class="btn btn-secondary btn-sm" style="flex: 1;" onclick="openModal('editCategoryModal')">✏️ Editar</button>
+                <button class="action-btn" title="Archivar">📦</button>
+                <button class="action-btn" title="Ver Transacciones">👁️</button>
+              </div>
+            </div>
+
+            <!-- Card: Entretenimiento -->
+            <div style="background: var(--bg-secondary); border-radius: 12px; padding: 1.25rem; border: 1px solid var(--border); position: relative; transition: all 0.2s ease;">
+              <button class="action-btn" style="position: absolute; top: 0.75rem; right: 0.75rem; font-size: 1.25rem; opacity: 0.3;">☆</button>
+              <div style="display: flex; align-items: center; gap: 1rem; margin-bottom: 1rem;">
+                <div style="width: 56px; height: 56px; border-radius: 12px; background: #F59E0B20; display: flex; align-items: center; justify-content: center; font-size: 1.75rem; border-left: 4px solid #F59E0B;">
+                  🎬
+                </div>
+                <div>
+                  <div style="font-weight: 600; font-size: 1.1rem;">Entretenimiento</div>
+                  <div style="font-size: 0.8rem; color: var(--text-secondary);">6 subcategorías</div>
+                </div>
+              </div>
+              <div style="display: flex; justify-content: space-between; align-items: center; padding-top: 1rem; border-top: 1px solid var(--border);">
+                <div>
+                  <div style="font-size: 0.75rem; color: var(--text-secondary);">Este mes</div>
+                  <div style="font-weight: 600; color: #EF4444; font-size: 1.1rem;">-$899.00</div>
+                </div>
+                <div style="text-align: right;">
+                  <div style="font-size: 0.75rem; color: var(--text-secondary);">Transacciones</div>
+                  <div style="font-weight: 500;">15</div>
+                </div>
+              </div>
+              <div style="display: flex; gap: 0.5rem; margin-top: 1rem;">
+                <button class="btn btn-secondary btn-sm" style="flex: 1;" onclick="openModal('editCategoryModal')">✏️ Editar</button>
+                <button class="action-btn" title="Archivar">📦</button>
+                <button class="action-btn" title="Ver Transacciones">👁️</button>
+              </div>
+            </div>
+
+            <!-- Card: Salud -->
+            <div style="background: var(--bg-secondary); border-radius: 12px; padding: 1.25rem; border: 1px solid var(--border); position: relative; transition: all 0.2s ease;">
+              <button class="action-btn" style="position: absolute; top: 0.75rem; right: 0.75rem; font-size: 1.25rem; opacity: 0.3;">☆</button>
+              <div style="display: flex; align-items: center; gap: 1rem; margin-bottom: 1rem;">
+                <div style="width: 56px; height: 56px; border-radius: 12px; background: #EF444420; display: flex; align-items: center; justify-content: center; font-size: 1.75rem; border-left: 4px solid #EF4444;">
+                  💊
+                </div>
+                <div>
+                  <div style="font-weight: 600; font-size: 1.1rem;">Salud</div>
+                  <div style="font-size: 0.8rem; color: var(--text-secondary);">3 subcategorías</div>
+                </div>
+              </div>
+              <div style="display: flex; justify-content: space-between; align-items: center; padding-top: 1rem; border-top: 1px solid var(--border);">
+                <div>
+                  <div style="font-size: 0.75rem; color: var(--text-secondary);">Este mes</div>
+                  <div style="font-weight: 600; color: #EF4444; font-size: 1.1rem;">-$1,500.00</div>
+                </div>
+                <div style="text-align: right;">
+                  <div style="font-size: 0.75rem; color: var(--text-secondary);">Transacciones</div>
+                  <div style="font-weight: 500;">8</div>
+                </div>
+              </div>
+              <div style="display: flex; gap: 0.5rem; margin-top: 1rem;">
+                <button class="btn btn-secondary btn-sm" style="flex: 1;" onclick="openModal('editCategoryModal')">✏️ Editar</button>
+                <button class="action-btn" title="Archivar">📦</button>
+                <button class="action-btn" title="Ver Transacciones">👁️</button>
+              </div>
+            </div>
+
+            <!-- Card: Vivienda -->
+            <div style="background: var(--bg-secondary); border-radius: 12px; padding: 1.25rem; border: 1px solid var(--border); position: relative; transition: all 0.2s ease;">
+              <button class="action-btn" style="position: absolute; top: 0.75rem; right: 0.75rem; font-size: 1.25rem; opacity: 0.3;">☆</button>
+              <div style="display: flex; align-items: center; gap: 1rem; margin-bottom: 1rem;">
+                <div style="width: 56px; height: 56px; border-radius: 12px; background: #EC489920; display: flex; align-items: center; justify-content: center; font-size: 1.75rem; border-left: 4px solid #EC4899;">
+                  🏠
+                </div>
+                <div>
+                  <div style="font-weight: 600; font-size: 1.1rem;">Vivienda</div>
+                  <div style="font-size: 0.8rem; color: var(--text-secondary);">7 subcategorías</div>
+                </div>
+              </div>
+              <div style="display: flex; justify-content: space-between; align-items: center; padding-top: 1rem; border-top: 1px solid var(--border);">
+                <div>
+                  <div style="font-size: 0.75rem; color: var(--text-secondary);">Este mes</div>
+                  <div style="font-weight: 600; color: #EF4444; font-size: 1.1rem;">-$8,000.00</div>
+                </div>
+                <div style="text-align: right;">
+                  <div style="font-size: 0.75rem; color: var(--text-secondary);">Transacciones</div>
+                  <div style="font-weight: 500;">12</div>
+                </div>
+              </div>
+              <div style="display: flex; gap: 0.5rem; margin-top: 1rem;">
+                <button class="btn btn-secondary btn-sm" style="flex: 1;" onclick="openModal('editCategoryModal')">✏️ Editar</button>
+                <button class="action-btn" title="Archivar">📦</button>
+                <button class="action-btn" title="Ver Transacciones">👁️</button>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </main>
