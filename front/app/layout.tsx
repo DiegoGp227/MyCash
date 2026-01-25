@@ -37,7 +37,7 @@ export default function RootLayout({
         <div
           className="fixed inset-0 -z-10 dark:opacity-100 opacity-0 transition-opacity duration-300"
           style={{
-            background: 'linear-gradient(135deg, #000000 0%, #1a0a28 50%, #3d2663 100%)',
+            background: 'var(--color-dark-purple-bg)',
           }}
         />
 

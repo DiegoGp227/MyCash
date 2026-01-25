@@ -39,6 +39,10 @@
   /* Font family */
   --font-family-sans: var(--font-assistant), Arial, Helvetica, sans-serif;
   --font-family-assistant: var(--font-assistant), Arial, Helvetica, sans-serif;
+
+  --color-blue-bg: #090715;
+  --color-dark-purple-bg: #0d0b17;
+  --color-light-purple-bg: #141122;
 }
 
 @import "react-vertical-timeline-component/style.min.css";
@@ -58,7 +62,9 @@ html {
   padding: 8px 10px;
   border-radius: 2px;
   outline: none;
-  transition: border-color 0.25s ease, box-shadow 0.25s ease,
+  transition:
+    border-color 0.25s ease,
+    box-shadow 0.25s ease,
     transform 0.15s ease;
 }
 
