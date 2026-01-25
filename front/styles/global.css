@@ -17,12 +17,12 @@
   --color-primary-purple-hover: #6d28d9;
   --color-primary-purple-soft: #ede9fe;
 
-  /* Dark mode colors */
-  --color-dark-bg: #121212;
-  --color-dark-surface: #1a1a1e;
-  --color-dark-border: #2a2a2e;
-  --color-dark-text-main: #e5e7eb;
-  --color-dark-text-secondary: #9ca3af;
+  /* Dark mode colors - Purple theme */
+  --color-dark-bg: #0f0a1a;
+  --color-dark-surface: #1a1225;
+  --color-dark-border: #2d2240;
+  --color-dark-text-main: #e8e4f0;
+  --color-dark-text-secondary: #a09bb0;
 
   /* Light mode colors */
   --color-light-bg: #f6f7fb;

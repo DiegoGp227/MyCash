@@ -23,18 +23,20 @@ model User {
   role      UserRole   @default(USER)
   status    UserStatus @default(ACTIVE)
 
-  cutoffDay Int        @default(1)
+  cutoffDay Int        @default(1) // Validar: 1-31 en app
   currency  String     @default("COP")
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  accounts     Account[]
-  categories   Category[]
-  transactions Transaction[]
-  budgets      Budget[]
-  goals        Goal[]
-  debts        Debt[]
+  accounts      Account[]
+  categories    Category[]
+  subcategories Subcategory[]
+  transactions  Transaction[]
+  transfers     Transfer[]
+  budgets       Budget[]
+  goals         Goal[]
+  debts         Debt[]
 
   @@index([email])
 }
@@ -69,9 +71,12 @@ model Account {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
   
-  transactions Transaction[]
+  transactions  Transaction[]
+  transfersFrom Transfer[] @relation("TransfersFrom")
+  transfersTo   Transfer[] @relation("TransfersTo")
   
   @@index([userId])
+  @@index([isActive])
 }
 
 enum AccountType {
@@ -84,22 +89,46 @@ enum AccountType {
 }
 
 // ========================================
-// CATEGORÍAS
+// CATEGORÍAS (NIVEL 1)
 // ========================================
 
 model Category {
-  id       String          @id @default(cuid())
-  userId   String
-  user     User            @relation(fields: [userId], references: [id], onDelete: Cascade)
+  id     String @id @default(cuid())
+  userId String
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
   
-  name     String
-  color    String
-  icon     String?
-  type     TransactionType
+  name  String
+  color String
+  icon  String?
+  type  TransactionType
   
-  parentId String?
-  parent   Category?  @relation("Subcategories", fields: [parentId], references: [id], onDelete: Cascade)
-  children Category[] @relation("Subcategories")
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  
+  subcategories Subcategory[]
+  transactions  Transaction[]
+  budgets       Budget[]
+  
+  @@unique([userId, name, type])
+  @@index([userId])
+  @@index([type])
+}
+
+// ========================================
+// SUBCATEGORÍAS (NIVEL 2)
+// ========================================
+
+model Subcategory {
+  id         String   @id @default(cuid())
+  userId     String
+  user       User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  
+  categoryId String
+  category   Category @relation(fields: [categoryId], references: [id], onDelete: Cascade)
+  
+  name  String
+  color String?
+  icon  String?
   
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -107,8 +136,9 @@ model Category {
   transactions Transaction[]
   budgets      Budget[]
   
+  @@unique([categoryId, name])
   @@index([userId])
-  @@index([parentId])
+  @@index([categoryId])
 }
 
 // ========================================
@@ -123,18 +153,16 @@ model Transaction {
   accountId   String
   account     Account         @relation(fields: [accountId], references: [id], onDelete: Restrict)
   
-  categoryId  String?
-  category    Category?       @relation(fields: [categoryId], references: [id], onDelete: SetNull)
+  categoryId    String?
+  category      Category?    @relation(fields: [categoryId], references: [id], onDelete: SetNull)
+  
+  subcategoryId String?
+  subcategory   Subcategory? @relation(fields: [subcategoryId], references: [id], onDelete: SetNull)
   
   type        TransactionType
-  amount      Decimal         @db.Decimal(15, 2)
+  amount      Decimal         @db.Decimal(15, 2) // Validar > 0 en app
   description String?
   date        DateTime
-  
-  isTransfer         Boolean      @default(false)
-  relatedTransferId  String?      @unique
-  relatedTransfer    Transaction? @relation("TransferRelation", fields: [relatedTransferId], references: [id], onDelete: SetNull)
-  inverseTransfer    Transaction? @relation("TransferRelation")
   
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -142,6 +170,7 @@ model Transaction {
   @@index([userId])
   @@index([accountId])
   @@index([categoryId])
+  @@index([subcategoryId])
   @@index([date])
   @@index([type])
 }
@@ -149,7 +178,34 @@ model Transaction {
 enum TransactionType {
   INCOME
   EXPENSE
-  TRANSFER
+}
+
+// ========================================
+// TRANSFERENCIAS
+// ========================================
+
+model Transfer {
+  id              String   @id @default(cuid())
+  userId          String
+  user            User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  
+  fromAccountId   String
+  fromAccount     Account  @relation("TransfersFrom", fields: [fromAccountId], references: [id], onDelete: Restrict)
+  
+  toAccountId     String
+  toAccount       Account  @relation("TransfersTo", fields: [toAccountId], references: [id], onDelete: Restrict)
+  
+  amount          Decimal  @db.Decimal(15, 2) // Validar > 0 en app
+  description     String?
+  date            DateTime
+  
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  
+  @@index([userId])
+  @@index([fromAccountId])
+  @@index([toAccountId])
+  @@index([date])
 }
 
 // ========================================
@@ -157,20 +213,31 @@ enum TransactionType {
 // ========================================
 
 model Budget {
-  id         String   @id @default(cuid())
-  userId     String
-  user       User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  id     String @id @default(cuid())
+  userId String
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
   
-  categoryId String
-  category   Category @relation(fields: [categoryId], references: [id], onDelete: Cascade)
+  // Puede tener categoría O subcategoría (nunca ambas)
+  categoryId    String?
+  category      Category?    @relation(fields: [categoryId], references: [id], onDelete: Cascade)
   
-  amount     Decimal  @db.Decimal(15, 2)
+  subcategoryId String?
+  subcategory   Subcategory? @relation(fields: [subcategoryId], references: [id], onDelete: Cascade)
+  
+  amount Decimal @db.Decimal(15, 2) // Validar > 0 en app
+  month  Int     // 1-12, validar en app
+  year   Int     // Validar >= año actual en app
   
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
   
-  @@unique([userId, categoryId])
+  // Un presupuesto por categoría/mes O subcategoría/mes
+  @@unique([userId, categoryId, month, year])
+  @@unique([userId, subcategoryId, month, year])
   @@index([userId])
+  @@index([categoryId])
+  @@index([subcategoryId])
+  @@index([year, month])
 }
 
 // ========================================
@@ -183,8 +250,8 @@ model Goal {
   user          User       @relation(fields: [userId], references: [id], onDelete: Cascade)
   
   name          String
-  targetAmount  Decimal    @db.Decimal(15, 2)
-  currentAmount Decimal    @default(0) @db.Decimal(15, 2)
+  targetAmount  Decimal    @db.Decimal(15, 2) // Validar > 0 en app
+  // NO guardar currentAmount - calcular desde Contribution
   
   startDate     DateTime   @default(now())
   endDate       DateTime?
@@ -212,12 +279,13 @@ model Contribution {
   goalId String
   goal   Goal     @relation(fields: [goalId], references: [id], onDelete: Cascade)
   
-  amount Decimal  @db.Decimal(15, 2)
+  amount Decimal  @db.Decimal(15, 2) // Validar > 0 en app
   note   String?
   
   createdAt DateTime @default(now())
   
   @@index([goalId])
+  @@index([createdAt])
 }
 
 // ========================================
@@ -231,12 +299,13 @@ model Debt {
   
   name            String
   creditor        String
-  totalAmount     Decimal    @db.Decimal(15, 2)
-  remainingAmount Decimal    @db.Decimal(15, 2)
+  totalAmount     Decimal    @db.Decimal(15, 2) // Validar > 0 en app
+  remainingAmount Decimal    @db.Decimal(15, 2) // Validar >= 0 en app
+  interestRate    Decimal?   @db.Decimal(5, 2)  // Porcentaje anual (ej: 15.50)
   
   startDate       DateTime   @default(now())
   dueDate         DateTime?
-  paymentDay      Int?
+  paymentDay      Int?       // 1-31, validar según mes en app
   
   status          DebtStatus @default(ACTIVE)
   notes           String?
@@ -248,6 +317,7 @@ model Debt {
   
   @@index([userId])
   @@index([status])
+  @@index([dueDate])
 }
 
 enum DebtStatus {
@@ -261,11 +331,12 @@ model Payment {
   debtId String
   debt   Debt     @relation(fields: [debtId], references: [id], onDelete: Cascade)
   
-  amount Decimal  @db.Decimal(15, 2)
+  amount Decimal  @db.Decimal(15, 2) // Validar > 0 en app
   note   String?
   
   paidAt    DateTime @default(now())
   createdAt DateTime @default(now())
   
   @@index([debtId])
+  @@index([paidAt])
 }
