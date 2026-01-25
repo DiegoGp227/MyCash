@@ -72,7 +72,7 @@ export default function Sidebar() {
                   className="
                     flex items-center gap-3 px-4 py-3 transition-colors
                     text-light-text-main dark:text-dark-text-main
-                    hover:bg-primary-purple-soft dark:hover:bg-dark-border
+                     hover:bg-gray-bg dark:hover:bg-light-purple-bg
                   "
                 >
                   <Icon className="w-6 h-6 shrink-0 text-primary-purple" />
@@ -92,7 +92,7 @@ export default function Sidebar() {
                 className="
                   flex items-center gap-3 px-4 py-3 w-full transition-colors
                   text-light-text-main dark:text-dark-text-main
-                  hover:bg-primary-purple-soft dark:hover:bg-dark-border
+                   hover:bg-gray-bg dark:hover:bg-light-purple-bg
                 "
               >
                 {isDark ? (
@@ -113,7 +113,7 @@ export default function Sidebar() {
                 className="
                   flex items-center gap-3 px-4 py-3 transition-colors
                   text-light-text-main dark:text-dark-text-main
-                  hover:bg-primary-purple-soft dark:hover:bg-dark-border
+                  hover:bg-gray-bg dark:hover:bg-light-purple-bg
                 "
               >
                 <Settings className="w-6 h-6 shrink-0 text-primary-purple" />

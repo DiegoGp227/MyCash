@@ -25,8 +25,8 @@
   --color-dark-text-secondary: #a09bb0;
 
   /* Light mode colors */
-  --color-light-bg: #f6f7fb;
-  --color-light-surface: #ffffff;
+  --color-light-bg: #f3f0ff;
+  --color-light-surface: #f5f3ff;
   --color-light-border: #e5e7eb;
   --color-light-text-main: #111827;
   --color-light-text-secondary: #4b5563;
@@ -43,6 +43,10 @@
   --color-blue-bg: #090715;
   --color-dark-purple-bg: #0d0b17;
   --color-light-purple-bg: #141122;
+
+  --color-purple-bg: #f3f0ff;
+  --color-gray-bg: #f5f6fa;
+  --color-whithe-bg: #141122;
 }
 
 @import "react-vertical-timeline-component/style.min.css";

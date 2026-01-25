@@ -52,7 +52,7 @@ export default function IncomeDistributionChart({
   const dataWithTotal = data.map((item) => ({ ...item, total }));
 
   return (
-    <div className="flex-1 min-w-[300px] rounded-lg border-2 bg-light-bg p-6 shadow-md dark:bg-black border-primary-purple">
+    <div className="flex-1 min-w-[300px] rounded-lg border-2 bg-gray-bg p-6 shadow-md dark:bg-black border-primary-purple">
       <h3 className="mb-4 text-lg font-semibold text-gray-800 dark:text-gray-200">
         Distribución de Ingresos
       </h3>

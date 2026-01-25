@@ -27,11 +27,11 @@ export default function RootLayout({
         className={`${assistant.variable} antialiased w-full min-h-screen flex relative
         text-light-text-main dark:text-dark-text-main`}
       >
-        {/* Degradado diagonal suave para toda la aplicación */}
+        {/* Fondo de la aplicación */}
         <div
-          className="fixed inset-0 -z-10"
+          className="fixed inset-0 -z-10 transition-colors duration-300"
           style={{
-            background: 'linear-gradient(135deg, #f5f5f5 0%, #ddd6fe 40%, #8b5cf6 100%)',
+            background: 'var(--color-purple-bg)',
           }}
         />
         <div
