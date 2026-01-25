@@ -1,3 +1,4 @@
+import { Request } from "express";
 import { AuthPayload } from "../middlewares/auth.middleware";
 
 declare global {
@@ -8,4 +9,8 @@ declare global {
   }
 }
 
-export {};
+export interface AuthenticatedRequest extends Request {
+  user: AuthPayload;
+}
+
+export { AuthPayload };

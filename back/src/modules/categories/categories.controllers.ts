@@ -1,7 +1,6 @@
 import { Request, Response } from "express";
 import { ValidationError } from "../../errors/400Errors.js";
 import { AppError, InternalServerError } from "../../errors/appError.js";
-import { AuthenticatedRequest } from "../../middlewares/auth.middleware.js";
 import {
   createCategorySchema,
   updateCategorySchema,
@@ -26,7 +25,7 @@ export const createCategoryController = async (
   res: Response
 ): Promise<void> => {
   try {
-    const { id: userId } = (req as AuthenticatedRequest).user;
+    const { id: userId } = req.user!;
 
     const validation = createCategorySchema.safeParse(req.body);
 
@@ -70,7 +69,7 @@ export const getCategoriesController = async (
   res: Response
 ): Promise<void> => {
   try {
-    const { id: userId } = (req as AuthenticatedRequest).user;
+    const { id: userId } = req.user!;
 
     const categories = await getCategories(userId);
 
@@ -98,7 +97,7 @@ export const getCategoryByIdController = async (
   res: Response
 ): Promise<void> => {
   try {
-    const { id: userId } = (req as AuthenticatedRequest).user;
+    const { id: userId } = req.user!;
 
     const paramsValidation = categoryIdSchema.safeParse(req.params);
 
@@ -140,7 +139,7 @@ export const updateCategoryController = async (
   res: Response
 ): Promise<void> => {
   try {
-    const { id: userId } = (req as AuthenticatedRequest).user;
+    const { id: userId } = req.user!;
 
     const paramsValidation = categoryIdSchema.safeParse(req.params);
 
@@ -201,7 +200,7 @@ export const deleteCategoryController = async (
   res: Response
 ): Promise<void> => {
   try {
-    const { id: userId } = (req as AuthenticatedRequest).user;
+    const { id: userId } = req.user!;
 
     const paramsValidation = categoryIdSchema.safeParse(req.params);
 
