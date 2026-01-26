@@ -77,7 +77,7 @@ export const validateUser = async (
   const user = {
     id: existingUser.id,
     name: existingUser.name,
-    userName: existingUser.username,
+    username: existingUser.username,
     email: existingUser.email,
     role: existingUser.role,
     status: existingUser.status,

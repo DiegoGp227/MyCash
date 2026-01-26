@@ -16,9 +16,13 @@ export interface ICreateUser {
 
 export interface IUserResponse {
   id: string;
+  name: string;
+  username: string;
   email: string;
   role: UserRole;
   status: UserStatus;
   createdAt: Date;
   updatedAt: Date;
+  currency: string;
+  cutoffDay: number;
 }
