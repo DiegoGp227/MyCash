@@ -17,7 +17,7 @@ export interface ICreateUser {
 export interface IUserResponse {
   id: string;
   name: string;
-  username: string;
+  username: string | null;
   email: string;
   role: UserRole;
   status: UserStatus;

@@ -15,7 +15,7 @@ export interface ICreateUserRequest {
 export interface IUserInfo {
   id: string;
   name: string;
-  userName: string;
+  userName: string | null;
   email: string;
   role: string;
   status: string;
