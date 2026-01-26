@@ -33,12 +33,16 @@ export const signup = async (req: Request, res: Response): Promise<void> => {
       message: "User successfully created",
       token,
       userInfo: {
-        userId: user.id,
+        id: user.id,
+        name: user.name,
+        userName: user.username,
         email: user.email,
         role: user.role,
         status: user.status,
         createdAt: user.createdAt,
         updatedAt: user.updatedAt,
+        currency: user.currency,
+        cutoffDay: user.cutoffDay,
       },
     });
   } catch (error) {
@@ -81,12 +85,16 @@ export const login = async (req: Request, res: Response): Promise<void> => {
       message: "Login successful",
       token,
       userInfo: {
-        userId: user.id,
+        id: user.id,
+        name: user.name,
+        userName: user.userName,
         email: user.email,
         role: user.role,
         status: user.status,
         createdAt: user.createdAt,
         updatedAt: user.updatedAt,
+        currency: user.currency,
+        cutoffDay: user.cutoffDay,
       },
     });
   } catch (error) {

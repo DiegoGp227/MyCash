@@ -8,7 +8,7 @@ import {
 } from "../../errors/businessErrors";
 
 export const createUser = async (
-  userData: ICreateUser
+  userData: ICreateUser,
 ): Promise<{ user: IUserResponse; token: string }> => {
   const existingUser = await prisma.user.findUnique({
     where: { email: userData.email },
@@ -32,6 +32,10 @@ export const createUser = async (
     select: {
       id: true,
       email: true,
+      name: true,
+      username: true,
+      currency: true,
+      cutoffDay: true,
       role: true,
       status: true,
       createdAt: true,
@@ -44,14 +48,14 @@ export const createUser = async (
     process.env.JWT_SECRET || "default_secret",
     {
       expiresIn: (process.env.TOKEN_EXPIRATION || "1h") as string,
-    } as SignOptions
+    } as SignOptions,
   );
 
   return { user, token };
 };
 
 export const validateUser = async (
-  userData: IloginUser
+  userData: IloginUser,
 ): Promise<{ user: IUserResponse; token: string }> => {
   const existingUser = await prisma.user.findUnique({
     where: { email: userData.email },
@@ -63,7 +67,7 @@ export const validateUser = async (
 
   const isPasswordValid = await bcrypt.compare(
     userData.password,
-    existingUser.password
+    existingUser.password,
   );
 
   if (!isPasswordValid) {
@@ -88,7 +92,7 @@ export const validateUser = async (
     process.env.JWT_SECRET || "default_secret",
     {
       expiresIn: (process.env.TOKEN_EXPIRATION || "1h") as string,
-    } as SignOptions
+    } as SignOptions,
   );
 
   return { user, token };

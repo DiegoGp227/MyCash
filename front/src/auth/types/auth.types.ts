@@ -13,12 +13,16 @@ export interface ICreateUserRequest {
 }
 
 export interface IUserInfo {
-  userId: string;
+  id: string;
+  name: string;
+  userName: string;
   email: string;
   role: string;
   status: string;
   createdAt: string;
-  updatedAt: string; 
+  updatedAt: string;
+  currency: string;
+  cutoffDay: number;
 }
 
 export interface IAuthResponse {
