@@ -11,6 +11,7 @@ export interface ICategory {
   type: CategoryType;
   createdAt: string;
   updatedAt: string;
+  subcategoriesCount: number;
 }
 
 // Para crear una categoría (POST)

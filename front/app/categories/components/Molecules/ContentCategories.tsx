@@ -30,17 +30,15 @@ export default function ContentCategories({ type }: IContentCategoriesProps) {
       {categories.map((category) => (
         <CategoryCard
           titleCategory={category.name}
-
-
-          subCategoriesNumber={4}
+          subCategoriesNumber={category.subcategoriesCount}
         />
       ))}
+      {/* <CategoryCard subCategoriesNumber={3} titleCategory="Salario" />
       <CategoryCard subCategoriesNumber={4} titleCategory="Salario" />
       <CategoryCard subCategoriesNumber={4} titleCategory="Salario" />
       <CategoryCard subCategoriesNumber={4} titleCategory="Salario" />
       <CategoryCard subCategoriesNumber={4} titleCategory="Salario" />
-      <CategoryCard subCategoriesNumber={4} titleCategory="Salario" />
-      <CategoryCard subCategoriesNumber={4} titleCategory="Salario" />
+      <CategoryCard subCategoriesNumber={4} titleCategory="Salario" /> */}
     </div>
   );
 }

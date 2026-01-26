@@ -72,11 +72,15 @@ export const validateUser = async (
 
   const user = {
     id: existingUser.id,
+    name: existingUser.name,
+    userName: existingUser.username,
     email: existingUser.email,
     role: existingUser.role,
     status: existingUser.status,
     createdAt: existingUser.createdAt,
+    currency: existingUser.currency,
     updatedAt: existingUser.updatedAt,
+    cutoffDay: existingUser.cutoffDay,
   };
 
   const token = jwt.sign(
