@@ -22,7 +22,7 @@ const categorySelect = {
 
 export const createCategory = async (
   userId: string,
-  data: ICreateCategory
+  data: ICreateCategory,
 ): Promise<ICategoryResponse> => {
   const existingCategory = await prisma.category.findUnique({
     where: {
@@ -52,28 +52,48 @@ export const createCategory = async (
     select: categorySelect,
   });
 
-  return category;
+  return {
+    ...category,
+    subcategoriesCount: 0,
+  };
 };
+
 
 export const getCategories = async (
   userId: string,
-  type?: "INCOME" | "EXPENSE"
+  type?: "INCOME" | "EXPENSE",
 ): Promise<ICategoryResponse[]> => {
   const categories = await prisma.category.findMany({
     where: {
       userId,
       ...(type && { type }),
     },
-    select: categorySelect,
+    select: {
+      ...categorySelect,
+      _count: {
+        select: {
+          subcategories: true,
+        },
+      },
+    },
     orderBy: { name: "asc" },
   });
 
-  return categories;
+  return categories.map(category => ({
+    id: category.id,
+    name: category.name,
+    color: category.color,
+    icon: category.icon,
+    type: category.type,
+    createdAt: category.createdAt,
+    updatedAt: category.updatedAt,
+    subcategoriesCount: category._count.subcategories,
+  }));
 };
 
 export const getCategoryById = async (
   userId: string,
-  categoryId: string
+  categoryId: string,
 ): Promise<ICategoryResponse> => {
   const category = await prisma.category.findUnique({
     where: { id: categoryId },
@@ -88,14 +108,18 @@ export const getCategoryById = async (
     throw new ForbiddenError("You don't have access to this category");
   }
 
-  const { userId: _, ...categoryData } = category;
-  return categoryData;
+  const { userId: _, ...data } = category;
+
+  return {
+    ...data,
+    subcategoriesCount: 0,
+  };
 };
 
 export const updateCategory = async (
   userId: string,
   categoryId: string,
-  data: IUpdateCategory
+  data: IUpdateCategory,
 ): Promise<ICategoryResponse> => {
   const category = await prisma.category.findUnique({
     where: { id: categoryId },
@@ -135,12 +159,16 @@ export const updateCategory = async (
     select: categorySelect,
   });
 
-  return updatedCategory;
+  return {
+    ...updatedCategory,
+    subcategoriesCount: 0,
+  };
 };
+
 
 export const deleteCategory = async (
   userId: string,
-  categoryId: string
+  categoryId: string,
 ): Promise<void> => {
   const category = await prisma.category.findUnique({
     where: { id: categoryId },

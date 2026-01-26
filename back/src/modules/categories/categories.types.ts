@@ -21,4 +21,5 @@ export interface ICategoryResponse {
   type: TransactionType;
   createdAt: Date;
   updatedAt: Date;
+  subcategoriesCount: number;
 }
