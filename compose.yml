@@ -2,7 +2,7 @@ services:
   postgres:
     image: postgres:17-alpine
     container_name: mycash_postgres
-    restart: always
+    restart: unless-stopped
     ports:
       - "${POSTGRES_PORT}:5432"
     environment:
@@ -24,7 +24,7 @@ services:
       context: ./back
       dockerfile: Dockerfile
     container_name: mycash_backend
-    restart: always
+    restart: unless-stopped
     depends_on:
       postgres:
         condition: service_healthy
@@ -43,7 +43,7 @@ services:
       context: ./front
       dockerfile: Dockerfile
     container_name: mycash_frontend
-    restart: always
+    restart: unless-stopped
     depends_on:
       - backend
     environment:
