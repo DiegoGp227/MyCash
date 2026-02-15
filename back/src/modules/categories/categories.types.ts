@@ -19,6 +19,8 @@ export interface ICategoryResponse {
   color: string;
   icon: string | null;
   type: TransactionType;
+  isActive: boolean;
+  deletedAt: Date | null;
   createdAt: Date;
   updatedAt: Date;
   subcategoriesCount: number;

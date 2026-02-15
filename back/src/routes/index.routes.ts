@@ -23,5 +23,5 @@ router.post("/login", login);
 router.post("/categories", authMiddleware, createCategoryController);
 router.get("/categories", authMiddleware, getCategoriesController);
 router.get("/categories/:id", authMiddleware, getCategoryByIdController);
-router.put("/categories/:id", authMiddleware, updateCategoryController);
+router.patch("/categories/:id", authMiddleware, updateCategoryController);
 router.delete("/categories/:id", authMiddleware, deleteCategoryController);

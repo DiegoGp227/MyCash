@@ -144,7 +144,7 @@ export const getCategoryByIdController = async (
 };
 
 /**
- * @route PUT /categories/:id
+ * @route PATCH /categories/:id
  * @body { name?, color?, icon? }
  * @returns { message, category }
  * @requires Authentication

@@ -2,7 +2,6 @@ import prisma from "../../db/prisma.js";
 import {
   ResourceAlreadyExistsError,
   NotFoundError,
-  ForbiddenError,
 } from "../../errors/400Errors.js";
 import {
   ICreateCategory,
@@ -16,6 +15,8 @@ const categorySelect = {
   color: true,
   icon: true,
   type: true,
+  isActive: true,
+  deletedAt: true,
   createdAt: true,
   updatedAt: true,
 };
@@ -24,13 +25,12 @@ export const createCategory = async (
   userId: string,
   data: ICreateCategory,
 ): Promise<ICategoryResponse> => {
-  const existingCategory = await prisma.category.findUnique({
+  const existingCategory = await prisma.category.findFirst({
     where: {
-      userId_name_type: {
-        userId,
-        name: data.name,
-        type: data.type,
-      },
+      userId,
+      name: data.name,
+      type: data.type,
+      isActive: true,
     },
   });
 
@@ -66,13 +66,16 @@ export const getCategories = async (
   const categories = await prisma.category.findMany({
     where: {
       userId,
+      isActive: true,
       ...(type && { type }),
     },
     select: {
       ...categorySelect,
       _count: {
         select: {
-          subcategories: true,
+          subcategories: {
+            where: { isActive: true },
+          },
         },
       },
     },
@@ -85,6 +88,8 @@ export const getCategories = async (
     color: category.color,
     icon: category.icon,
     type: category.type,
+    isActive: category.isActive,
+    deletedAt: category.deletedAt,
     createdAt: category.createdAt,
     updatedAt: category.updatedAt,
     subcategoriesCount: category._count.subcategories,
@@ -95,17 +100,13 @@ export const getCategoryById = async (
   userId: string,
   categoryId: string,
 ): Promise<ICategoryResponse> => {
-  const category = await prisma.category.findUnique({
-    where: { id: categoryId },
+  const category = await prisma.category.findFirst({
+    where: { id: categoryId, isActive: true },
     select: { ...categorySelect, userId: true },
   });
 
-  if (!category) {
+  if (!category || category.userId !== userId) {
     throw new NotFoundError("Category");
-  }
-
-  if (category.userId !== userId) {
-    throw new ForbiddenError("You don't have access to this category");
   }
 
   const { userId: _, ...data } = category;
@@ -121,27 +122,22 @@ export const updateCategory = async (
   categoryId: string,
   data: IUpdateCategory,
 ): Promise<ICategoryResponse> => {
-  const category = await prisma.category.findUnique({
-    where: { id: categoryId },
+  const category = await prisma.category.findFirst({
+    where: { id: categoryId, isActive: true },
     select: { userId: true, name: true, type: true },
   });
 
-  if (!category) {
+  if (!category || category.userId !== userId) {
     throw new NotFoundError("Category");
   }
 
-  if (category.userId !== userId) {
-    throw new ForbiddenError("You don't have access to this category");
-  }
-
   if (data.name && data.name !== category.name) {
-    const existingCategory = await prisma.category.findUnique({
+    const existingCategory = await prisma.category.findFirst({
       where: {
-        userId_name_type: {
-          userId,
-          name: data.name,
-          type: category.type,
-        },
+        userId,
+        name: data.name,
+        type: category.type,
+        isActive: true,
       },
     });
 
@@ -170,20 +166,25 @@ export const deleteCategory = async (
   userId: string,
   categoryId: string,
 ): Promise<void> => {
-  const category = await prisma.category.findUnique({
-    where: { id: categoryId },
+  const category = await prisma.category.findFirst({
+    where: { id: categoryId, isActive: true },
     select: { userId: true },
   });
 
-  if (!category) {
+  if (!category || category.userId !== userId) {
     throw new NotFoundError("Category");
   }
 
-  if (category.userId !== userId) {
-    throw new ForbiddenError("You don't have access to this category");
-  }
+  const now = new Date();
 
-  await prisma.category.delete({
-    where: { id: categoryId },
-  });
+  await prisma.$transaction([
+    prisma.subcategory.updateMany({
+      where: { categoryId, isActive: true },
+      data: { isActive: false, deletedAt: now },
+    }),
+    prisma.category.update({
+      where: { id: categoryId },
+      data: { isActive: false, deletedAt: now },
+    }),
+  ]);
 };

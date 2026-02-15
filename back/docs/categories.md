@@ -23,6 +23,9 @@ model Category {
   icon  String?
   type  TransactionType  // INCOME | EXPENSE
 
+  isActive  Boolean   @default(true)
+  deletedAt DateTime?
+
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
@@ -33,6 +36,7 @@ model Category {
   @@unique([userId, name, type])
   @@index([userId])
   @@index([type])
+  @@index([userId, isActive])
 }
 ```
 
@@ -40,7 +44,16 @@ model Category {
 - `@@unique([userId, name, type])` - Un usuario no puede tener dos categorias con el mismo nombre y tipo.
 - `onDelete: Cascade` - Si se elimina el usuario, se eliminan sus categorias.
 - Las transacciones asociadas usan `onDelete: SetNull` (no se eliminan, solo pierden la referencia).
-- Las subcategorias asociadas usan `onDelete: Cascade` (se eliminan junto con la categoria).
+- Las subcategorias se soft-deletean junto con la categoria (gestionado en la aplicacion).
+
+## Soft Delete
+
+Las categorias y subcategorias usan **soft delete** para preservar la clasificacion historica en transacciones:
+
+- Al "eliminar" una categoria, se marca `isActive: false` y se registra `deletedAt`.
+- Las subcategorias asociadas tambien se marcan como inactivas.
+- Todas las consultas filtran por `isActive: true` automaticamente.
+- Las transacciones existentes mantienen su referencia a la categoria/subcategoria.
 
 ## Interfaces
 
@@ -67,6 +80,8 @@ interface ICategoryResponse {
   color: string;
   icon: string | null;
   type: TransactionType;
+  isActive: boolean;
+  deletedAt: Date | null;
   createdAt: Date;
   updatedAt: Date;
   subcategoriesCount: number; // Campo calculado
@@ -96,8 +111,8 @@ Base path: `/api`
 | `POST`   | `/api/categories`      | Crear categoria         | 201    |
 | `GET`    | `/api/categories`      | Listar categorias       | 200    |
 | `GET`    | `/api/categories/:id`  | Obtener por ID          | 200    |
-| `PUT`    | `/api/categories/:id`  | Actualizar categoria    | 200    |
-| `DELETE` | `/api/categories/:id`  | Eliminar categoria      | 200    |
+| `PATCH`  | `/api/categories/:id`  | Actualizar categoria    | 200    |
+| `DELETE` | `/api/categories/:id`  | Eliminar categoria (soft delete) | 200    |
 
 ### POST /api/categories
 
@@ -123,6 +138,8 @@ Crea una nueva categoria.
     "color": "#FF5733",
     "icon": "utensils",
     "type": "EXPENSE",
+    "isActive": true,
+    "deletedAt": null,
     "createdAt": "2026-01-01T00:00:00.000Z",
     "updatedAt": "2026-01-01T00:00:00.000Z",
     "subcategoriesCount": 0
@@ -132,7 +149,7 @@ Crea una nueva categoria.
 
 ### GET /api/categories
 
-Lista todas las categorias del usuario autenticado. Ordenadas por nombre ascendente.
+Lista todas las categorias activas del usuario autenticado. Ordenadas por nombre ascendente.
 
 **Query params:**
 - `type` (opcional): `INCOME` o `EXPENSE`
@@ -147,6 +164,8 @@ Lista todas las categorias del usuario autenticado. Ordenadas por nombre ascende
       "color": "#FF5733",
       "icon": "utensils",
       "type": "EXPENSE",
+      "isActive": true,
+      "deletedAt": null,
       "createdAt": "2026-01-01T00:00:00.000Z",
       "updatedAt": "2026-01-01T00:00:00.000Z",
       "subcategoriesCount": 3
@@ -157,7 +176,7 @@ Lista todas las categorias del usuario autenticado. Ordenadas por nombre ascende
 
 ### GET /api/categories/:id
 
-Obtiene una categoria por su ID.
+Obtiene una categoria activa por su ID.
 
 **Respuesta (200):**
 ```json
@@ -166,7 +185,7 @@ Obtiene una categoria por su ID.
 }
 ```
 
-### PUT /api/categories/:id
+### PATCH /api/categories/:id
 
 Actualiza una categoria. Solo se modifican los campos enviados.
 
@@ -189,7 +208,7 @@ Actualiza una categoria. Solo se modifican los campos enviados.
 
 ### DELETE /api/categories/:id
 
-Elimina una categoria y sus subcategorias asociadas.
+Soft-delete de una categoria y sus subcategorias asociadas. Las transacciones mantienen su referencia.
 
 **Respuesta (200):**
 ```json
@@ -203,16 +222,15 @@ Elimina una categoria y sus subcategorias asociadas.
 | Codigo | Error                        | Cuando                                              |
 |--------|------------------------------|------------------------------------------------------|
 | 401    | `UnauthorizedError`          | No se envio token o es invalido                     |
-| 403    | `ForbiddenError`             | El usuario no es dueno de la categoria              |
-| 404    | `NotFoundError`              | La categoria no existe                              |
-| 409    | `ResourceAlreadyExistsError` | Ya existe una categoria con el mismo nombre y tipo  |
+| 404    | `NotFoundError`              | La categoria no existe o no pertenece al usuario    |
+| 409    | `ResourceAlreadyExistsError` | Ya existe una categoria activa con el mismo nombre y tipo |
 | 422    | `ValidationError`            | Los datos enviados no pasan las validaciones de Zod |
 | 500    | `InternalServerError`        | Error inesperado del servidor                       |
 
 ## Logica de negocio (Services)
 
-- **Crear:** Verifica duplicados por `(userId, name, type)` antes de crear.
-- **Listar:** Filtra por `userId` (obligatorio) y `type` (opcional). Incluye conteo de subcategorias.
-- **Obtener por ID:** Valida existencia y que el usuario sea el dueno.
-- **Actualizar:** Valida propiedad. Si se cambia el nombre, verifica que no exista duplicado.
-- **Eliminar:** Valida existencia y propiedad antes de eliminar.
+- **Crear:** Verifica duplicados entre categorias activas por `(userId, name, type)` antes de crear.
+- **Listar:** Filtra por `userId` y `isActive: true` (obligatorio) y `type` (opcional). Incluye conteo de subcategorias activas.
+- **Obtener por ID:** Valida existencia (activa) y que el usuario sea el dueno. Si no existe o no es del usuario, retorna `NotFoundError`.
+- **Actualizar:** Valida existencia (activa) y propiedad (unificado como `NotFoundError`). Si se cambia el nombre, verifica duplicados entre activas.
+- **Eliminar:** Soft delete. Marca la categoria y sus subcategorias como `isActive: false` con `deletedAt`. Usa transaccion para consistencia.
