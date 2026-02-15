@@ -44,6 +44,7 @@ export function useCategories() {
   const [isLoading, setIsLoading] = useState(false);
   const [isCreating, setIsCreating] = useState(false);
   const [isUpdating, setIsUpdating] = useState(false);
+  const [isDeleting, setIsDeleting] = useState(false);
 
   // Estado de error
   const [error, setError] = useState<string | null>(null);
@@ -93,7 +94,7 @@ export function useCategories() {
   }, []);
 
   /**
-   * PUT - Actualizar una categoría existente
+   * PATCH - Actualizar una categoría existente
    */
   const updateCategory = useCallback(
     async (categoryId: string, data: IUpdateCategory) => {
@@ -123,6 +124,27 @@ export function useCategories() {
   );
 
   /**
+   * DELETE - Eliminar una categoría (soft delete)
+   */
+  const deleteCategory = useCallback(async (categoryId: string) => {
+    setIsDeleting(true);
+    setError(null);
+
+    try {
+      await categoriesService.deleteCategory(categoryId);
+
+      // Remover la categoría del estado local
+      setCategories((prev) => prev.filter((cat) => cat.id !== categoryId));
+    } catch (err) {
+      const errorMessage = err instanceof Error ? err.message : "Error deleting category";
+      setError(errorMessage);
+      throw err;
+    } finally {
+      setIsDeleting(false);
+    }
+  }, []);
+
+  /**
    * Limpiar el error manualmente
    */
   const clearError = useCallback(() => {
@@ -135,12 +157,14 @@ export function useCategories() {
     isLoading,
     isCreating,
     isUpdating,
+    isDeleting,
     error,
 
     // Acciones
     fetchCategories,
     createCategory,
     updateCategory,
+    deleteCategory,
     clearError,
   };
 }

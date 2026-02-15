@@ -15,9 +15,11 @@ export default function ContentCategories({ type }: IContentCategoriesProps) {
     // createCategory,
     // error,
     fetchCategories,
+    deleteCategory,
     // isCreating,
     // isLoading,
     // isUpdating,
+    // isDeleting,
     // updateCategory,
   } = useCategories();
 
@@ -29,8 +31,12 @@ export default function ContentCategories({ type }: IContentCategoriesProps) {
     <div className="flex gap-5 flex-wrap justify-center items-center">
       {categories.map((category) => (
         <CategoryCard
+          key={category.id}
+          id={category.id}
           titleCategory={category.name}
+          color={category.color}
           subCategoriesNumber={category.subcategoriesCount}
+          onDelete={deleteCategory}
         />
       ))}
       {/* <CategoryCard subCategoriesNumber={3} titleCategory="Salario" />

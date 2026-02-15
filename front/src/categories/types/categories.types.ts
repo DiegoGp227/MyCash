@@ -9,6 +9,8 @@ export interface ICategory {
   color: string;
   icon?: string;
   type: CategoryType;
+  isActive: boolean;
+  deletedAt: string | null;
   createdAt: string;
   updatedAt: string;
   subcategoriesCount: number;
@@ -22,7 +24,7 @@ export interface ICreateCategory {
   type: CategoryType;
 }
 
-// Para actualizar una categoría (PUT)
+// Para actualizar una categoría (PATCH)
 export interface IUpdateCategory {
   name?: string;
   color?: string;
@@ -34,7 +36,7 @@ export interface ICategoriesResponse {
   categories: ICategory[];
 }
 
-// Respuesta del POST/PUT /categories
+// Respuesta del POST/PATCH /categories
 export interface ICategoryResponse {
   message: string;
   category: ICategory;

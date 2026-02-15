@@ -1,4 +1,4 @@
-import { fetcher, postFetcher, putFetcher } from "@/utils/utils";
+import { fetcher, postFetcher, patchFetcher, deleteFetcher } from "@/utils/utils";
 import { CategoriesURL } from "@/shared/constants/urls";
 import {
   ICategoriesResponse,
@@ -36,7 +36,7 @@ export const categoriesService = {
   },
 
   /**
-   * PUT /categories/:id
+   * PATCH /categories/:id
    * Actualiza una categoría existente
    */
   async updateCategory(
@@ -44,7 +44,16 @@ export const categoriesService = {
     data: IUpdateCategory
   ): Promise<ICategoryResponse> {
     const url = `${CategoriesURL.toString()}/${categoryId}`;
-    const response = await putFetcher<ICategoryResponse>(url, data);
+    const response = await patchFetcher<ICategoryResponse>(url, data);
     return response;
+  },
+
+  /**
+   * DELETE /categories/:id
+   * Elimina una categoría (soft delete)
+   */
+  async deleteCategory(categoryId: string): Promise<void> {
+    const url = `${CategoriesURL.toString()}/${categoryId}`;
+    await deleteFetcher(url);
   },
 };
