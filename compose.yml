@@ -37,6 +37,7 @@ services:
       - "${BACKEND_PORT}:${BACKEND_PORT}"
     networks:
       - mycash_network
+    command: sh -c "npm run migrate && npm run start"
 
   frontend:
     build:
