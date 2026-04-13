@@ -7,4 +7,10 @@ export const LoginURL = new URL("login", BaseURL);
 
 export const CategoriesURL = new URL("categories", BaseURL);
 
+export const AccountsURL = new URL("accounts", BaseURL);
+
+export const TransactionsURL = new URL("transactions", BaseURL);
+
+export const StatsURL = new URL("stats/summary", BaseURL);
+
 
