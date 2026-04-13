@@ -1,23 +1,87 @@
-import AmountDiv from "./AmountDiv";
+"use client";
 
-export default function GeneralAmount() {
+import { TrendingUp, TrendingDown, Wallet, BarChart2 } from "lucide-react";
+import type { IDashboardSummary } from "@/src/dashboard/types/dashboard.types";
+
+interface GeneralAmountProps {
+  summary: IDashboardSummary | null;
+  isLoading: boolean;
+}
+
+const fmt = (n: number) =>
+  new Intl.NumberFormat("es-CO", {
+    style: "currency",
+    currency: "COP",
+    minimumFractionDigits: 0,
+    maximumFractionDigits: 0,
+  }).format(n);
+
+interface CardProps {
+  title: string;
+  value: string;
+  icon: React.ReactNode;
+  valueColor?: string;
+  sub?: string;
+  subColor?: string;
+}
+
+function StatCard({ title, value, icon, valueColor, sub, subColor }: CardProps) {
   return (
-    <div className="flex w-full justify-center gap-20">
-      <AmountDiv amount={"+$60,250.00"} title="BALANCE TOTAL" />
-      <AmountDiv
-        amount={"+$60,250.00"}
-        title="BALANCE DEL MES"
-        PercentageChange={"↑ +8.5% vs mes anterior "}
+    <div className="flex flex-col gap-2 w-60 min-h-[9rem] p-4 rounded border-2 border-primary-purple bg-gray-bg dark:bg-black">
+      <div className="flex items-center justify-between">
+        <span className="text-xs font-bold uppercase tracking-wider text-hard-gray">{title}</span>
+        <span className="text-primary-purple">{icon}</span>
+      </div>
+      <div className={`text-3xl font-bold ${valueColor ?? "dark:text-white"}`}>{value}</div>
+      {sub && <p className={`text-xs ${subColor ?? "text-hard-gray"}`}>{sub}</p>}
+    </div>
+  );
+}
+
+export default function GeneralAmount({ summary, isLoading }: GeneralAmountProps) {
+  if (isLoading || !summary) {
+    return (
+      <div className="flex w-full justify-center gap-6 flex-wrap">
+        {[...Array(4)].map((_, i) => (
+          <div
+            key={i}
+            className="w-60 min-h-[9rem] p-4 rounded border-2 border-primary-purple/30 bg-gray-bg dark:bg-black animate-pulse"
+          />
+        ))}
+      </div>
+    );
+  }
+
+  const net = summary.netThisMonth;
+  const netPositive = net >= 0;
+
+  return (
+    <div className="flex w-full justify-center gap-6 flex-wrap">
+      <StatCard
+        title="Balance Total"
+        value={fmt(summary.totalBalance)}
+        icon={<Wallet size={20} />}
+        valueColor={summary.totalBalance >= 0 ? "text-green-600 dark:text-green-400" : "text-error"}
       />
-      <AmountDiv
-        amount={"+$60,250.00"}
-        title="INGRESOS DEL MES"
-        PercentageChange={"↓ -5.2% vs mes anterior "}
+      <StatCard
+        title="Balance del Mes"
+        value={`${netPositive ? "+" : ""}${fmt(net)}`}
+        icon={<BarChart2 size={20} />}
+        valueColor={netPositive ? "text-green-600 dark:text-green-400" : "text-error"}
+        sub={netPositive ? "Mes con superávit" : "Mes con déficit"}
+        subColor={netPositive ? "text-green-500" : "text-error"}
       />
-      <AmountDiv
-        amount={"+$60,250.00"}
-        title="GASTOS DEL MES"
-        PercentageChange={"↓ -5.2% vs mes anterior "}
+      <StatCard
+        title="Ingresos del Mes"
+        value={`+${fmt(summary.monthlyIncome)}`}
+        icon={<TrendingUp size={20} />}
+        valueColor="text-green-600 dark:text-green-400"
+      />
+      <StatCard
+        title="Gastos del Mes"
+        value={`-${fmt(summary.monthlyExpenses)}`}
+        icon={<TrendingDown size={20} />}
+        valueColor="text-error"
       />
     </div>
   );
