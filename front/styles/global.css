@@ -15,6 +15,7 @@
   /* Brand / Accent colors */
   --color-primary-purple: #5b21b6;
   --color-primary-purple-hover: #6d28d9;
+  --color-primary-purple-light: #a78bfa;
   --color-primary-purple-soft: #ede9fe;
 
   /* Dark mode colors - Purple theme */
@@ -66,6 +67,9 @@ html {
   padding: 8px 10px;
   border-radius: 2px;
   outline: none;
+  width: 100%;
+  background-color: #ffffff;
+  color: var(--color-light-text-main);
   transition:
     border-color 0.25s ease,
     box-shadow 0.25s ease,
@@ -81,8 +85,31 @@ html {
 .input:focus,
 .input:active {
   border-color: #6d28d9;
-  box-shadow: 0 0 0 3px #6d28d9;
+  box-shadow: 0 0 0 3px rgba(109, 40, 217, 0.3);
   transform: scale(1.01);
+}
+
+/* Dark mode */
+:where(.dark, .dark *) .input {
+  background-color: var(--color-dark-surface);
+  color: var(--color-dark-text-main);
+  border-color: #5b21b6;
+}
+
+:where(.dark, .dark *) .input:hover {
+  border-color: #6d28d9;
+}
+
+:where(.dark, .dark *) .input:focus,
+:where(.dark, .dark *) .input:active {
+  border-color: #6d28d9;
+  box-shadow: 0 0 0 3px rgba(109, 40, 217, 0.4);
+}
+
+/* Select arrow color in dark mode */
+:where(.dark, .dark *) .input option {
+  background-color: var(--color-dark-surface);
+  color: var(--color-dark-text-main);
 }
 
 /* Animations */
@@ -108,6 +135,17 @@ html {
   }
   to {
     transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+@keyframes slideInFromRight {
+  from {
+    transform: translateX(100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
     opacity: 1;
   }
 }

@@ -65,23 +65,31 @@ export default function Sidebar() {
               { label: "Budgets", icon: Calculator, route: "/budgets" },
               { label: "Goals", icon: Goal, route: "/goals" },
               { label: "Debts", icon: Receipt, route: "/debts" },
-            ].map(({ label, icon: Icon, route }) => (
-              <li key={label}>
-                <a
-                  href={route}
-                  className="
-                    flex items-center gap-3 px-4 py-3 transition-colors
-                    text-light-text-main dark:text-dark-text-main
-                     hover:bg-gray-bg dark:hover:bg-light-purple-bg
-                  "
-                >
-                  <Icon className="w-6 h-6 shrink-0 text-primary-purple" />
-                  <span className="whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                    {label}
-                  </span>
-                </a>
-              </li>
-            ))}
+            ].map(({ label, icon: Icon, route }) => {
+              const isActive =
+                route === "/" ? pathname === "/" : pathname.startsWith(route);
+              return (
+                <li key={label}>
+                  <a
+                    href={route}
+                    className={`
+                      flex items-center gap-3 px-4 py-3 transition-colors
+                      ${isActive
+                        ? "bg-primary-purple text-white dark:text-white border-r-4 border-primary-purple-hover"
+                        : "text-light-text-main dark:text-dark-text-main hover:bg-gray-bg dark:hover:bg-light-purple-bg"
+                      }
+                    `}
+                  >
+                    <Icon
+                      className={`w-6 h-6 shrink-0 ${isActive ? "text-white" : "text-primary-purple"}`}
+                    />
+                    <span className="whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                      {label}
+                    </span>
+                  </a>
+                </li>
+              );
+            })}
           </div>
 
           {/* Parte inferior */}
