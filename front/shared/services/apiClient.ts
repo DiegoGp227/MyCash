@@ -21,7 +21,14 @@ apiClient.interceptors.request.use((config) => {
 apiClient.interceptors.response.use(
   (response) => response,
   (error: AxiosError) => {
-    console.error("API Error:", error);
+    // Si el token expiró o es inválido, limpiar sesión y redirigir al login
+    if (error.response?.status === 401) {
+      localStorage.removeItem("token");
+      localStorage.removeItem("userInfo");
+      document.cookie =
+        "token=; path=/; expires=Thu, 01 Jan 1970 00:00:00 GMT; SameSite=Strict";
+      window.location.href = "/auth";
+    }
     return Promise.reject(error);
   }
 );

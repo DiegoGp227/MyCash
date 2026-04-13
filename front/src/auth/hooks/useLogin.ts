@@ -4,6 +4,7 @@ import { useCallback, useState } from "react";
 import { ICredentials } from "../types/auth.types";
 import { parseAuthError } from "@/utils/parseAuthError";
 import { authService } from "../services/authServices";
+import { saveAuthToken } from "../utils/authToken";
 
 export function useLogin() {
   const [isLoading, setIsLoading] = useState<boolean>(false);
@@ -19,7 +20,7 @@ export function useLogin() {
         const response = await authService.login(credentials);
 
         if (response?.token) {
-          localStorage.setItem("token", response.token);
+          saveAuthToken(response.token);
           localStorage.setItem("userInfo", JSON.stringify(response.userInfo));
           setAuth(response);
           router.push("/");

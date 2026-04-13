@@ -4,6 +4,7 @@ import { parseAuthError } from "@/utils/parseAuthError";
 import { ICreateUserRequest } from "../types/auth.types";
 import { authService } from "../services/authServices";
 import { useRouter } from "next/navigation";
+import { saveAuthToken } from "../utils/authToken";
 
 export function useSignUp() {
   const [isLoading, setIsLoading] = useState<boolean>(false);
@@ -19,7 +20,7 @@ export function useSignUp() {
         const response = await authService.signUp(credentials);
 
         if (response?.token) {
-          localStorage.setItem("token", response.token);
+          saveAuthToken(response.token);
           localStorage.setItem("userInfo", JSON.stringify(response.userInfo));
           setAuth(response);
           router.push("/");
