@@ -14,6 +14,7 @@ import {
 } from "lucide-react";
 import { useEffect, useState } from "react";
 import { usePathname } from "next/navigation";
+import UserMenu from "../molecules/UserMenu";
 
 export default function Sidebar() {
   const [isDark, setIsDark] = useState(false);
@@ -117,7 +118,7 @@ export default function Sidebar() {
 
             <li>
               <a
-                href=""
+                href="/settings"
                 className="
                   flex items-center gap-3 px-4 py-3 transition-colors
                   text-light-text-main dark:text-dark-text-main
@@ -126,9 +127,13 @@ export default function Sidebar() {
               >
                 <Settings className="w-6 h-6 shrink-0 text-primary-purple" />
                 <span className="whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                  Configuración
+                  Settings
                 </span>
               </a>
+            </li>
+
+            <li>
+              <UserMenu />
             </li>
           </div>
         </ul>

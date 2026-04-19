@@ -10,11 +10,13 @@ export default function LayoutContent({
 }) {
   const pathname = usePathname();
   const isAuthPage = pathname === "/auth";
+  const isOnboardingPage = pathname.startsWith("/onboarding");
+  const showSidebar = !isAuthPage && !isOnboardingPage;
 
   return (
     <>
-      <Sidebar />
-      <div className={`w-full ${!isAuthPage ? "ml-14" : ""}`}>{children}</div>
+      {showSidebar && <Sidebar />}
+      <div className={`w-full ${showSidebar ? "ml-14" : ""}`}>{children}</div>
     </>
   );
 }
