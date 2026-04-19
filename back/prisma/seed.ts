@@ -3,24 +3,17 @@ import bcrypt from 'bcryptjs'
 
 const prisma = new PrismaClient()
 
-// ─── helpers ────────────────────────────────────────────────────────────────
-
-/** Returns a Date N months back from April 16 2026 (today in this project) */
-const monthsAgo = (n: number, day = 15) =>
-  new Date(2026, 3 - n, day) // month is 0-indexed; 3 = April
-
 const date = (year: number, month: number, day: number) =>
   new Date(year, month - 1, day)
 
-// ─── main ────────────────────────────────────────────────────────────────────
+const sub = (subs: Array<{ name: string; id: string }>, name: string) =>
+  subs.find(s => s.name === name)!.id
 
 async function main() {
   console.log('🌱 Starting demo seed...')
 
-  // ── 0. Clean up existing demo user ────────────────────────────────────────
   await prisma.user.deleteMany({ where: { email: 'demo@mycash.app' } })
 
-  // ── 1. User ────────────────────────────────────────────────────────────────
   const passwordHash = await bcrypt.hash('Demo1234!', 10)
 
   const user = await prisma.user.create({
@@ -36,371 +29,299 @@ async function main() {
   console.log(`  ✓ User: ${user.email}`)
 
   // ── 2. Accounts ───────────────────────────────────────────────────────────
-  const [cash, bank, creditCard, savings, investment, wallet] =
-    await Promise.all([
-      prisma.account.create({
-        data: {
-          userId: user.id,
-          name: 'Cash',
-          type: AccountType.CASH,
-          balance: 450_000,
-          color: '#10B981',
-          icon: 'banknotes',
-        },
-      }),
-      prisma.account.create({
-        data: {
-          userId: user.id,
-          name: 'Bancolombia',
-          type: AccountType.BANK,
-          balance: 3_840_000,
-          color: '#FBBF24',
-          icon: 'building-library',
-        },
-      }),
-      prisma.account.create({
-        data: {
-          userId: user.id,
-          name: 'Visa Platinum',
-          type: AccountType.CREDIT_CARD,
-          balance: -680_000,
-          color: '#EF4444',
-          icon: 'credit-card',
-        },
-      }),
-      prisma.account.create({
-        data: {
-          userId: user.id,
-          name: 'Savings CDT',
-          type: AccountType.SAVINGS,
-          balance: 9_200_000,
-          color: '#6366F1',
-          icon: 'piggy-bank',
-        },
-      }),
-      prisma.account.create({
-        data: {
-          userId: user.id,
-          name: 'Investment Portfolio',
-          type: AccountType.INVESTMENT,
-          balance: 14_500_000,
-          color: '#8B5CF6',
-          icon: 'chart-bar',
-        },
-      }),
-      prisma.account.create({
-        data: {
-          userId: user.id,
-          name: 'Nequi',
-          type: AccountType.DIGITAL_WALLET,
-          balance: 210_000,
-          color: '#EC4899',
-          icon: 'device-phone-mobile',
-        },
-      }),
-    ])
+  const [cash, bank, creditCard, savings, investment, wallet] = await Promise.all([
+    prisma.account.create({
+      data: { userId: user.id, name: 'Cash', type: AccountType.CASH, balance: 450_000, color: '#10B981', icon: 'banknotes' },
+    }),
+    prisma.account.create({
+      data: { userId: user.id, name: 'Bancolombia', type: AccountType.BANK, balance: 3_840_000, color: '#FBBF24', icon: 'building-library' },
+    }),
+    prisma.account.create({
+      data: { userId: user.id, name: 'Visa Platinum', type: AccountType.CREDIT_CARD, balance: -680_000, color: '#EF4444', icon: 'credit-card' },
+    }),
+    prisma.account.create({
+      data: { userId: user.id, name: 'Savings CDT', type: AccountType.SAVINGS, balance: 9_200_000, color: '#6366F1', icon: 'piggy-bank' },
+    }),
+    prisma.account.create({
+      data: { userId: user.id, name: 'Investment Portfolio', type: AccountType.INVESTMENT, balance: 14_500_000, color: '#8B5CF6', icon: 'chart-bar' },
+    }),
+    prisma.account.create({
+      data: { userId: user.id, name: 'Nequi', type: AccountType.DIGITAL_WALLET, balance: 210_000, color: '#EC4899', icon: 'device-phone-mobile' },
+    }),
+  ])
   console.log('  ✓ Accounts (6)')
 
   // ── 3. Categories + Subcategories ─────────────────────────────────────────
+  // Include subcategories so we can reference their IDs in transactions
 
-  // --- INCOME ---
-  const [catSalary, catFreelance, catInvestments, catOtherIncome] =
-    await Promise.all([
-      prisma.category.create({
-        data: {
-          userId: user.id,
-          name: 'Salary',
-          color: '#10B981',
-          icon: 'briefcase',
-          type: TransactionType.INCOME,
-          subcategories: {
-            create: [
-              { userId: user.id, name: 'Monthly salary', color: '#10B981' },
-              { userId: user.id, name: 'Bonus',          color: '#6EE7B7' },
-              { userId: user.id, name: 'Commission',     color: '#A7F3D0' },
-            ],
-          },
-        },
-      }),
-      prisma.category.create({
-        data: {
-          userId: user.id,
-          name: 'Freelance',
-          color: '#3B82F6',
-          icon: 'computer-desktop',
-          type: TransactionType.INCOME,
-          subcategories: {
-            create: [
-              { userId: user.id, name: 'Development', color: '#3B82F6' },
-              { userId: user.id, name: 'Design',      color: '#93C5FD' },
-              { userId: user.id, name: 'Consulting',  color: '#BFDBFE' },
-            ],
-          },
-        },
-      }),
-      prisma.category.create({
-        data: {
-          userId: user.id,
-          name: 'Investments',
-          color: '#8B5CF6',
-          icon: 'chart-bar-square',
-          type: TransactionType.INCOME,
-          subcategories: {
-            create: [
-              { userId: user.id, name: 'Dividends',    color: '#8B5CF6' },
-              { userId: user.id, name: 'Capital gains', color: '#C4B5FD' },
-            ],
-          },
-        },
-      }),
-      prisma.category.create({
-        data: {
-          userId: user.id,
-          name: 'Other Income',
-          color: '#F59E0B',
-          icon: 'gift',
-          type: TransactionType.INCOME,
-          subcategories: {
-            create: [
-              { userId: user.id, name: 'Rental income', color: '#F59E0B' },
-              { userId: user.id, name: 'Gifts',         color: '#FCD34D' },
-              { userId: user.id, name: 'Refunds',       color: '#FDE68A' },
-            ],
-          },
-        },
-      }),
-    ])
+  const [catSalary, catFreelance, catInvestments, catOtherIncome] = await Promise.all([
+    prisma.category.create({
+      data: {
+        userId: user.id, name: 'Salary', color: '#10B981', icon: 'briefcase', type: TransactionType.INCOME,
+        subcategories: { create: [
+          { userId: user.id, name: 'Monthly salary', color: '#10B981' },
+          { userId: user.id, name: 'Bonus',          color: '#6EE7B7' },
+          { userId: user.id, name: 'Commission',     color: '#A7F3D0' },
+        ]},
+      },
+      include: { subcategories: true },
+    }),
+    prisma.category.create({
+      data: {
+        userId: user.id, name: 'Freelance', color: '#3B82F6', icon: 'computer-desktop', type: TransactionType.INCOME,
+        subcategories: { create: [
+          { userId: user.id, name: 'Development', color: '#3B82F6' },
+          { userId: user.id, name: 'Design',       color: '#93C5FD' },
+          { userId: user.id, name: 'Consulting',   color: '#BFDBFE' },
+        ]},
+      },
+      include: { subcategories: true },
+    }),
+    prisma.category.create({
+      data: {
+        userId: user.id, name: 'Investments', color: '#8B5CF6', icon: 'chart-bar-square', type: TransactionType.INCOME,
+        subcategories: { create: [
+          { userId: user.id, name: 'Dividends',    color: '#8B5CF6' },
+          { userId: user.id, name: 'Capital gains', color: '#C4B5FD' },
+        ]},
+      },
+      include: { subcategories: true },
+    }),
+    prisma.category.create({
+      data: {
+        userId: user.id, name: 'Other Income', color: '#F59E0B', icon: 'gift', type: TransactionType.INCOME,
+        subcategories: { create: [
+          { userId: user.id, name: 'Rental income', color: '#F59E0B' },
+          { userId: user.id, name: 'Gifts',         color: '#FCD34D' },
+          { userId: user.id, name: 'Refunds',       color: '#FDE68A' },
+        ]},
+      },
+      include: { subcategories: true },
+    }),
+  ])
 
-  // --- EXPENSE ---
-  const [
-    catHousing,
-    catFood,
-    catTransport,
-    catEntertainment,
-    catHealth,
-    catEducation,
-    catClothing,
-    catUtilities,
-  ] = await Promise.all([
+  const [catHousing, catFood, catTransport, catEntertainment, catHealth, catEducation, catClothing, catUtilities] = await Promise.all([
     prisma.category.create({
       data: {
-        userId: user.id,
-        name: 'Housing',
-        color: '#EF4444',
-        icon: 'home',
-        type: TransactionType.EXPENSE,
-        subcategories: {
-          create: [
-            { userId: user.id, name: 'Rent',            color: '#EF4444' },
-            { userId: user.id, name: 'Maintenance',     color: '#FCA5A5' },
-            { userId: user.id, name: 'Home supplies',   color: '#FECACA' },
-          ],
-        },
+        userId: user.id, name: 'Housing', color: '#EF4444', icon: 'home', type: TransactionType.EXPENSE,
+        subcategories: { create: [
+          { userId: user.id, name: 'Rent',          color: '#EF4444' },
+          { userId: user.id, name: 'Maintenance',   color: '#FCA5A5' },
+          { userId: user.id, name: 'Home supplies', color: '#FECACA' },
+        ]},
       },
+      include: { subcategories: true },
     }),
     prisma.category.create({
       data: {
-        userId: user.id,
-        name: 'Food',
-        color: '#F97316',
-        icon: 'shopping-cart',
-        type: TransactionType.EXPENSE,
-        subcategories: {
-          create: [
-            { userId: user.id, name: 'Groceries',   color: '#F97316' },
-            { userId: user.id, name: 'Restaurants', color: '#FDBA74' },
-            { userId: user.id, name: 'Delivery',    color: '#FED7AA' },
-            { userId: user.id, name: 'Coffee',      color: '#78350F' },
-          ],
-        },
+        userId: user.id, name: 'Food', color: '#F97316', icon: 'shopping-cart', type: TransactionType.EXPENSE,
+        subcategories: { create: [
+          { userId: user.id, name: 'Groceries',   color: '#F97316' },
+          { userId: user.id, name: 'Restaurants', color: '#FDBA74' },
+          { userId: user.id, name: 'Delivery',    color: '#FED7AA' },
+          { userId: user.id, name: 'Coffee',      color: '#78350F' },
+        ]},
       },
+      include: { subcategories: true },
     }),
     prisma.category.create({
       data: {
-        userId: user.id,
-        name: 'Transport',
-        color: '#06B6D4',
-        icon: 'truck',
-        type: TransactionType.EXPENSE,
-        subcategories: {
-          create: [
-            { userId: user.id, name: 'Fuel',             color: '#06B6D4' },
-            { userId: user.id, name: 'Public transport', color: '#67E8F9' },
-            { userId: user.id, name: 'Uber / Taxi',      color: '#A5F3FC' },
-            { userId: user.id, name: 'Parking',          color: '#164E63' },
-          ],
-        },
+        userId: user.id, name: 'Transport', color: '#06B6D4', icon: 'truck', type: TransactionType.EXPENSE,
+        subcategories: { create: [
+          { userId: user.id, name: 'Fuel',             color: '#06B6D4' },
+          { userId: user.id, name: 'Public transport', color: '#67E8F9' },
+          { userId: user.id, name: 'Uber / Taxi',      color: '#A5F3FC' },
+          { userId: user.id, name: 'Parking',          color: '#164E63' },
+        ]},
       },
+      include: { subcategories: true },
     }),
     prisma.category.create({
       data: {
-        userId: user.id,
-        name: 'Entertainment',
-        color: '#EC4899',
-        icon: 'film',
-        type: TransactionType.EXPENSE,
-        subcategories: {
-          create: [
-            { userId: user.id, name: 'Streaming', color: '#EC4899' },
-            { userId: user.id, name: 'Cinema',    color: '#F9A8D4' },
-            { userId: user.id, name: 'Sports',    color: '#FBCFE8' },
-            { userId: user.id, name: 'Games',     color: '#831843' },
-          ],
-        },
+        userId: user.id, name: 'Entertainment', color: '#EC4899', icon: 'film', type: TransactionType.EXPENSE,
+        subcategories: { create: [
+          { userId: user.id, name: 'Streaming', color: '#EC4899' },
+          { userId: user.id, name: 'Cinema',    color: '#F9A8D4' },
+          { userId: user.id, name: 'Sports',    color: '#FBCFE8' },
+          { userId: user.id, name: 'Games',     color: '#831843' },
+        ]},
       },
+      include: { subcategories: true },
     }),
     prisma.category.create({
       data: {
-        userId: user.id,
-        name: 'Health',
-        color: '#10B981',
-        icon: 'heart',
-        type: TransactionType.EXPENSE,
-        subcategories: {
-          create: [
-            { userId: user.id, name: 'Medicine',    color: '#10B981' },
-            { userId: user.id, name: 'Gym',         color: '#6EE7B7' },
-            { userId: user.id, name: 'Doctor',      color: '#A7F3D0' },
-            { userId: user.id, name: 'Dental',      color: '#064E3B' },
-          ],
-        },
+        userId: user.id, name: 'Health', color: '#10B981', icon: 'heart', type: TransactionType.EXPENSE,
+        subcategories: { create: [
+          { userId: user.id, name: 'Medicine', color: '#10B981' },
+          { userId: user.id, name: 'Gym',      color: '#6EE7B7' },
+          { userId: user.id, name: 'Doctor',   color: '#A7F3D0' },
+          { userId: user.id, name: 'Dental',   color: '#064E3B' },
+        ]},
       },
+      include: { subcategories: true },
     }),
     prisma.category.create({
       data: {
-        userId: user.id,
-        name: 'Education',
-        color: '#6366F1',
-        icon: 'academic-cap',
-        type: TransactionType.EXPENSE,
-        subcategories: {
-          create: [
-            { userId: user.id, name: 'Courses',  color: '#6366F1' },
-            { userId: user.id, name: 'Books',    color: '#A5B4FC' },
-            { userId: user.id, name: 'Software', color: '#C7D2FE' },
-          ],
-        },
+        userId: user.id, name: 'Education', color: '#6366F1', icon: 'academic-cap', type: TransactionType.EXPENSE,
+        subcategories: { create: [
+          { userId: user.id, name: 'Courses',  color: '#6366F1' },
+          { userId: user.id, name: 'Books',    color: '#A5B4FC' },
+          { userId: user.id, name: 'Software', color: '#C7D2FE' },
+        ]},
       },
+      include: { subcategories: true },
     }),
     prisma.category.create({
       data: {
-        userId: user.id,
-        name: 'Clothing',
-        color: '#84CC16',
-        icon: 'tag',
-        type: TransactionType.EXPENSE,
-        subcategories: {
-          create: [
-            { userId: user.id, name: 'Clothes',     color: '#84CC16' },
-            { userId: user.id, name: 'Shoes',       color: '#BEF264' },
-            { userId: user.id, name: 'Accessories', color: '#D9F99D' },
-          ],
-        },
+        userId: user.id, name: 'Clothing', color: '#84CC16', icon: 'tag', type: TransactionType.EXPENSE,
+        subcategories: { create: [
+          { userId: user.id, name: 'Clothes',     color: '#84CC16' },
+          { userId: user.id, name: 'Shoes',       color: '#BEF264' },
+          { userId: user.id, name: 'Accessories', color: '#D9F99D' },
+        ]},
       },
+      include: { subcategories: true },
     }),
     prisma.category.create({
       data: {
-        userId: user.id,
-        name: 'Utilities',
-        color: '#F59E0B',
-        icon: 'bolt',
-        type: TransactionType.EXPENSE,
-        subcategories: {
-          create: [
-            { userId: user.id, name: 'Electricity', color: '#F59E0B' },
-            { userId: user.id, name: 'Water',       color: '#FCD34D' },
-            { userId: user.id, name: 'Internet',    color: '#FDE68A' },
-            { userId: user.id, name: 'Phone',       color: '#92400E' },
-          ],
-        },
+        userId: user.id, name: 'Utilities', color: '#F59E0B', icon: 'bolt', type: TransactionType.EXPENSE,
+        subcategories: { create: [
+          { userId: user.id, name: 'Electricity', color: '#F59E0B' },
+          { userId: user.id, name: 'Water',       color: '#FCD34D' },
+          { userId: user.id, name: 'Internet',    color: '#FDE68A' },
+          { userId: user.id, name: 'Phone',       color: '#92400E' },
+        ]},
       },
+      include: { subcategories: true },
     }),
   ])
   console.log('  ✓ Categories (12) + Subcategories (34)')
 
-  // ── 4. Transactions — 6 months (Nov 2025 → Apr 2026) ──────────────────────
+  // Subcategory lookup helpers
+  const sSalary        = (n: string) => sub(catSalary.subcategories, n)
+  const sFreelance     = (n: string) => sub(catFreelance.subcategories, n)
+  const sInvestments   = (n: string) => sub(catInvestments.subcategories, n)
+  const sOtherIncome   = (n: string) => sub(catOtherIncome.subcategories, n)
+  const sHousing       = (n: string) => sub(catHousing.subcategories, n)
+  const sFood          = (n: string) => sub(catFood.subcategories, n)
+  const sTransport     = (n: string) => sub(catTransport.subcategories, n)
+  const sEntertainment = (n: string) => sub(catEntertainment.subcategories, n)
+  const sHealth        = (n: string) => sub(catHealth.subcategories, n)
+  const sEducation     = (n: string) => sub(catEducation.subcategories, n)
+  const sClothing      = (n: string) => sub(catClothing.subcategories, n)
+  const sUtilities     = (n: string) => sub(catUtilities.subcategories, n)
 
-  const txData: Parameters<typeof prisma.transaction.create>[0]['data'][] = [
+  // ── 4. Transactions — Nov 2025 → Apr 2026 ────────────────────────────────
 
-    // ── November 2025 ────────────────────────────────────────────────────────
-    { userId: user.id, accountId: bank.id,       categoryId: catSalary.id,        type: 'INCOME',  amount: 4_500_000, description: 'Monthly salary',          date: date(2025, 11, 1)  },
-    { userId: user.id, accountId: bank.id,       categoryId: catFreelance.id,     type: 'INCOME',  amount: 1_200_000, description: 'Web project - client A',   date: date(2025, 11, 8)  },
-    { userId: user.id, accountId: bank.id,       categoryId: catHousing.id,       type: 'EXPENSE', amount: 900_000,   description: 'Rent',                    date: date(2025, 11, 3)  },
-    { userId: user.id, accountId: bank.id,       categoryId: catUtilities.id,     type: 'EXPENSE', amount: 95_000,    description: 'Electricity bill',        date: date(2025, 11, 10) },
-    { userId: user.id, accountId: bank.id,       categoryId: catUtilities.id,     type: 'EXPENSE', amount: 65_000,    description: 'Internet',                date: date(2025, 11, 10) },
-    { userId: user.id, accountId: bank.id,       categoryId: catFood.id,          type: 'EXPENSE', amount: 320_000,   description: 'Supermarket',             date: date(2025, 11, 14) },
-    { userId: user.id, accountId: creditCard.id, categoryId: catEntertainment.id, type: 'EXPENSE', amount: 89_900,    description: 'Netflix + Spotify',       date: date(2025, 11, 15) },
-    { userId: user.id, accountId: creditCard.id, categoryId: catFood.id,          type: 'EXPENSE', amount: 85_000,    description: 'Dinner out',              date: date(2025, 11, 20) },
-    { userId: user.id, accountId: cash.id,       categoryId: catTransport.id,     type: 'EXPENSE', amount: 60_000,    description: 'Public transport Nov',    date: date(2025, 11, 21) },
-    { userId: user.id, accountId: bank.id,       categoryId: catHealth.id,        type: 'EXPENSE', amount: 75_000,    description: 'Gym membership',          date: date(2025, 11, 1)  },
-    { userId: user.id, accountId: bank.id,       categoryId: catInvestments.id,   type: 'INCOME',  amount: 280_000,   description: 'Investment dividends',    date: date(2025, 11, 25) },
+  type TxInput = Parameters<typeof prisma.transaction.create>[0]['data']
 
-    // ── December 2025 ────────────────────────────────────────────────────────
-    { userId: user.id, accountId: bank.id,       categoryId: catSalary.id,        type: 'INCOME',  amount: 4_500_000, description: 'Monthly salary',          date: date(2025, 12, 1)  },
-    { userId: user.id, accountId: bank.id,       categoryId: catSalary.id,        type: 'INCOME',  amount: 2_000_000, description: 'Year-end bonus',          date: date(2025, 12, 15) },
-    { userId: user.id, accountId: bank.id,       categoryId: catFreelance.id,     type: 'INCOME',  amount: 850_000,   description: 'Design project',          date: date(2025, 12, 10) },
-    { userId: user.id, accountId: bank.id,       categoryId: catHousing.id,       type: 'EXPENSE', amount: 900_000,   description: 'Rent',                    date: date(2025, 12, 3)  },
-    { userId: user.id, accountId: bank.id,       categoryId: catUtilities.id,     type: 'EXPENSE', amount: 98_000,    description: 'Electricity bill',        date: date(2025, 12, 10) },
-    { userId: user.id, accountId: bank.id,       categoryId: catUtilities.id,     type: 'EXPENSE', amount: 65_000,    description: 'Internet',                date: date(2025, 12, 10) },
-    { userId: user.id, accountId: bank.id,       categoryId: catFood.id,          type: 'EXPENSE', amount: 480_000,   description: 'Christmas groceries',     date: date(2025, 12, 20) },
-    { userId: user.id, accountId: creditCard.id, categoryId: catEntertainment.id, type: 'EXPENSE', amount: 89_900,    description: 'Netflix + Spotify',       date: date(2025, 12, 15) },
-    { userId: user.id, accountId: creditCard.id, categoryId: catClothing.id,      type: 'EXPENSE', amount: 320_000,   description: 'Christmas gifts / clothes', date: date(2025, 12, 22) },
-    { userId: user.id, accountId: creditCard.id, categoryId: catFood.id,          type: 'EXPENSE', amount: 180_000,   description: 'Christmas dinner',        date: date(2025, 12, 25) },
-    { userId: user.id, accountId: cash.id,       categoryId: catTransport.id,     type: 'EXPENSE', amount: 45_000,    description: 'Taxi - New Year\'s Eve',  date: date(2025, 12, 31) },
-    { userId: user.id, accountId: bank.id,       categoryId: catHealth.id,        type: 'EXPENSE', amount: 75_000,    description: 'Gym membership',          date: date(2025, 12, 1)  },
+  const txData: TxInput[] = [
 
-    // ── January 2026 ─────────────────────────────────────────────────────────
-    { userId: user.id, accountId: bank.id,       categoryId: catSalary.id,        type: 'INCOME',  amount: 4_500_000, description: 'Monthly salary',          date: date(2026, 1, 2)   },
-    { userId: user.id, accountId: bank.id,       categoryId: catFreelance.id,     type: 'INCOME',  amount: 1_500_000, description: 'Consulting - fintech',    date: date(2026, 1, 12)  },
-    { userId: user.id, accountId: bank.id,       categoryId: catHousing.id,       type: 'EXPENSE', amount: 900_000,   description: 'Rent',                    date: date(2026, 1, 3)   },
-    { userId: user.id, accountId: bank.id,       categoryId: catUtilities.id,     type: 'EXPENSE', amount: 92_000,    description: 'Electricity bill',        date: date(2026, 1, 10)  },
-    { userId: user.id, accountId: bank.id,       categoryId: catUtilities.id,     type: 'EXPENSE', amount: 65_000,    description: 'Internet',                date: date(2026, 1, 10)  },
-    { userId: user.id, accountId: bank.id,       categoryId: catFood.id,          type: 'EXPENSE', amount: 355_000,   description: 'Supermarket',             date: date(2026, 1, 15)  },
-    { userId: user.id, accountId: creditCard.id, categoryId: catEntertainment.id, type: 'EXPENSE', amount: 89_900,    description: 'Netflix + Spotify',       date: date(2026, 1, 15)  },
-    { userId: user.id, accountId: bank.id,       categoryId: catEducation.id,     type: 'EXPENSE', amount: 350_000,   description: 'Udemy annual plan',       date: date(2026, 1, 5)   },
-    { userId: user.id, accountId: cash.id,       categoryId: catTransport.id,     type: 'EXPENSE', amount: 58_000,    description: 'Public transport Jan',    date: date(2026, 1, 20)  },
-    { userId: user.id, accountId: bank.id,       categoryId: catHealth.id,        type: 'EXPENSE', amount: 75_000,    description: 'Gym membership',          date: date(2026, 1, 2)   },
-    { userId: user.id, accountId: bank.id,       categoryId: catHealth.id,        type: 'EXPENSE', amount: 120_000,   description: 'Doctor visit',            date: date(2026, 1, 18)  },
-    { userId: user.id, accountId: bank.id,       categoryId: catInvestments.id,   type: 'INCOME',  amount: 310_000,   description: 'Investment dividends',    date: date(2026, 1, 25)  },
+    // ── November 2025 ──────────────────────────────────────────────────────
+    { userId: user.id, accountId: bank.id,       categoryId: catSalary.id,        subcategoryId: sSalary('Monthly salary'),      type: 'INCOME',  amount: 4_500_000, description: 'Monthly salary',            date: date(2025, 11, 1)  },
+    { userId: user.id, accountId: bank.id,       categoryId: catFreelance.id,     subcategoryId: sFreelance('Development'),       type: 'INCOME',  amount: 1_200_000, description: 'Web project – client A',    date: date(2025, 11, 8)  },
+    { userId: user.id, accountId: bank.id,       categoryId: catInvestments.id,   subcategoryId: sInvestments('Dividends'),       type: 'INCOME',  amount: 280_000,   description: 'Investment dividends',      date: date(2025, 11, 25) },
+    { userId: user.id, accountId: bank.id,       categoryId: catHousing.id,       subcategoryId: sHousing('Rent'),                type: 'EXPENSE', amount: 900_000,   description: 'Rent November',             date: date(2025, 11, 3)  },
+    { userId: user.id, accountId: bank.id,       categoryId: catUtilities.id,     subcategoryId: sUtilities('Electricity'),       type: 'EXPENSE', amount: 95_000,    description: 'Electricity bill',          date: date(2025, 11, 10) },
+    { userId: user.id, accountId: bank.id,       categoryId: catUtilities.id,     subcategoryId: sUtilities('Water'),             type: 'EXPENSE', amount: 28_000,    description: 'Water bill',                date: date(2025, 11, 10) },
+    { userId: user.id, accountId: bank.id,       categoryId: catUtilities.id,     subcategoryId: sUtilities('Internet'),          type: 'EXPENSE', amount: 65_000,    description: 'Internet',                  date: date(2025, 11, 10) },
+    { userId: user.id, accountId: bank.id,       categoryId: catUtilities.id,     subcategoryId: sUtilities('Phone'),             type: 'EXPENSE', amount: 55_000,    description: 'Mobile plan',               date: date(2025, 11, 12) },
+    { userId: user.id, accountId: bank.id,       categoryId: catFood.id,          subcategoryId: sFood('Groceries'),              type: 'EXPENSE', amount: 320_000,   description: 'Supermarket',               date: date(2025, 11, 14) },
+    { userId: user.id, accountId: creditCard.id, categoryId: catEntertainment.id, subcategoryId: sEntertainment('Streaming'),     type: 'EXPENSE', amount: 89_900,    description: 'Netflix + Spotify',         date: date(2025, 11, 15) },
+    { userId: user.id, accountId: creditCard.id, categoryId: catFood.id,          subcategoryId: sFood('Restaurants'),            type: 'EXPENSE', amount: 85_000,    description: 'Dinner out',                date: date(2025, 11, 20) },
+    { userId: user.id, accountId: wallet.id,     categoryId: catFood.id,          subcategoryId: sFood('Coffee'),                 type: 'EXPENSE', amount: 18_000,    description: 'Juan Valdez coffee',        date: date(2025, 11, 22) },
+    { userId: user.id, accountId: cash.id,       categoryId: catTransport.id,     subcategoryId: sTransport('Public transport'),  type: 'EXPENSE', amount: 60_000,    description: 'Public transport',          date: date(2025, 11, 21) },
+    { userId: user.id, accountId: bank.id,       categoryId: catHealth.id,        subcategoryId: sHealth('Gym'),                  type: 'EXPENSE', amount: 75_000,    description: 'Gym membership',            date: date(2025, 11, 1)  },
 
-    // ── February 2026 ────────────────────────────────────────────────────────
-    { userId: user.id, accountId: bank.id,       categoryId: catSalary.id,        type: 'INCOME',  amount: 4_500_000, description: 'Monthly salary',          date: date(2026, 2, 2)   },
-    { userId: user.id, accountId: bank.id,       categoryId: catFreelance.id,     type: 'INCOME',  amount: 2_100_000, description: 'App development sprint',  date: date(2026, 2, 20)  },
-    { userId: user.id, accountId: bank.id,       categoryId: catHousing.id,       type: 'EXPENSE', amount: 900_000,   description: 'Rent',                    date: date(2026, 2, 3)   },
-    { userId: user.id, accountId: bank.id,       categoryId: catUtilities.id,     type: 'EXPENSE', amount: 88_000,    description: 'Electricity bill',        date: date(2026, 2, 10)  },
-    { userId: user.id, accountId: bank.id,       categoryId: catUtilities.id,     type: 'EXPENSE', amount: 65_000,    description: 'Internet',                date: date(2026, 2, 10)  },
-    { userId: user.id, accountId: bank.id,       categoryId: catFood.id,          type: 'EXPENSE', amount: 310_000,   description: 'Supermarket',             date: date(2026, 2, 12)  },
-    { userId: user.id, accountId: creditCard.id, categoryId: catEntertainment.id, type: 'EXPENSE', amount: 89_900,    description: 'Netflix + Spotify',       date: date(2026, 2, 15)  },
-    { userId: user.id, accountId: creditCard.id, categoryId: catFood.id,          type: 'EXPENSE', amount: 95_000,    description: 'Valentine\'s dinner',     date: date(2026, 2, 14)  },
-    { userId: user.id, accountId: cash.id,       categoryId: catTransport.id,     type: 'EXPENSE', amount: 55_000,    description: 'Public transport Feb',    date: date(2026, 2, 20)  },
-    { userId: user.id, accountId: bank.id,       categoryId: catHealth.id,        type: 'EXPENSE', amount: 75_000,    description: 'Gym membership',          date: date(2026, 2, 2)   },
-    { userId: user.id, accountId: bank.id,       categoryId: catClothing.id,      type: 'EXPENSE', amount: 185_000,   description: 'New shoes',               date: date(2026, 2, 22)  },
+    // ── December 2025 ──────────────────────────────────────────────────────
+    { userId: user.id, accountId: bank.id,       categoryId: catSalary.id,        subcategoryId: sSalary('Monthly salary'),       type: 'INCOME',  amount: 4_500_000, description: 'Monthly salary',            date: date(2025, 12, 1)  },
+    { userId: user.id, accountId: bank.id,       categoryId: catSalary.id,        subcategoryId: sSalary('Bonus'),                type: 'INCOME',  amount: 2_000_000, description: 'Year-end bonus',            date: date(2025, 12, 15) },
+    { userId: user.id, accountId: bank.id,       categoryId: catFreelance.id,     subcategoryId: sFreelance('Design'),            type: 'INCOME',  amount: 850_000,   description: 'Design project',            date: date(2025, 12, 10) },
+    { userId: user.id, accountId: bank.id,       categoryId: catHousing.id,       subcategoryId: sHousing('Rent'),                type: 'EXPENSE', amount: 900_000,   description: 'Rent December',             date: date(2025, 12, 3)  },
+    { userId: user.id, accountId: bank.id,       categoryId: catUtilities.id,     subcategoryId: sUtilities('Electricity'),       type: 'EXPENSE', amount: 98_000,    description: 'Electricity bill',          date: date(2025, 12, 10) },
+    { userId: user.id, accountId: bank.id,       categoryId: catUtilities.id,     subcategoryId: sUtilities('Water'),             type: 'EXPENSE', amount: 30_000,    description: 'Water bill',                date: date(2025, 12, 10) },
+    { userId: user.id, accountId: bank.id,       categoryId: catUtilities.id,     subcategoryId: sUtilities('Internet'),          type: 'EXPENSE', amount: 65_000,    description: 'Internet',                  date: date(2025, 12, 10) },
+    { userId: user.id, accountId: bank.id,       categoryId: catUtilities.id,     subcategoryId: sUtilities('Phone'),             type: 'EXPENSE', amount: 55_000,    description: 'Mobile plan',               date: date(2025, 12, 12) },
+    { userId: user.id, accountId: bank.id,       categoryId: catFood.id,          subcategoryId: sFood('Groceries'),              type: 'EXPENSE', amount: 480_000,   description: 'Christmas groceries',       date: date(2025, 12, 20) },
+    { userId: user.id, accountId: creditCard.id, categoryId: catEntertainment.id, subcategoryId: sEntertainment('Streaming'),     type: 'EXPENSE', amount: 89_900,    description: 'Netflix + Spotify',         date: date(2025, 12, 15) },
+    { userId: user.id, accountId: creditCard.id, categoryId: catClothing.id,      subcategoryId: sClothing('Clothes'),            type: 'EXPENSE', amount: 320_000,   description: 'Christmas shopping',        date: date(2025, 12, 22) },
+    { userId: user.id, accountId: creditCard.id, categoryId: catFood.id,          subcategoryId: sFood('Restaurants'),            type: 'EXPENSE', amount: 180_000,   description: 'Christmas dinner',          date: date(2025, 12, 25) },
+    { userId: user.id, accountId: bank.id,       categoryId: catEducation.id,     subcategoryId: sEducation('Books'),             type: 'EXPENSE', amount: 95_000,    description: 'Programming books',         date: date(2025, 12, 8)  },
+    { userId: user.id, accountId: cash.id,       categoryId: catTransport.id,     subcategoryId: sTransport('Uber / Taxi'),       type: 'EXPENSE', amount: 45_000,    description: "Taxi – New Year's Eve",     date: date(2025, 12, 31) },
+    { userId: user.id, accountId: bank.id,       categoryId: catHealth.id,        subcategoryId: sHealth('Gym'),                  type: 'EXPENSE', amount: 75_000,    description: 'Gym membership',            date: date(2025, 12, 1)  },
 
-    // ── March 2026 ───────────────────────────────────────────────────────────
-    { userId: user.id, accountId: bank.id,       categoryId: catSalary.id,        type: 'INCOME',  amount: 4_500_000, description: 'Monthly salary',          date: date(2026, 3, 2)   },
-    { userId: user.id, accountId: bank.id,       categoryId: catFreelance.id,     type: 'INCOME',  amount: 950_000,   description: 'Logo & branding',         date: date(2026, 3, 8)   },
-    { userId: user.id, accountId: bank.id,       categoryId: catOtherIncome.id,   type: 'INCOME',  amount: 200_000,   description: 'Tax refund',              date: date(2026, 3, 18)  },
-    { userId: user.id, accountId: bank.id,       categoryId: catHousing.id,       type: 'EXPENSE', amount: 900_000,   description: 'Rent',                    date: date(2026, 3, 3)   },
-    { userId: user.id, accountId: bank.id,       categoryId: catUtilities.id,     type: 'EXPENSE', amount: 91_000,    description: 'Electricity bill',        date: date(2026, 3, 10)  },
-    { userId: user.id, accountId: bank.id,       categoryId: catUtilities.id,     type: 'EXPENSE', amount: 65_000,    description: 'Internet',                date: date(2026, 3, 10)  },
-    { userId: user.id, accountId: bank.id,       categoryId: catFood.id,          type: 'EXPENSE', amount: 340_000,   description: 'Supermarket',             date: date(2026, 3, 14)  },
-    { userId: user.id, accountId: creditCard.id, categoryId: catEntertainment.id, type: 'EXPENSE', amount: 89_900,    description: 'Netflix + Spotify',       date: date(2026, 3, 15)  },
-    { userId: user.id, accountId: creditCard.id, categoryId: catFood.id,          type: 'EXPENSE', amount: 110_000,   description: 'Team lunch',              date: date(2026, 3, 20)  },
-    { userId: user.id, accountId: cash.id,       categoryId: catTransport.id,     type: 'EXPENSE', amount: 58_000,    description: 'Public transport Mar',    date: date(2026, 3, 20)  },
-    { userId: user.id, accountId: bank.id,       categoryId: catHealth.id,        type: 'EXPENSE', amount: 75_000,    description: 'Gym membership',          date: date(2026, 3, 2)   },
-    { userId: user.id, accountId: bank.id,       categoryId: catEducation.id,     type: 'EXPENSE', amount: 180_000,   description: 'TypeScript advanced course', date: date(2026, 3, 5) },
-    { userId: user.id, accountId: bank.id,       categoryId: catInvestments.id,   type: 'INCOME',  amount: 340_000,   description: 'Investment dividends',    date: date(2026, 3, 25)  },
+    // ── January 2026 ───────────────────────────────────────────────────────
+    { userId: user.id, accountId: bank.id,       categoryId: catSalary.id,        subcategoryId: sSalary('Monthly salary'),       type: 'INCOME',  amount: 4_500_000, description: 'Monthly salary',            date: date(2026, 1, 2)   },
+    { userId: user.id, accountId: bank.id,       categoryId: catFreelance.id,     subcategoryId: sFreelance('Consulting'),        type: 'INCOME',  amount: 1_500_000, description: 'Consulting – fintech',      date: date(2026, 1, 12)  },
+    { userId: user.id, accountId: bank.id,       categoryId: catInvestments.id,   subcategoryId: sInvestments('Dividends'),       type: 'INCOME',  amount: 310_000,   description: 'Investment dividends',      date: date(2026, 1, 25)  },
+    { userId: user.id, accountId: bank.id,       categoryId: catHousing.id,       subcategoryId: sHousing('Rent'),                type: 'EXPENSE', amount: 900_000,   description: 'Rent January',              date: date(2026, 1, 3)   },
+    { userId: user.id, accountId: bank.id,       categoryId: catUtilities.id,     subcategoryId: sUtilities('Electricity'),       type: 'EXPENSE', amount: 92_000,    description: 'Electricity bill',          date: date(2026, 1, 10)  },
+    { userId: user.id, accountId: bank.id,       categoryId: catUtilities.id,     subcategoryId: sUtilities('Water'),             type: 'EXPENSE', amount: 27_500,    description: 'Water bill',                date: date(2026, 1, 10)  },
+    { userId: user.id, accountId: bank.id,       categoryId: catUtilities.id,     subcategoryId: sUtilities('Internet'),          type: 'EXPENSE', amount: 65_000,    description: 'Internet',                  date: date(2026, 1, 10)  },
+    { userId: user.id, accountId: bank.id,       categoryId: catUtilities.id,     subcategoryId: sUtilities('Phone'),             type: 'EXPENSE', amount: 55_000,    description: 'Mobile plan',               date: date(2026, 1, 12)  },
+    { userId: user.id, accountId: bank.id,       categoryId: catFood.id,          subcategoryId: sFood('Groceries'),              type: 'EXPENSE', amount: 355_000,   description: 'Supermarket',               date: date(2026, 1, 15)  },
+    { userId: user.id, accountId: creditCard.id, categoryId: catEntertainment.id, subcategoryId: sEntertainment('Streaming'),     type: 'EXPENSE', amount: 89_900,    description: 'Netflix + Spotify',         date: date(2026, 1, 15)  },
+    { userId: user.id, accountId: bank.id,       categoryId: catEducation.id,     subcategoryId: sEducation('Courses'),           type: 'EXPENSE', amount: 350_000,   description: 'Udemy annual plan',         date: date(2026, 1, 5)   },
+    { userId: user.id, accountId: cash.id,       categoryId: catTransport.id,     subcategoryId: sTransport('Public transport'),  type: 'EXPENSE', amount: 58_000,    description: 'Public transport',          date: date(2026, 1, 20)  },
+    { userId: user.id, accountId: bank.id,       categoryId: catHealth.id,        subcategoryId: sHealth('Gym'),                  type: 'EXPENSE', amount: 75_000,    description: 'Gym membership',            date: date(2026, 1, 2)   },
+    { userId: user.id, accountId: bank.id,       categoryId: catHealth.id,        subcategoryId: sHealth('Doctor'),               type: 'EXPENSE', amount: 120_000,   description: 'Doctor visit',              date: date(2026, 1, 18)  },
+    { userId: user.id, accountId: wallet.id,     categoryId: catFood.id,          subcategoryId: sFood('Delivery'),               type: 'EXPENSE', amount: 35_000,    description: 'Rappi order',               date: date(2026, 1, 23)  },
 
-    // ── April 2026 (current month) ───────────────────────────────────────────
-    { userId: user.id, accountId: bank.id,       categoryId: catSalary.id,        type: 'INCOME',  amount: 4_500_000, description: 'Monthly salary',          date: date(2026, 4, 1)   },
-    { userId: user.id, accountId: bank.id,       categoryId: catFreelance.id,     type: 'INCOME',  amount: 1_800_000, description: 'Dashboard project',       date: date(2026, 4, 10)  },
-    { userId: user.id, accountId: bank.id,       categoryId: catHousing.id,       type: 'EXPENSE', amount: 900_000,   description: 'Rent',                    date: date(2026, 4, 3)   },
-    { userId: user.id, accountId: bank.id,       categoryId: catUtilities.id,     type: 'EXPENSE', amount: 93_000,    description: 'Electricity bill',        date: date(2026, 4, 10)  },
-    { userId: user.id, accountId: bank.id,       categoryId: catUtilities.id,     type: 'EXPENSE', amount: 65_000,    description: 'Internet',                date: date(2026, 4, 10)  },
-    { userId: user.id, accountId: bank.id,       categoryId: catFood.id,          type: 'EXPENSE', amount: 295_000,   description: 'Supermarket',             date: date(2026, 4, 12)  },
-    { userId: user.id, accountId: creditCard.id, categoryId: catEntertainment.id, type: 'EXPENSE', amount: 89_900,    description: 'Netflix + Spotify',       date: date(2026, 4, 15)  },
-    { userId: user.id, accountId: cash.id,       categoryId: catTransport.id,     type: 'EXPENSE', amount: 35_000,    description: 'Public transport Apr',    date: date(2026, 4, 14)  },
-    { userId: user.id, accountId: bank.id,       categoryId: catHealth.id,        type: 'EXPENSE', amount: 75_000,    description: 'Gym membership',          date: date(2026, 4, 1)   },
+    // ── February 2026 ──────────────────────────────────────────────────────
+    { userId: user.id, accountId: bank.id,       categoryId: catSalary.id,        subcategoryId: sSalary('Monthly salary'),       type: 'INCOME',  amount: 4_500_000, description: 'Monthly salary',            date: date(2026, 2, 2)   },
+    { userId: user.id, accountId: bank.id,       categoryId: catFreelance.id,     subcategoryId: sFreelance('Development'),       type: 'INCOME',  amount: 2_100_000, description: 'App development sprint',    date: date(2026, 2, 20)  },
+    { userId: user.id, accountId: bank.id,       categoryId: catHousing.id,       subcategoryId: sHousing('Rent'),                type: 'EXPENSE', amount: 900_000,   description: 'Rent February',             date: date(2026, 2, 3)   },
+    { userId: user.id, accountId: bank.id,       categoryId: catUtilities.id,     subcategoryId: sUtilities('Electricity'),       type: 'EXPENSE', amount: 88_000,    description: 'Electricity bill',          date: date(2026, 2, 10)  },
+    { userId: user.id, accountId: bank.id,       categoryId: catUtilities.id,     subcategoryId: sUtilities('Water'),             type: 'EXPENSE', amount: 26_000,    description: 'Water bill',                date: date(2026, 2, 10)  },
+    { userId: user.id, accountId: bank.id,       categoryId: catUtilities.id,     subcategoryId: sUtilities('Internet'),          type: 'EXPENSE', amount: 65_000,    description: 'Internet',                  date: date(2026, 2, 10)  },
+    { userId: user.id, accountId: bank.id,       categoryId: catUtilities.id,     subcategoryId: sUtilities('Phone'),             type: 'EXPENSE', amount: 55_000,    description: 'Mobile plan',               date: date(2026, 2, 12)  },
+    { userId: user.id, accountId: bank.id,       categoryId: catFood.id,          subcategoryId: sFood('Groceries'),              type: 'EXPENSE', amount: 310_000,   description: 'Supermarket',               date: date(2026, 2, 12)  },
+    { userId: user.id, accountId: creditCard.id, categoryId: catEntertainment.id, subcategoryId: sEntertainment('Streaming'),     type: 'EXPENSE', amount: 89_900,    description: 'Netflix + Spotify',         date: date(2026, 2, 15)  },
+    { userId: user.id, accountId: creditCard.id, categoryId: catFood.id,          subcategoryId: sFood('Restaurants'),            type: 'EXPENSE', amount: 95_000,    description: "Valentine's dinner",        date: date(2026, 2, 14)  },
+    { userId: user.id, accountId: creditCard.id, categoryId: catEntertainment.id, subcategoryId: sEntertainment('Cinema'),        type: 'EXPENSE', amount: 40_000,    description: 'Cinema',                    date: date(2026, 2, 7)   },
+    { userId: user.id, accountId: cash.id,       categoryId: catTransport.id,     subcategoryId: sTransport('Public transport'),  type: 'EXPENSE', amount: 55_000,    description: 'Public transport',          date: date(2026, 2, 20)  },
+    { userId: user.id, accountId: bank.id,       categoryId: catHealth.id,        subcategoryId: sHealth('Gym'),                  type: 'EXPENSE', amount: 75_000,    description: 'Gym membership',            date: date(2026, 2, 2)   },
+    { userId: user.id, accountId: bank.id,       categoryId: catClothing.id,      subcategoryId: sClothing('Shoes'),              type: 'EXPENSE', amount: 185_000,   description: 'New shoes',                 date: date(2026, 2, 22)  },
+
+    // ── March 2026 ─────────────────────────────────────────────────────────
+    { userId: user.id, accountId: bank.id,       categoryId: catSalary.id,        subcategoryId: sSalary('Monthly salary'),       type: 'INCOME',  amount: 4_500_000, description: 'Monthly salary',            date: date(2026, 3, 2)   },
+    { userId: user.id, accountId: bank.id,       categoryId: catFreelance.id,     subcategoryId: sFreelance('Design'),            type: 'INCOME',  amount: 950_000,   description: 'Logo & branding project',   date: date(2026, 3, 8)   },
+    { userId: user.id, accountId: bank.id,       categoryId: catOtherIncome.id,   subcategoryId: sOtherIncome('Refunds'),         type: 'INCOME',  amount: 200_000,   description: 'Tax refund',                date: date(2026, 3, 18)  },
+    { userId: user.id, accountId: bank.id,       categoryId: catInvestments.id,   subcategoryId: sInvestments('Dividends'),       type: 'INCOME',  amount: 340_000,   description: 'Investment dividends',      date: date(2026, 3, 25)  },
+    { userId: user.id, accountId: bank.id,       categoryId: catHousing.id,       subcategoryId: sHousing('Rent'),                type: 'EXPENSE', amount: 900_000,   description: 'Rent March',                date: date(2026, 3, 3)   },
+    { userId: user.id, accountId: bank.id,       categoryId: catHousing.id,       subcategoryId: sHousing('Maintenance'),         type: 'EXPENSE', amount: 150_000,   description: 'Plumber – pipe repair',     date: date(2026, 3, 20)  },
+    { userId: user.id, accountId: bank.id,       categoryId: catUtilities.id,     subcategoryId: sUtilities('Electricity'),       type: 'EXPENSE', amount: 91_000,    description: 'Electricity bill',          date: date(2026, 3, 10)  },
+    { userId: user.id, accountId: bank.id,       categoryId: catUtilities.id,     subcategoryId: sUtilities('Water'),             type: 'EXPENSE', amount: 29_000,    description: 'Water bill',                date: date(2026, 3, 10)  },
+    { userId: user.id, accountId: bank.id,       categoryId: catUtilities.id,     subcategoryId: sUtilities('Internet'),          type: 'EXPENSE', amount: 65_000,    description: 'Internet',                  date: date(2026, 3, 10)  },
+    { userId: user.id, accountId: bank.id,       categoryId: catUtilities.id,     subcategoryId: sUtilities('Phone'),             type: 'EXPENSE', amount: 55_000,    description: 'Mobile plan',               date: date(2026, 3, 12)  },
+    { userId: user.id, accountId: bank.id,       categoryId: catFood.id,          subcategoryId: sFood('Groceries'),              type: 'EXPENSE', amount: 340_000,   description: 'Supermarket',               date: date(2026, 3, 14)  },
+    { userId: user.id, accountId: creditCard.id, categoryId: catEntertainment.id, subcategoryId: sEntertainment('Streaming'),     type: 'EXPENSE', amount: 89_900,    description: 'Netflix + Spotify',         date: date(2026, 3, 15)  },
+    { userId: user.id, accountId: creditCard.id, categoryId: catFood.id,          subcategoryId: sFood('Restaurants'),            type: 'EXPENSE', amount: 110_000,   description: 'Team lunch',                date: date(2026, 3, 20)  },
+    { userId: user.id, accountId: cash.id,       categoryId: catTransport.id,     subcategoryId: sTransport('Public transport'),  type: 'EXPENSE', amount: 58_000,    description: 'Public transport',          date: date(2026, 3, 20)  },
+    { userId: user.id, accountId: creditCard.id, categoryId: catTransport.id,     subcategoryId: sTransport('Fuel'),              type: 'EXPENSE', amount: 120_000,   description: 'Fuel – full tank',          date: date(2026, 3, 16)  },
+    { userId: user.id, accountId: bank.id,       categoryId: catHealth.id,        subcategoryId: sHealth('Gym'),                  type: 'EXPENSE', amount: 75_000,    description: 'Gym membership',            date: date(2026, 3, 2)   },
+    { userId: user.id, accountId: bank.id,       categoryId: catHealth.id,        subcategoryId: sHealth('Dental'),               type: 'EXPENSE', amount: 180_000,   description: 'Dental checkup',            date: date(2026, 3, 25)  },
+    { userId: user.id, accountId: bank.id,       categoryId: catEducation.id,     subcategoryId: sEducation('Courses'),           type: 'EXPENSE', amount: 180_000,   description: 'TypeScript advanced course', date: date(2026, 3, 5)  },
+    { userId: user.id, accountId: bank.id,       categoryId: catHousing.id,       subcategoryId: sHousing('Home supplies'),       type: 'EXPENSE', amount: 85_000,    description: 'Cleaning supplies',         date: date(2026, 3, 28)  },
+
+    // ── April 2026 (current month) ─────────────────────────────────────────
+    { userId: user.id, accountId: bank.id,       categoryId: catSalary.id,        subcategoryId: sSalary('Monthly salary'),       type: 'INCOME',  amount: 4_500_000, description: 'Monthly salary',            date: date(2026, 4, 1)   },
+    { userId: user.id, accountId: bank.id,       categoryId: catFreelance.id,     subcategoryId: sFreelance('Development'),       type: 'INCOME',  amount: 1_800_000, description: 'Dashboard project',         date: date(2026, 4, 10)  },
+    { userId: user.id, accountId: bank.id,       categoryId: catInvestments.id,   subcategoryId: sInvestments('Dividends'),       type: 'INCOME',  amount: 360_000,   description: 'Investment dividends',      date: date(2026, 4, 15)  },
+    { userId: user.id, accountId: bank.id,       categoryId: catHousing.id,       subcategoryId: sHousing('Rent'),                type: 'EXPENSE', amount: 900_000,   description: 'Rent April',                date: date(2026, 4, 3)   },
+    { userId: user.id, accountId: bank.id,       categoryId: catUtilities.id,     subcategoryId: sUtilities('Electricity'),       type: 'EXPENSE', amount: 93_000,    description: 'Electricity bill',          date: date(2026, 4, 10)  },
+    { userId: user.id, accountId: bank.id,       categoryId: catUtilities.id,     subcategoryId: sUtilities('Water'),             type: 'EXPENSE', amount: 28_500,    description: 'Water bill',                date: date(2026, 4, 10)  },
+    { userId: user.id, accountId: bank.id,       categoryId: catUtilities.id,     subcategoryId: sUtilities('Internet'),          type: 'EXPENSE', amount: 65_000,    description: 'Internet',                  date: date(2026, 4, 10)  },
+    { userId: user.id, accountId: bank.id,       categoryId: catUtilities.id,     subcategoryId: sUtilities('Phone'),             type: 'EXPENSE', amount: 55_000,    description: 'Mobile plan',               date: date(2026, 4, 12)  },
+    { userId: user.id, accountId: bank.id,       categoryId: catFood.id,          subcategoryId: sFood('Groceries'),              type: 'EXPENSE', amount: 295_000,   description: 'Supermarket',               date: date(2026, 4, 12)  },
+    { userId: user.id, accountId: creditCard.id, categoryId: catEntertainment.id, subcategoryId: sEntertainment('Streaming'),     type: 'EXPENSE', amount: 89_900,    description: 'Netflix + Spotify',         date: date(2026, 4, 15)  },
+    { userId: user.id, accountId: creditCard.id, categoryId: catEntertainment.id, subcategoryId: sEntertainment('Cinema'),        type: 'EXPENSE', amount: 42_000,    description: 'Cinema – new release',      date: date(2026, 4, 5)   },
+    { userId: user.id, accountId: cash.id,       categoryId: catTransport.id,     subcategoryId: sTransport('Public transport'),  type: 'EXPENSE', amount: 35_000,    description: 'Public transport',          date: date(2026, 4, 14)  },
+    { userId: user.id, accountId: creditCard.id, categoryId: catTransport.id,     subcategoryId: sTransport('Parking'),           type: 'EXPENSE', amount: 12_000,    description: 'Parking – mall',            date: date(2026, 4, 5)   },
+    { userId: user.id, accountId: bank.id,       categoryId: catHealth.id,        subcategoryId: sHealth('Gym'),                  type: 'EXPENSE', amount: 75_000,    description: 'Gym membership',            date: date(2026, 4, 1)   },
+    { userId: user.id, accountId: wallet.id,     categoryId: catFood.id,          subcategoryId: sFood('Coffee'),                 type: 'EXPENSE', amount: 21_000,    description: 'Coffee + snack',            date: date(2026, 4, 8)   },
+    { userId: user.id, accountId: wallet.id,     categoryId: catFood.id,          subcategoryId: sFood('Delivery'),               type: 'EXPENSE', amount: 42_000,    description: 'Rappi order',               date: date(2026, 4, 16)  },
+    { userId: user.id, accountId: bank.id,       categoryId: catEducation.id,     subcategoryId: sEducation('Software'),          type: 'EXPENSE', amount: 95_000,    description: 'Figma annual license',      date: date(2026, 4, 7)   },
   ]
 
   await prisma.transaction.createMany({ data: txData })
@@ -409,44 +330,69 @@ async function main() {
   // ── 5. Transfers ──────────────────────────────────────────────────────────
   await prisma.transfer.createMany({
     data: [
-      { userId: user.id, fromAccountId: bank.id,    toAccountId: savings.id,    amount: 500_000,   description: 'Monthly savings',    date: date(2025, 11, 30) },
-      { userId: user.id, fromAccountId: bank.id,    toAccountId: wallet.id,     amount: 100_000,   description: 'Nequi top-up',       date: date(2025, 12, 5)  },
-      { userId: user.id, fromAccountId: bank.id,    toAccountId: savings.id,    amount: 500_000,   description: 'Monthly savings',    date: date(2025, 12, 31) },
-      { userId: user.id, fromAccountId: bank.id,    toAccountId: savings.id,    amount: 600_000,   description: 'Monthly savings',    date: date(2026, 1, 31)  },
-      { userId: user.id, fromAccountId: wallet.id,  toAccountId: cash.id,       amount: 80_000,    description: 'ATM withdrawal',     date: date(2026, 2, 1)   },
-      { userId: user.id, fromAccountId: bank.id,    toAccountId: savings.id,    amount: 500_000,   description: 'Monthly savings',    date: date(2026, 2, 28)  },
-      { userId: user.id, fromAccountId: savings.id, toAccountId: investment.id, amount: 1_500_000, description: 'Investment deposit', date: date(2026, 3, 15)  },
-      { userId: user.id, fromAccountId: bank.id,    toAccountId: savings.id,    amount: 500_000,   description: 'Monthly savings',    date: date(2026, 3, 31)  },
-      { userId: user.id, fromAccountId: bank.id,    toAccountId: wallet.id,     amount: 150_000,   description: 'Nequi top-up',       date: date(2026, 4, 5)   },
+      { userId: user.id, fromAccountId: bank.id,    toAccountId: savings.id,     amount: 500_000,   description: 'Monthly savings',    date: date(2025, 11, 30) },
+      { userId: user.id, fromAccountId: bank.id,    toAccountId: wallet.id,      amount: 100_000,   description: 'Nequi top-up',       date: date(2025, 12, 5)  },
+      { userId: user.id, fromAccountId: bank.id,    toAccountId: savings.id,     amount: 800_000,   description: 'Monthly savings',    date: date(2025, 12, 31) },
+      { userId: user.id, fromAccountId: bank.id,    toAccountId: savings.id,     amount: 600_000,   description: 'Monthly savings',    date: date(2026, 1, 31)  },
+      { userId: user.id, fromAccountId: wallet.id,  toAccountId: cash.id,        amount: 80_000,    description: 'ATM withdrawal',     date: date(2026, 2, 1)   },
+      { userId: user.id, fromAccountId: bank.id,    toAccountId: savings.id,     amount: 500_000,   description: 'Monthly savings',    date: date(2026, 2, 28)  },
+      { userId: user.id, fromAccountId: savings.id, toAccountId: investment.id,  amount: 1_500_000, description: 'Investment deposit', date: date(2026, 3, 15)  },
+      { userId: user.id, fromAccountId: bank.id,    toAccountId: savings.id,     amount: 500_000,   description: 'Monthly savings',    date: date(2026, 3, 31)  },
+      { userId: user.id, fromAccountId: bank.id,    toAccountId: wallet.id,      amount: 150_000,   description: 'Nequi top-up',       date: date(2026, 4, 5)   },
+      { userId: user.id, fromAccountId: bank.id,    toAccountId: creditCard.id,  amount: 400_000,   description: 'CC partial payment', date: date(2026, 4, 15)  },
+      { userId: user.id, fromAccountId: savings.id, toAccountId: investment.id,  amount: 2_000_000, description: 'Investment deposit', date: date(2026, 4, 10)  },
     ],
   })
-  console.log('  ✓ Transfers (9)')
+  console.log('  ✓ Transfers (11)')
 
-  // ── 6. Budgets (April & May 2026) ─────────────────────────────────────────
+  // ── 6. Budgets — Jan–May 2026 ─────────────────────────────────────────────
   await prisma.budget.createMany({
     data: [
-      // April
-      { userId: user.id, categoryId: catHousing.id,       amount: 950_000, month: 4, year: 2026 },
-      { userId: user.id, categoryId: catFood.id,           amount: 500_000, month: 4, year: 2026 },
-      { userId: user.id, categoryId: catTransport.id,      amount: 120_000, month: 4, year: 2026 },
-      { userId: user.id, categoryId: catEntertainment.id,  amount: 150_000, month: 4, year: 2026 },
-      { userId: user.id, categoryId: catHealth.id,         amount: 120_000, month: 4, year: 2026 },
-      { userId: user.id, categoryId: catUtilities.id,      amount: 200_000, month: 4, year: 2026 },
-      { userId: user.id, categoryId: catEducation.id,      amount: 200_000, month: 4, year: 2026 },
-      { userId: user.id, categoryId: catClothing.id,       amount: 150_000, month: 4, year: 2026 },
-      // May
-      { userId: user.id, categoryId: catHousing.id,        amount: 950_000, month: 5, year: 2026 },
-      { userId: user.id, categoryId: catFood.id,            amount: 500_000, month: 5, year: 2026 },
-      { userId: user.id, categoryId: catTransport.id,       amount: 120_000, month: 5, year: 2026 },
-      { userId: user.id, categoryId: catEntertainment.id,   amount: 150_000, month: 5, year: 2026 },
-      { userId: user.id, categoryId: catHealth.id,          amount: 120_000, month: 5, year: 2026 },
-      { userId: user.id, categoryId: catUtilities.id,       amount: 200_000, month: 5, year: 2026 },
+      // January
+      { userId: user.id, categoryId: catHousing.id,       amount: 950_000, month: 1, year: 2026 },
+      { userId: user.id, categoryId: catFood.id,           amount: 450_000, month: 1, year: 2026 },
+      { userId: user.id, categoryId: catTransport.id,      amount: 120_000, month: 1, year: 2026 },
+      { userId: user.id, categoryId: catEntertainment.id,  amount: 120_000, month: 1, year: 2026 },
+      { userId: user.id, categoryId: catHealth.id,         amount: 200_000, month: 1, year: 2026 },
+      { userId: user.id, categoryId: catUtilities.id,      amount: 260_000, month: 1, year: 2026 },
+      { userId: user.id, categoryId: catEducation.id,      amount: 400_000, month: 1, year: 2026 },
+      // February
+      { userId: user.id, categoryId: catHousing.id,        amount: 950_000, month: 2, year: 2026 },
+      { userId: user.id, categoryId: catFood.id,            amount: 450_000, month: 2, year: 2026 },
+      { userId: user.id, categoryId: catTransport.id,       amount: 120_000, month: 2, year: 2026 },
+      { userId: user.id, categoryId: catEntertainment.id,   amount: 150_000, month: 2, year: 2026 },
+      { userId: user.id, categoryId: catHealth.id,          amount: 120_000, month: 2, year: 2026 },
+      { userId: user.id, categoryId: catUtilities.id,       amount: 260_000, month: 2, year: 2026 },
+      { userId: user.id, categoryId: catClothing.id,        amount: 200_000, month: 2, year: 2026 },
+      // March
+      { userId: user.id, categoryId: catHousing.id,         amount: 950_000, month: 3, year: 2026 },
+      { userId: user.id, categoryId: catFood.id,             amount: 450_000, month: 3, year: 2026 },
+      { userId: user.id, categoryId: catTransport.id,        amount: 150_000, month: 3, year: 2026 },
+      { userId: user.id, categoryId: catEntertainment.id,    amount: 120_000, month: 3, year: 2026 },
+      { userId: user.id, categoryId: catHealth.id,           amount: 250_000, month: 3, year: 2026 },
+      { userId: user.id, categoryId: catUtilities.id,        amount: 260_000, month: 3, year: 2026 },
+      { userId: user.id, categoryId: catEducation.id,        amount: 200_000, month: 3, year: 2026 },
+      // April (current)
+      { userId: user.id, categoryId: catHousing.id,          amount: 950_000, month: 4, year: 2026 },
+      { userId: user.id, categoryId: catFood.id,              amount: 500_000, month: 4, year: 2026 },
+      { userId: user.id, categoryId: catTransport.id,         amount: 120_000, month: 4, year: 2026 },
+      { userId: user.id, categoryId: catEntertainment.id,     amount: 150_000, month: 4, year: 2026 },
+      { userId: user.id, categoryId: catHealth.id,            amount: 120_000, month: 4, year: 2026 },
+      { userId: user.id, categoryId: catUtilities.id,         amount: 260_000, month: 4, year: 2026 },
+      { userId: user.id, categoryId: catEducation.id,         amount: 200_000, month: 4, year: 2026 },
+      // May (next month)
+      { userId: user.id, categoryId: catHousing.id,           amount: 950_000, month: 5, year: 2026 },
+      { userId: user.id, categoryId: catFood.id,               amount: 500_000, month: 5, year: 2026 },
+      { userId: user.id, categoryId: catTransport.id,          amount: 120_000, month: 5, year: 2026 },
+      { userId: user.id, categoryId: catEntertainment.id,      amount: 150_000, month: 5, year: 2026 },
+      { userId: user.id, categoryId: catHealth.id,             amount: 120_000, month: 5, year: 2026 },
+      { userId: user.id, categoryId: catUtilities.id,          amount: 260_000, month: 5, year: 2026 },
     ],
   })
-  console.log('  ✓ Budgets (14)')
+  console.log('  ✓ Budgets (34 — Jan–May 2026)')
 
   // ── 7. Goals + Contributions ──────────────────────────────────────────────
-  const [goalEmergency, goalVacation, goalLaptop, goalCar] = await Promise.all([
+  await Promise.all([
     prisma.goal.create({
       data: {
         userId: user.id,
@@ -458,14 +404,15 @@ async function main() {
         icon: 'shield-check',
         contributions: {
           create: [
-            { amount: 1_000_000, note: 'Initial deposit',     createdAt: date(2025, 9, 1)  },
-            { amount: 500_000,   note: 'Sep contribution',    createdAt: date(2025, 9, 30) },
-            { amount: 500_000,   note: 'Oct contribution',    createdAt: date(2025, 10, 31)},
-            { amount: 500_000,   note: 'Nov contribution',    createdAt: date(2025, 11, 30)},
-            { amount: 1_000_000, note: 'Year-end bonus part', createdAt: date(2025, 12, 31)},
-            { amount: 500_000,   note: 'Jan contribution',    createdAt: date(2026, 1, 31) },
-            { amount: 500_000,   note: 'Feb contribution',    createdAt: date(2026, 2, 28) },
-            { amount: 500_000,   note: 'Mar contribution',    createdAt: date(2026, 3, 31) },
+            { amount: 1_000_000, note: 'Initial deposit',     createdAt: date(2025, 9, 1)   },
+            { amount: 500_000,   note: 'Sep contribution',    createdAt: date(2025, 9, 30)  },
+            { amount: 500_000,   note: 'Oct contribution',    createdAt: date(2025, 10, 31) },
+            { amount: 500_000,   note: 'Nov contribution',    createdAt: date(2025, 11, 30) },
+            { amount: 1_000_000, note: 'Year-end bonus part', createdAt: date(2025, 12, 31) },
+            { amount: 500_000,   note: 'Jan contribution',    createdAt: date(2026, 1, 31)  },
+            { amount: 500_000,   note: 'Feb contribution',    createdAt: date(2026, 2, 28)  },
+            { amount: 500_000,   note: 'Mar contribution',    createdAt: date(2026, 3, 31)  },
+            { amount: 500_000,   note: 'Apr contribution',    createdAt: date(2026, 4, 15)  },
           ],
         },
       },
@@ -473,7 +420,7 @@ async function main() {
     prisma.goal.create({
       data: {
         userId: user.id,
-        name: 'Europe Vacation',
+        name: 'Europe Vacation ✈️',
         targetAmount: 8_000_000,
         startDate: date(2026, 1, 1),
         endDate: date(2026, 8, 1),
@@ -481,31 +428,33 @@ async function main() {
         icon: 'map',
         contributions: {
           create: [
-            { amount: 500_000, note: 'Jan',  createdAt: date(2026, 1, 31) },
-            { amount: 500_000, note: 'Feb',  createdAt: date(2026, 2, 28) },
-            { amount: 800_000, note: 'Mar',  createdAt: date(2026, 3, 31) },
-            { amount: 500_000, note: 'Apr',  createdAt: date(2026, 4, 15) },
+            { amount: 500_000, note: 'January',   createdAt: date(2026, 1, 31) },
+            { amount: 500_000, note: 'February',  createdAt: date(2026, 2, 28) },
+            { amount: 800_000, note: 'March',     createdAt: date(2026, 3, 31) },
+            { amount: 500_000, note: 'April',     createdAt: date(2026, 4, 15) },
           ],
         },
       },
     }),
+    // MacBook Pro goal — COMPLETED (all contributions reached target)
     prisma.goal.create({
       data: {
         userId: user.id,
         name: 'MacBook Pro M4',
         targetAmount: 9_500_000,
         startDate: date(2025, 10, 1),
-        endDate: date(2026, 6, 30),
-        status: GoalStatus.ACTIVE,
+        endDate: date(2026, 3, 31),
+        status: GoalStatus.COMPLETED,
         icon: 'computer-desktop',
         contributions: {
           create: [
-            { amount: 1_000_000, note: 'Initial',  createdAt: date(2025, 10, 1)  },
-            { amount: 800_000,   note: 'Nov',       createdAt: date(2025, 11, 30) },
-            { amount: 1_500_000, note: 'Xmas bonus part', createdAt: date(2025, 12, 31) },
-            { amount: 800_000,   note: 'Jan',       createdAt: date(2026, 1, 31)  },
-            { amount: 800_000,   note: 'Feb',       createdAt: date(2026, 2, 28)  },
-            { amount: 800_000,   note: 'Mar',       createdAt: date(2026, 3, 31)  },
+            { amount: 1_000_000, note: 'Initial',          createdAt: date(2025, 10, 1)  },
+            { amount: 800_000,   note: 'November',          createdAt: date(2025, 11, 30) },
+            { amount: 1_500_000, note: 'Xmas bonus part',   createdAt: date(2025, 12, 31) },
+            { amount: 800_000,   note: 'January',           createdAt: date(2026, 1, 31)  },
+            { amount: 800_000,   note: 'February',          createdAt: date(2026, 2, 28)  },
+            { amount: 800_000,   note: 'March',             createdAt: date(2026, 3, 15)  },
+            { amount: 3_800_000, note: 'Final – goal met!', createdAt: date(2026, 3, 31)  },
           ],
         },
       },
@@ -527,7 +476,7 @@ async function main() {
       },
     }),
   ])
-  console.log('  ✓ Goals (4) + Contributions')
+  console.log('  ✓ Goals (4) + Contributions  [MacBook = COMPLETED]')
 
   // ── 8. Debts + Payments ───────────────────────────────────────────────────
   await Promise.all([
@@ -546,8 +495,8 @@ async function main() {
         notes: 'Credit card revolving balance. Pay in full each cycle when possible.',
         payments: {
           create: [
-            { amount: 220_000, note: 'Aug partial',  paidAt: date(2025, 8, 15) },
-            { amount: 220_000, note: 'Sep partial',  paidAt: date(2025, 9, 15) },
+            { amount: 220_000, note: 'Aug partial',  paidAt: date(2025, 8, 15)  },
+            { amount: 220_000, note: 'Sep partial',  paidAt: date(2025, 9, 15)  },
             { amount: 220_000, note: 'Oct partial',  paidAt: date(2025, 10, 15) },
             { amount: 220_000, note: 'Nov partial',  paidAt: date(2025, 11, 15) },
             { amount: 120_000, note: 'Dec partial',  paidAt: date(2025, 12, 15) },
@@ -562,7 +511,7 @@ async function main() {
         name: 'Personal loan',
         creditor: 'Banco Davivienda',
         totalAmount: 6_000_000,
-        remainingAmount: 3_840_000,
+        remainingAmount: 3_480_000,
         interestRate: 18.50,
         startDate: date(2025, 6, 1),
         dueDate: date(2027, 6, 1),
@@ -571,17 +520,21 @@ async function main() {
         notes: 'Used for home renovation.',
         payments: {
           create: [
-            { amount: 360_000, note: 'Jun payment',  paidAt: date(2025, 6, 5)  },
-            { amount: 360_000, note: 'Jul payment',  paidAt: date(2025, 7, 5)  },
-            { amount: 360_000, note: 'Aug payment',  paidAt: date(2025, 8, 5)  },
-            { amount: 360_000, note: 'Sep payment',  paidAt: date(2025, 9, 5)  },
-            { amount: 360_000, note: 'Oct payment',  paidAt: date(2025, 10, 5) },
-            { amount: 360_000, note: 'Nov payment',  paidAt: date(2025, 11, 5) },
-            { amount: 360_000, note: 'Dec payment',  paidAt: date(2025, 12, 5) },
+            { amount: 360_000, note: 'Jun payment', paidAt: date(2025, 6, 5)  },
+            { amount: 360_000, note: 'Jul payment', paidAt: date(2025, 7, 5)  },
+            { amount: 360_000, note: 'Aug payment', paidAt: date(2025, 8, 5)  },
+            { amount: 360_000, note: 'Sep payment', paidAt: date(2025, 9, 5)  },
+            { amount: 360_000, note: 'Oct payment', paidAt: date(2025, 10, 5) },
+            { amount: 360_000, note: 'Nov payment', paidAt: date(2025, 11, 5) },
+            { amount: 360_000, note: 'Dec payment', paidAt: date(2025, 12, 5) },
+            { amount: 360_000, note: 'Jan payment', paidAt: date(2026, 1, 5)  },
+            { amount: 360_000, note: 'Feb payment', paidAt: date(2026, 2, 5)  },
+            { amount: 360_000, note: 'Mar payment', paidAt: date(2026, 3, 5)  },
           ],
         },
       },
     }),
+    // Fully paid — shows completed debt lifecycle
     prisma.debt.create({
       data: {
         userId: user.id,
@@ -591,7 +544,7 @@ async function main() {
         remainingAmount: 0,
         interestRate: 0,
         startDate: date(2024, 6, 1),
-        dueDate: date(2025, 6, 1),
+        dueDate: date(2025, 5, 1),
         paymentDay: 1,
         status: DebtStatus.PAID,
         notes: '12-month 0% installment plan. Fully paid off.',
@@ -599,17 +552,51 @@ async function main() {
           create: Array.from({ length: 12 }, (_, i) => ({
             amount: 350_000,
             note: `Installment ${i + 1}/12`,
-            paidAt: date(2024, 6 + i <= 12 ? 6 + i : 6 + i - 12, 1),
+            // June 2024 → May 2025 (fixed: month wraps to next year correctly)
+            paidAt: date(i < 7 ? 2024 : 2025, i < 7 ? 6 + i : i - 6, 1),
           })),
         },
       },
     }),
+    // Overdue — illustrates the OVERDUE status feature
+    prisma.debt.create({
+      data: {
+        userId: user.id,
+        name: 'Furniture credit',
+        creditor: 'Alkosto Financiero',
+        totalAmount: 2_400_000,
+        remainingAmount: 1_600_000,
+        interestRate: 22.00,
+        startDate: date(2025, 10, 1),
+        dueDate: date(2026, 3, 31),
+        paymentDay: 28,
+        status: DebtStatus.OVERDUE,
+        notes: 'Living room set. Missed payments in Feb and Mar — need to catch up.',
+        payments: {
+          create: [
+            { amount: 200_000, note: 'Oct payment', paidAt: date(2025, 10, 28) },
+            { amount: 200_000, note: 'Nov payment', paidAt: date(2025, 11, 28) },
+            { amount: 200_000, note: 'Dec payment', paidAt: date(2025, 12, 28) },
+            { amount: 200_000, note: 'Jan payment', paidAt: date(2026, 1, 28)  },
+          ],
+        },
+      },
+    }),
   ])
-  console.log('  ✓ Debts (3) + Payments')
+  console.log('  ✓ Debts (4) + Payments  [includes PAID + OVERDUE]')
 
   console.log('\n✅ Demo seed complete!')
   console.log('   Email:    demo@mycash.app')
   console.log('   Password: Demo1234!')
+  console.log('')
+  console.log('   Accounts  : 6   (Cash, Bank, Credit Card, Savings, Investment, Wallet)')
+  console.log('   Categories: 12  (4 income + 8 expense)')
+  console.log('   Sub-cats  : 34')
+  console.log(`   Txns      : ${txData.length}  (Nov 2025 – Apr 2026, all with subcategoryId)`)
+  console.log('   Transfers : 11')
+  console.log('   Budgets   : 34  (Jan – May 2026)')
+  console.log('   Goals     : 4   (1 COMPLETED, 2 ACTIVE in-progress, 1 ACTIVE new)')
+  console.log('   Debts     : 4   (1 ACTIVE, 1 ACTIVE, 1 PAID, 1 OVERDUE)')
 }
 
 main()
