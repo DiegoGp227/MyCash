@@ -11,7 +11,7 @@ interface GraphsOrganismProps {
 export default function GraphsOrganism({ summary, isLoading }: GraphsOrganismProps) {
   if (isLoading || !summary) {
     return (
-      <div className="h-[360px] rounded-lg border-2 border-primary-purple/30 bg-gray-bg dark:bg-black animate-pulse w-full" />
+      <div className="h-[360px] rounded-lg border-2 border-primary-purple/30 bg-white dark:bg-black animate-pulse w-full" />
     );
   }
 
@@ -27,7 +27,7 @@ export default function GraphsOrganism({ summary, isLoading }: GraphsOrganismPro
 
   if (!hasTransactions) {
     return (
-      <div className="rounded-lg border-2 border-primary-purple bg-gray-bg dark:bg-black p-6 flex items-center justify-center min-h-[200px] w-full">
+      <div className="rounded-lg border-2 border-primary-purple/40 dark:border-primary-purple bg-white dark:bg-black p-6 flex items-center justify-center min-h-[200px] w-full shadow-sm">
         <p className="text-hard-gray text-sm text-center">
           Registra transacciones para ver la tendencia de ingresos vs gastos.
         </p>

@@ -28,10 +28,10 @@ export default function TransactionsOrganism({
 }: TransactionsOrganismProps) {
   return (
     <div className="flex w-full flex-col gap-4">
-      <div className="flex flex-col rounded-lg border-2 bg-gray-bg p-6 shadow-md dark:bg-black border-primary-purple gap-4">
+      <div className="flex flex-col rounded-lg border-2 bg-white p-6 shadow-sm dark:bg-black border-primary-purple/40 dark:border-primary-purple gap-4">
         {/* Header */}
-        <div className="flex justify-between items-center border-b-2 border-gray-300 dark:border-dark-border pb-4">
-          <p className="text-2xl font-bold dark:text-white">Transacciones Recientes</p>
+        <div className="flex justify-between items-center border-b-2 border-gray-200 dark:border-dark-border pb-4">
+          <p className="text-2xl font-bold text-light-text-main dark:text-white">Transacciones Recientes</p>
           <Link
             href="/transactions"
             className="flex items-center gap-1 text-sm text-primary-purple hover:underline font-semibold"
@@ -76,7 +76,7 @@ export default function TransactionsOrganism({
                     }
                   </div>
                   <div>
-                    <p className="text-sm font-medium dark:text-white leading-tight">
+                    <p className="text-sm font-medium text-light-text-main dark:text-white leading-tight">
                       {t.description ?? t.categoryName ?? t.accountName}
                     </p>
                     <p className="text-xs text-hard-gray">

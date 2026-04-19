@@ -36,13 +36,13 @@ interface CardProps {
 
 function StatCard({ title, value, icon, valueColor, sub, subColor }: CardProps) {
   return (
-    <div className="flex flex-col gap-2 w-full min-h-[9rem] p-4 rounded border-2 border-primary-purple bg-gray-bg dark:bg-black">
+    <div className="flex flex-col gap-2 w-full min-h-[9rem] p-4 rounded border-2 border-primary-purple/40 dark:border-primary-purple bg-white dark:bg-black shadow-sm">
       <div className="flex items-center justify-between">
-        <span className="text-xs font-bold uppercase tracking-wider text-hard-gray">{title}</span>
+        <span className="text-xs font-bold uppercase tracking-wider text-light-text-secondary dark:text-hard-gray">{title}</span>
         <span className="text-primary-purple">{icon}</span>
       </div>
-      <div className={`text-3xl font-bold ${valueColor ?? "dark:text-white"}`}>{value}</div>
-      {sub && <p className={`text-xs ${subColor ?? "text-hard-gray"}`}>{sub}</p>}
+      <div className={`text-3xl font-bold ${valueColor ?? "text-light-text-main dark:text-white"}`}>{value}</div>
+      {sub && <p className={`text-xs ${subColor ?? "text-light-text-secondary dark:text-hard-gray"}`}>{sub}</p>}
     </div>
   );
 }
@@ -54,7 +54,7 @@ export default function GeneralAmount({ summary, isLoading }: GeneralAmountProps
         {[...Array(4)].map((_, i) => (
           <div
             key={i}
-            className="min-h-[9rem] p-4 rounded border-2 border-primary-purple/30 bg-gray-bg dark:bg-black animate-pulse"
+            className="min-h-[9rem] p-4 rounded border-2 border-primary-purple/30 bg-white dark:bg-black animate-pulse"
           />
         ))}
       </div>

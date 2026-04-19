@@ -50,8 +50,8 @@ export default function DashboardOrganism() {
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         {isLoading || !summary ? (
           <>
-            <div className="h-[360px] rounded-lg border-2 border-primary-purple/30 bg-gray-bg dark:bg-black animate-pulse" />
-            <div className="h-[360px] rounded-lg border-2 border-primary-purple/30 bg-gray-bg dark:bg-black animate-pulse" />
+            <div className="h-[360px] rounded-lg border-2 border-primary-purple/30 bg-white dark:bg-black animate-pulse" />
+            <div className="h-[360px] rounded-lg border-2 border-primary-purple/30 bg-white dark:bg-black animate-pulse" />
           </>
         ) : (
           <>
@@ -60,7 +60,7 @@ export default function DashboardOrganism() {
                 data={summary.expensesByCategory as Parameters<typeof ExpensesByCategoryChart>[0]["data"]}
               />
             ) : (
-              <div className="rounded-lg border-2 border-primary-purple bg-gray-bg dark:bg-black p-6 flex items-center justify-center min-h-[200px]">
+              <div className="rounded-lg border-2 border-primary-purple/40 dark:border-primary-purple bg-white dark:bg-black p-6 flex items-center justify-center min-h-[200px] shadow-sm">
                 <p className="text-hard-gray text-sm text-center">
                   Sin gastos categorizados este mes.
                 </p>
