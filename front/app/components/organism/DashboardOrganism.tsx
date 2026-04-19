@@ -3,6 +3,7 @@
 import { useEffect } from "react";
 import { AlertTriangle, RefreshCw } from "lucide-react";
 import { useDashboardStats } from "@/src/dashboard/hooks/useDashboardStats";
+import { ExpensesByCategoryChart } from "@/src/home/graphs";
 import GeneralAmount from "../molecules/GeneralAmount";
 import GraphsOrganism from "./GraphsOrganism";
 import TransactionsOrganism from "./TransactionsOrganism";
@@ -35,14 +36,43 @@ export default function DashboardOrganism() {
     );
   }
 
+  const hasCategoryData = (summary?.expensesByCategory?.length ?? 0) > 0;
+
   return (
-    <>
+    <div className="flex flex-col gap-8 w-full">
+      {/* Fila 1: 4 stat cards */}
       <GeneralAmount summary={summary} isLoading={isLoading} />
+
+      {/* Fila 2: Ingresos vs Gastos — full width */}
       <GraphsOrganism summary={summary} isLoading={isLoading} />
-      <TransactionsOrganism
-        transactions={summary?.recentTransactions ?? []}
-        isLoading={isLoading}
-      />
-    </>
+
+      {/* Fila 3: Gastos por Categoría + Transacciones Recientes — 50/50 */}
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        {isLoading || !summary ? (
+          <>
+            <div className="h-[360px] rounded-lg border-2 border-primary-purple/30 bg-gray-bg dark:bg-black animate-pulse" />
+            <div className="h-[360px] rounded-lg border-2 border-primary-purple/30 bg-gray-bg dark:bg-black animate-pulse" />
+          </>
+        ) : (
+          <>
+            {hasCategoryData ? (
+              <ExpensesByCategoryChart
+                data={summary.expensesByCategory as Parameters<typeof ExpensesByCategoryChart>[0]["data"]}
+              />
+            ) : (
+              <div className="rounded-lg border-2 border-primary-purple bg-gray-bg dark:bg-black p-6 flex items-center justify-center min-h-[200px]">
+                <p className="text-hard-gray text-sm text-center">
+                  Sin gastos categorizados este mes.
+                </p>
+              </div>
+            )}
+            <TransactionsOrganism
+              transactions={summary.recentTransactions}
+              isLoading={false}
+            />
+          </>
+        )}
+      </div>
+    </div>
   );
 }

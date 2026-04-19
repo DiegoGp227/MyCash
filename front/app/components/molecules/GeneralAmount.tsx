@@ -27,7 +27,7 @@ interface CardProps {
 
 function StatCard({ title, value, icon, valueColor, sub, subColor }: CardProps) {
   return (
-    <div className="flex flex-col gap-2 w-60 min-h-[9rem] p-4 rounded border-2 border-primary-purple bg-gray-bg dark:bg-black">
+    <div className="flex flex-col gap-2 w-full min-h-[9rem] p-4 rounded border-2 border-primary-purple bg-gray-bg dark:bg-black">
       <div className="flex items-center justify-between">
         <span className="text-xs font-bold uppercase tracking-wider text-hard-gray">{title}</span>
         <span className="text-primary-purple">{icon}</span>
@@ -41,11 +41,11 @@ function StatCard({ title, value, icon, valueColor, sub, subColor }: CardProps) 
 export default function GeneralAmount({ summary, isLoading }: GeneralAmountProps) {
   if (isLoading || !summary) {
     return (
-      <div className="flex w-full justify-center gap-6 flex-wrap">
+      <div className="grid grid-cols-2 xl:grid-cols-4 gap-4 w-full">
         {[...Array(4)].map((_, i) => (
           <div
             key={i}
-            className="w-60 min-h-[9rem] p-4 rounded border-2 border-primary-purple/30 bg-gray-bg dark:bg-black animate-pulse"
+            className="min-h-[9rem] p-4 rounded border-2 border-primary-purple/30 bg-gray-bg dark:bg-black animate-pulse"
           />
         ))}
       </div>
@@ -56,7 +56,7 @@ export default function GeneralAmount({ summary, isLoading }: GeneralAmountProps
   const netPositive = net >= 0;
 
   return (
-    <div className="flex w-full justify-center gap-6 flex-wrap">
+    <div className="grid grid-cols-2 xl:grid-cols-4 gap-4 w-full">
       <StatCard
         title="Balance Total"
         value={fmt(summary.totalBalance)}
