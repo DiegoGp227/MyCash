@@ -1,6 +1,6 @@
 import { Receipt } from "lucide-react";
-import ComingSoon from "@/app/components/molecules/ComingSoon";
 import PageHeader from "@/app/components/molecules/PageHeader";
+import DebtsSection from "./components/DebtsSection";
 
 export default function DebtsPage() {
   return (
@@ -10,7 +10,7 @@ export default function DebtsPage() {
         description="Gestiona tus deudas y créditos"
         icon={<Receipt size={28} className="text-primary-purple" />}
       />
-      <ComingSoon icon={<Receipt size={48} className="text-primary-purple" />} />
+      <DebtsSection />
     </div>
   );
 }

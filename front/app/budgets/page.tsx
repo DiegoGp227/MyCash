@@ -1,6 +1,6 @@
 import { Calculator } from "lucide-react";
-import ComingSoon from "@/app/components/molecules/ComingSoon";
 import PageHeader from "@/app/components/molecules/PageHeader";
+import BudgetsSection from "./components/BudgetsSection";
 
 export default function BudgetsPage() {
   return (
@@ -10,7 +10,7 @@ export default function BudgetsPage() {
         description="Controla tus límites de gasto por categoría"
         icon={<Calculator size={28} className="text-primary-purple" />}
       />
-      <ComingSoon icon={<Calculator size={48} className="text-primary-purple" />} />
+      <BudgetsSection />
     </div>
   );
 }

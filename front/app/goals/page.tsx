@@ -1,6 +1,6 @@
 import { Goal } from "lucide-react";
-import ComingSoon from "@/app/components/molecules/ComingSoon";
 import PageHeader from "@/app/components/molecules/PageHeader";
+import GoalsSection from "./components/GoalsSection";
 
 export default function GoalsPage() {
   return (
@@ -10,7 +10,7 @@ export default function GoalsPage() {
         description="Rastrea tus objetivos de ahorro"
         icon={<Goal size={28} className="text-primary-purple" />}
       />
-      <ComingSoon icon={<Goal size={48} className="text-primary-purple" />} />
+      <GoalsSection />
     </div>
   );
 }
