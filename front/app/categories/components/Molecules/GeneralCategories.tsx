@@ -21,11 +21,11 @@ export default function GeneralCategories() {
   }, [categories]);
 
   return (
-    <div className="flex w-full justify-center gap-20">
-      <GerelInfoDiv title="Total Categorias" content={stats.total} />
-      <GerelInfoDiv title="Categorias de Egreso" content={stats.expense} />
-      <GerelInfoDiv title="Categorias de Ingreso" content={stats.income} />
-      <GerelInfoDiv title="Categoria Mas Usada" content={stats.mostUsed} />
+    <div className="grid grid-cols-2 xl:grid-cols-4 gap-4 w-full">
+      <GerelInfoDiv title="Total Categories" content={stats.total} />
+      <GerelInfoDiv title="Expense Categories" content={stats.expense} />
+      <GerelInfoDiv title="Income Categories" content={stats.income} />
+      <GerelInfoDiv title="Most Used" content={stats.mostUsed} />
     </div>
   );
 }

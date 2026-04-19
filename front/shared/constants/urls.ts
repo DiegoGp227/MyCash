@@ -13,4 +13,6 @@ export const TransactionsURL = new URL("transactions", BaseURL);
 
 export const StatsURL = new URL("stats/summary", BaseURL);
 
+export const TransfersURL = new URL("transfers", BaseURL);
+
 

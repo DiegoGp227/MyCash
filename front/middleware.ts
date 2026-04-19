@@ -1,22 +1,33 @@
 import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
 
+// Rutas accesibles sin token
 const PUBLIC_ROUTES = ["/auth"];
+// Rutas que requieren token pero no redirigen a / si ya está autenticado
+const AUTHENTICATED_ROUTES = ["/onboarding"];
 
 export function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
   const token = request.cookies.get("token")?.value;
 
   const isPublic = PUBLIC_ROUTES.some((route) => pathname.startsWith(route));
+  const isAuthenticated = AUTHENTICATED_ROUTES.some((route) =>
+    pathname.startsWith(route)
+  );
 
-  // Si no hay token y la ruta es privada → redirigir a /auth
+  // Sin token en ruta protegida → /auth
   if (!token && !isPublic) {
     return NextResponse.redirect(new URL("/auth", request.url));
   }
 
-  // Si hay token y está en /auth → redirigir al dashboard
+  // Con token en /auth → dashboard (no al onboarding, el usuario ya existe)
   if (token && isPublic) {
     return NextResponse.redirect(new URL("/", request.url));
+  }
+
+  // /onboarding solo accesible con token (ya cubierto arriba, explícito por claridad)
+  if (!token && isAuthenticated) {
+    return NextResponse.redirect(new URL("/auth", request.url));
   }
 
   return NextResponse.next();

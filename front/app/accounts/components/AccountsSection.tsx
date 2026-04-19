@@ -84,7 +84,7 @@ export default function AccountsSection() {
   }).format(totalBalance);
 
   return (
-    <div className="flex flex-col w-full max-w-5xl gap-5 p-4 rounded border-2 border-primary-purple bg-gray-bg dark:bg-light-purple-bg">
+    <div className="flex flex-col w-full gap-5 p-4 rounded border-2 border-primary-purple bg-gray-bg dark:bg-light-purple-bg">
       {/* Header */}
       <div className="flex items-center justify-between">
         <div>

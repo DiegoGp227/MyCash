@@ -16,7 +16,7 @@ export default function CategoriesSecction({
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
 
   return (
-    <div className="flex flex-col w-7xl p-4 rounded border-2 border-primary-purple bg-gray-bg dark:bg-light-purple-bg gap-5">
+    <div className="flex flex-col w-full p-4 rounded border-2 border-primary-purple bg-gray-bg dark:bg-light-purple-bg gap-5">
       <HeaderCategories
         title={title}
         onNewCategory={() => setIsDrawerOpen(true)}

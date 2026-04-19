@@ -21,8 +21,12 @@ apiClient.interceptors.request.use((config) => {
 apiClient.interceptors.response.use(
   (response) => response,
   (error: AxiosError) => {
-    // Si el token expiró o es inválido, limpiar sesión y redirigir al login
-    if (error.response?.status === 401) {
+    const requestUrl = error.config?.url ?? "";
+    const isAuthEndpoint =
+      requestUrl.includes("/login") || requestUrl.includes("/signup");
+
+    // Si el token expiró o es inválido en una ruta protegida, limpiar sesión
+    if (error.response?.status === 401 && !isAuthEndpoint) {
       localStorage.removeItem("token");
       localStorage.removeItem("userInfo");
       document.cookie =

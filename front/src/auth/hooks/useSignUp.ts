@@ -23,7 +23,7 @@ export function useSignUp() {
           saveAuthToken(response.token);
           localStorage.setItem("userInfo", JSON.stringify(response.userInfo));
           setAuth(response);
-          router.push("/");
+          router.push("/onboarding");
         }
 
         return response;

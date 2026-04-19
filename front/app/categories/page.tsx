@@ -1,8 +1,15 @@
+import { Tags } from "lucide-react";
 import CategoriesOrganism from "./components/organism/CategoriesOrganism";
+import PageHeader from "@/app/components/molecules/PageHeader";
 
 export default function CategoryPage() {
   return (
-    <div className="flex items-center min-h-screen py-10 flex-col gap-20">
+    <div className="w-full px-6 py-8 flex flex-col gap-8">
+      <PageHeader
+        title="Categorías"
+        description="Organiza tus transacciones por categorías"
+        icon={<Tags size={28} className="text-primary-purple" />}
+      />
       <CategoriesOrganism />
     </div>
   );
