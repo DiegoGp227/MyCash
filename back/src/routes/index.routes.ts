@@ -23,6 +23,13 @@ import {
   deleteTransactionController,
 } from "../modules/transactions/transactions.controllers.js";
 import { getDashboardSummaryController } from "../modules/stats/stats.controllers.js";
+import {
+  createTransferController,
+  getTransfersController,
+  getTransferByIdController,
+  updateTransferController,
+  deleteTransferController,
+} from "../modules/transfers/transfers.controllers.js";
 import { authMiddleware } from "../middlewares/auth.middleware.js";
 
 export const router: Router = Router();
@@ -57,3 +64,10 @@ router.get("/transactions", authMiddleware, getTransactionsController);
 router.get("/transactions/:id", authMiddleware, getTransactionByIdController);
 router.patch("/transactions/:id", authMiddleware, updateTransactionController);
 router.delete("/transactions/:id", authMiddleware, deleteTransactionController);
+
+// Transfers routes (protected)
+router.post("/transfers", authMiddleware, createTransferController);
+router.get("/transfers", authMiddleware, getTransfersController);
+router.get("/transfers/:id", authMiddleware, getTransferByIdController);
+router.patch("/transfers/:id", authMiddleware, updateTransferController);
+router.delete("/transfers/:id", authMiddleware, deleteTransferController);
