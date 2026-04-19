@@ -3,7 +3,7 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { loginSchema, LoginInput } from "../shemas/auth.shemas";
-import { Eye, EyeClosed, SendHorizontal } from "lucide-react";
+import { Eye, EyeClosed, SendHorizontal, Zap } from "lucide-react";
 import { useLogin } from "../hooks/useLogin";
 import { useState } from "react";
 
@@ -17,10 +17,6 @@ export default function LoginForm() {
     formState: { errors },
   } = useForm<LoginInput>({
     resolver: zodResolver(loginSchema),
-    defaultValues: {
-      email: "demo@mycash.app",
-      password: "Demo1234!",
-    },
   });
 
   const onSubmit = async (data: LoginInput) => {
@@ -29,6 +25,10 @@ export default function LoginForm() {
     } catch (err) {
       console.error("Login failed:", err);
     }
+  };
+
+  const handleDemoLogin = async () => {
+    await login({ email: "demo@mycash.app", password: "Demo1234!" });
   };
 
   return (
@@ -100,6 +100,24 @@ export default function LoginForm() {
           {isLoading ? "Loading..." : "Send"}
         </span>
         <SendHorizontal className="text-white" size={18} />
+      </button>
+
+      <div className="flex items-center gap-2 my-1">
+        <div className="flex-1 h-px bg-light-text-secondary/30 dark:bg-hard-gray/30" />
+        <span className="text-xs text-light-text-secondary dark:text-hard-gray">o</span>
+        <div className="flex-1 h-px bg-light-text-secondary/30 dark:bg-hard-gray/30" />
+      </div>
+
+      <button
+        type="button"
+        onClick={handleDemoLogin}
+        disabled={isLoading}
+        className="flex border-2 border-primary-purple hover:bg-primary-purple/10 justify-center items-center py-2 px-2.5 rounded gap-1 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+      >
+        <Zap className="text-primary-purple" size={18} />
+        <span className="text-primary-purple font-semibold">
+          {isLoading ? "Cargando..." : "Start Demo"}
+        </span>
       </button>
     </form>
   );

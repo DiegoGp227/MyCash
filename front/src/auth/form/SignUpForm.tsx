@@ -2,15 +2,21 @@
 
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
-import { Eye, EyeClosed, SendHorizontal } from "lucide-react";
+import { Eye, EyeClosed, SendHorizontal, Zap } from "lucide-react";
 import { ICreateUserRequest } from "../types/auth.types";
 import { useSignUp } from "../hooks/useSignUp";
+import { useLogin } from "../hooks/useLogin";
 import { signupSchema, SignupInput } from "../shemas/auth.shemas";
 import { useState } from "react";
 
 export default function SignUpForm() {
   const { error: apiError, isLoading, signup } = useSignUp();
+  const { isLoading: isDemoLoading, login } = useLogin();
   const [showPassword, setShowPassword] = useState<boolean>(false);
+
+  const handleDemoLogin = async () => {
+    await login({ email: "demo@mycash.app", password: "Demo1234!" });
+  };
 
   const {
     register,
@@ -184,12 +190,30 @@ export default function SignUpForm() {
       <button
         type="submit"
         className="flex bg-primary-purple hover:bg-primary-purple-hover border-2 border-primary-purple hover:border-primary-purple-hover justify-center items-center py-2 px-2.5 rounded mt-2 gap-1 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
-        disabled={isLoading}
+        disabled={isLoading || isDemoLoading}
       >
         <span className="text-white font-semibold">
           {isLoading ? "Enviando..." : "Send"}
         </span>
         <SendHorizontal className="text-white" size={18} />
+      </button>
+
+      <div className="flex items-center gap-2 my-1">
+        <div className="flex-1 h-px bg-light-text-secondary/30 dark:bg-hard-gray/30" />
+        <span className="text-xs text-light-text-secondary dark:text-hard-gray">o</span>
+        <div className="flex-1 h-px bg-light-text-secondary/30 dark:bg-hard-gray/30" />
+      </div>
+
+      <button
+        type="button"
+        onClick={handleDemoLogin}
+        disabled={isLoading || isDemoLoading}
+        className="flex border-2 border-primary-purple hover:bg-primary-purple/10 justify-center items-center py-2 px-2.5 rounded gap-1 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+      >
+        <Zap className="text-primary-purple" size={18} />
+        <span className="text-primary-purple font-semibold">
+          {isDemoLoading ? "Cargando..." : "Start Demo"}
+        </span>
       </button>
     </form>
   );
