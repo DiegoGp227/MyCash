@@ -16,6 +16,15 @@ const fmt = (n: number) =>
     maximumFractionDigits: 0,
   }).format(n);
 
+const fmtPeriod = (start: string, end: string) => {
+  const s = new Date(start);
+  const e = new Date(end);
+  // end is exclusive, show end - 1 day
+  e.setDate(e.getDate() - 1);
+  const opts: Intl.DateTimeFormatOptions = { day: "numeric", month: "short" };
+  return `${s.toLocaleDateString("es-CO", opts)} – ${e.toLocaleDateString("es-CO", opts)}`;
+};
+
 interface CardProps {
   title: string;
   value: string;
@@ -54,6 +63,7 @@ export default function GeneralAmount({ summary, isLoading }: GeneralAmountProps
 
   const net = summary.netThisMonth;
   const netPositive = net >= 0;
+  const period = fmtPeriod(summary.periodStart, summary.periodEnd);
 
   return (
     <div className="grid grid-cols-2 xl:grid-cols-4 gap-4 w-full">
@@ -64,24 +74,26 @@ export default function GeneralAmount({ summary, isLoading }: GeneralAmountProps
         valueColor={summary.totalBalance >= 0 ? "text-green-600 dark:text-green-400" : "text-error"}
       />
       <StatCard
-        title="Balance del Mes"
+        title="Balance del Período"
         value={`${netPositive ? "+" : ""}${fmt(net)}`}
         icon={<BarChart2 size={20} />}
         valueColor={netPositive ? "text-green-600 dark:text-green-400" : "text-error"}
-        sub={netPositive ? "Mes con superávit" : "Mes con déficit"}
-        subColor={netPositive ? "text-green-500" : "text-error"}
+        sub={period}
+        subColor="text-hard-gray"
       />
       <StatCard
-        title="Ingresos del Mes"
+        title="Ingresos del Período"
         value={`+${fmt(summary.monthlyIncome)}`}
         icon={<TrendingUp size={20} />}
         valueColor="text-green-600 dark:text-green-400"
+        sub={period}
       />
       <StatCard
-        title="Gastos del Mes"
+        title="Gastos del Período"
         value={`-${fmt(summary.monthlyExpenses)}`}
         icon={<TrendingDown size={20} />}
         valueColor="text-error"
+        sub={period}
       />
     </div>
   );

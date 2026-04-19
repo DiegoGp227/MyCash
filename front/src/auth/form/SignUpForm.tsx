@@ -10,7 +10,7 @@ import { useState } from "react";
 
 export default function SignUpForm() {
   const { error: apiError, isLoading, signup } = useSignUp();
-  const [showPassword, setShowPassword] = useState<boolean>(true);
+  const [showPassword, setShowPassword] = useState<boolean>(false);
 
   const {
     register,
