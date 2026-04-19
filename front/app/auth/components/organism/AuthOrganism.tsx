@@ -12,8 +12,8 @@ export default function AuthOrganism() {
 
   return (
     <div className="flex justify-center items-center min-h-screen py-5">
-      <div className="border-2 border-primary-purple w-full max-w-96 p-5 items-center flex-col flex rounded m-5 gap-5 bg-black">
-        <h1 className="text-4xl font-bold text-hard-gray">
+      <div className="border-2 border-primary-purple w-full max-w-96 p-5 items-center flex-col flex rounded m-5 gap-5 bg-white dark:bg-black shadow-md">
+        <h1 className="text-4xl font-bold text-light-text-main dark:text-dark-text-main">
           {isLoginMode ? "LOGIN" : "SIGN UP"}
         </h1>
         {isLoginMode ? <LoginForm /> : <SignUpForm />}

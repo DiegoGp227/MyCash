@@ -37,14 +37,14 @@ export default function LoginForm() {
       className="w-full flex flex-col gap-2"
     >
       {/* EMAIL */}
-      <label htmlFor="email" className="text-hard-gray">
+      <label htmlFor="email" className="text-light-text-secondary dark:text-hard-gray">
         Email:*
       </label>
       <input
         type="email"
         id="email"
         {...register("email")}
-        className="input text-hard-gray"
+        className="input text-light-text-main dark:text-hard-gray"
         disabled={isLoading}
       />
       {errors.email && (
@@ -52,7 +52,7 @@ export default function LoginForm() {
       )}
 
       {/* PASSWORD */}
-      <label htmlFor="password" className="text-hard-gray">
+      <label htmlFor="password" className="text-light-text-secondary dark:text-hard-gray">
         Password:*
       </label>
 
@@ -61,7 +61,7 @@ export default function LoginForm() {
           type={showPassword ? "text" : "password"}
           id="password"
           {...register("password")}
-          className="input text-hard-gray pr-10 w-full"
+          className="input text-light-text-main dark:text-hard-gray pr-10 w-full"
           disabled={isLoading}
         />
 
@@ -93,13 +93,13 @@ export default function LoginForm() {
       {/* SUBMIT */}
       <button
         type="submit"
-        className="flex border-2 border-primary-purple hover:border-primary-purple-hover justify-center items-center py-2 px-2.5 rounded mt-2 hover:bg-main-purple gap-1"
+        className="flex bg-primary-purple hover:bg-primary-purple-hover border-2 border-primary-purple hover:border-primary-purple-hover justify-center items-center py-2 px-2.5 rounded mt-2 gap-1 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
         disabled={isLoading}
       >
-        <span className="text-hard-gray">
+        <span className="text-white font-semibold">
           {isLoading ? "Loading..." : "Send"}
         </span>
-        <SendHorizontal color="#ffffff" />
+        <SendHorizontal className="text-white" size={18} />
       </button>
     </form>
   );

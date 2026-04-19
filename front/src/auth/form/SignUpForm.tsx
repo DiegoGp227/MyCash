@@ -34,20 +34,20 @@ export default function SignUpForm() {
       onSubmit={handleSubmit(onSubmit)}
       className="w-full flex flex-col gap-2"
     >
-      <label htmlFor="email" className="text-hard-gray">
+      <label htmlFor="email" className="text-light-text-secondary dark:text-hard-gray">
         Email:*
       </label>
       <input
         type="email"
         id="email"
         {...register("email")}
-        className="input text-hard-gray"
+        className="input text-light-text-main dark:text-hard-gray"
         disabled={isLoading}
       />
       {errors.email && (
         <p className="text-red-500 text-sm">{errors.email.message}</p>
       )}
-      <label htmlFor="password" className="text-hard-gray">
+      <label htmlFor="password" className="text-light-text-secondary dark:text-hard-gray">
         Password:*
       </label>
       <div className="relative">
@@ -55,7 +55,7 @@ export default function SignUpForm() {
           type={showPassword ? "text" : "password"}
           id="password"
           {...register("password")}
-          className="input text-hard-gray pr-10 w-full"
+          className="input text-light-text-main dark:text-hard-gray pr-10 w-full"
           disabled={isLoading}
         />
         <button
@@ -76,7 +76,7 @@ export default function SignUpForm() {
         <p className="text-red-500 text-sm">{errors.password.message}</p>
       )}
 
-      <label htmlFor="confirmPassword" className="text-hard-gray">
+      <label htmlFor="confirmPassword" className="text-light-text-secondary dark:text-hard-gray">
         Confirm Password:*
       </label>
       <div className="relative">
@@ -84,7 +84,7 @@ export default function SignUpForm() {
           type={showPassword ? "text" : "password"}
           id="confirmPassword"
           {...register("confirmPassword")}
-          className="input text-hard-gray pr-10 w-full"
+          className="input text-light-text-main dark:text-hard-gray pr-10 w-full"
           disabled={isLoading}
         />
         <button
@@ -104,42 +104,42 @@ export default function SignUpForm() {
         <p className="text-red-500 text-sm">{errors.confirmPassword.message}</p>
       )}
 
-      <label htmlFor="name" className="text-hard-gray">
+      <label htmlFor="name" className="text-light-text-secondary dark:text-hard-gray">
         Name:*
       </label>
       <input
         type="text"
         id="name"
         {...register("name")}
-        className="input text-hard-gray"
+        className="input text-light-text-main dark:text-hard-gray"
         disabled={isLoading}
       />
       {errors.name && (
         <p className="text-red-500 text-sm">{errors.name.message}</p>
       )}
 
-      <label htmlFor="username" className="text-hard-gray">
+      <label htmlFor="username" className="text-light-text-secondary dark:text-hard-gray">
         Username:*
       </label>
       <input
         type="text"
         id="username"
         {...register("username")}
-        className="input text-hard-gray"
+        className="input text-light-text-main dark:text-hard-gray"
         disabled={isLoading}
       />
       {errors.username && (
         <p className="text-red-500 text-sm">{errors.username.message}</p>
       )}
 
-      <label htmlFor="cutoffDay" className="text-hard-gray">
+      <label htmlFor="cutoffDay" className="text-light-text-secondary dark:text-hard-gray">
         Cut Off Day:*
       </label>
       <input
         type="number"
         id="cutoffDay"
         {...register("cutoffDay", { valueAsNumber: true })}
-        className="input text-hard-gray"
+        className="input text-light-text-main dark:text-hard-gray"
         min="1"
         max="31"
         placeholder="1-31"
@@ -149,49 +149,27 @@ export default function SignUpForm() {
         <p className="text-red-500 text-sm">{errors.cutoffDay.message}</p>
       )}
 
-      <label htmlFor="currency" className="text-hard-gray">
+      <label htmlFor="currency" className="text-light-text-secondary dark:text-hard-gray">
         Currency:*
       </label>
       <select
         id="currency"
         {...register("currency")}
-        className="input bg-black cursor-pointer hover:border-primary-purple-hover transition-all text-hard-gray"
+        className="input bg-white dark:bg-black cursor-pointer hover:border-primary-purple-hover transition-all text-light-text-main dark:text-hard-gray"
         defaultValue=""
         disabled={isLoading}
       >
-        <option value="" disabled className="bg-black text-gray-400">
-          Select a currency
-        </option>
-        <option value="USD" className="bg-black text-primary-purple py-2">
-          USD - US Dollar
-        </option>
-        <option value="EUR" className="bg-black text-primary-purple py-2">
-          EUR - Euro
-        </option>
-        <option value="GBP" className="bg-black text-primary-purple py-2">
-          GBP - British Pound
-        </option>
-        <option value="COP" className="bg-black text-primary-purple py-2">
-          COP - Colombian Peso
-        </option>
-        <option value="MXN" className="bg-black text-primary-purple py-2">
-          MXN - Mexican Peso
-        </option>
-        <option value="BRL" className="bg-black text-primary-purple py-2">
-          BRL - Brazilian Real
-        </option>
-        <option value="ARS" className="bg-black text-primary-purple py-2">
-          ARS - Argentine Peso
-        </option>
-        <option value="CLP" className="bg-black text-primary-purple py-2">
-          CLP - Chilean Peso
-        </option>
-        <option value="PEN" className="bg-black text-primary-purple py-2">
-          PEN - Peruvian Sol
-        </option>
-        <option value="JPY" className="bg-black text-primary-purple py-2">
-          JPY - Japanese Yen
-        </option>
+        <option value="" disabled>Select a currency</option>
+        <option value="USD">USD - US Dollar</option>
+        <option value="EUR">EUR - Euro</option>
+        <option value="GBP">GBP - British Pound</option>
+        <option value="COP">COP - Colombian Peso</option>
+        <option value="MXN">MXN - Mexican Peso</option>
+        <option value="BRL">BRL - Brazilian Real</option>
+        <option value="ARS">ARS - Argentine Peso</option>
+        <option value="CLP">CLP - Chilean Peso</option>
+        <option value="PEN">PEN - Peruvian Sol</option>
+        <option value="JPY">JPY - Japanese Yen</option>
       </select>
       {errors.currency && (
         <p className="text-red-500 text-sm">{errors.currency.message}</p>
@@ -205,13 +183,13 @@ export default function SignUpForm() {
 
       <button
         type="submit"
-        className="flex border-2 border-primary-purple hover:border-primary-purple-hover justify-center items-center py-2 px-2.5 rounded mt-2 hover:bg-main-purple gap-1 disabled:opacity-50 disabled:cursor-not-allowed"
+        className="flex bg-primary-purple hover:bg-primary-purple-hover border-2 border-primary-purple hover:border-primary-purple-hover justify-center items-center py-2 px-2.5 rounded mt-2 gap-1 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
         disabled={isLoading}
       >
-        <span className="text-hard-gray">
+        <span className="text-white font-semibold">
           {isLoading ? "Enviando..." : "Send"}
         </span>
-        <SendHorizontal color="#ffffff" />
+        <SendHorizontal className="text-white" size={18} />
       </button>
     </form>
   );
