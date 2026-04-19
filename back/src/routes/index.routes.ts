@@ -30,6 +30,31 @@ import {
   updateTransferController,
   deleteTransferController,
 } from "../modules/transfers/transfers.controllers.js";
+import {
+  createDebtController,
+  getDebtsController,
+  getDebtByIdController,
+  updateDebtController,
+  deleteDebtController,
+  addPaymentController,
+  deletePaymentController,
+} from "../modules/debts/debts.controllers.js";
+import {
+  createGoalController,
+  getGoalsController,
+  getGoalByIdController,
+  updateGoalController,
+  deleteGoalController,
+  addContributionController,
+  deleteContributionController,
+} from "../modules/goals/goals.controllers.js";
+import {
+  createBudgetController,
+  getBudgetsController,
+  getBudgetByIdController,
+  updateBudgetController,
+  deleteBudgetController,
+} from "../modules/budgets/budgets.controllers.js";
 import { authMiddleware } from "../middlewares/auth.middleware.js";
 
 export const router: Router = Router();
@@ -71,3 +96,28 @@ router.get("/transfers", authMiddleware, getTransfersController);
 router.get("/transfers/:id", authMiddleware, getTransferByIdController);
 router.patch("/transfers/:id", authMiddleware, updateTransferController);
 router.delete("/transfers/:id", authMiddleware, deleteTransferController);
+
+// Debts routes (protected)
+router.post("/debts", authMiddleware, createDebtController);
+router.get("/debts", authMiddleware, getDebtsController);
+router.get("/debts/:id", authMiddleware, getDebtByIdController);
+router.patch("/debts/:id", authMiddleware, updateDebtController);
+router.delete("/debts/:id", authMiddleware, deleteDebtController);
+router.post("/debts/:id/payments", authMiddleware, addPaymentController);
+router.delete("/debts/:id/payments/:paymentId", authMiddleware, deletePaymentController);
+
+// Goals routes (protected)
+router.post("/goals", authMiddleware, createGoalController);
+router.get("/goals", authMiddleware, getGoalsController);
+router.get("/goals/:id", authMiddleware, getGoalByIdController);
+router.patch("/goals/:id", authMiddleware, updateGoalController);
+router.delete("/goals/:id", authMiddleware, deleteGoalController);
+router.post("/goals/:id/contributions", authMiddleware, addContributionController);
+router.delete("/goals/:id/contributions/:contributionId", authMiddleware, deleteContributionController);
+
+// Budgets routes (protected)
+router.post("/budgets", authMiddleware, createBudgetController);
+router.get("/budgets", authMiddleware, getBudgetsController);
+router.get("/budgets/:id", authMiddleware, getBudgetByIdController);
+router.patch("/budgets/:id", authMiddleware, updateBudgetController);
+router.delete("/budgets/:id", authMiddleware, deleteBudgetController);
