@@ -27,7 +27,7 @@ export default function TransactionsOrganism({
   isLoading,
 }: TransactionsOrganismProps) {
   return (
-    <div className="flex w-full flex-col gap-4 p-6">
+    <div className="flex w-full flex-col gap-4">
       <div className="flex flex-col rounded-lg border-2 bg-gray-bg p-6 shadow-md dark:bg-black border-primary-purple gap-4">
         {/* Header */}
         <div className="flex justify-between items-center border-b-2 border-gray-300 dark:border-dark-border pb-4">
