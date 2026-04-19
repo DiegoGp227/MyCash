@@ -1,5 +1,5 @@
 const BaseURL =
-  process.env.NEXT_PUBLIC_API_URL ?? "https://api-mycash.devdiego.work/api";
+  process.env.NEXT_PUBLIC_API_URL ?? "https://api-mycash.devdiego.work/api/";
 
 export const SignUpURL = new URL("signup", BaseURL);
 
