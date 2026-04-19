@@ -1,7 +1,8 @@
 import prisma from "../../db/prisma.js";
+import { getCurrentPeriod, getLastNPeriods } from "../../utils/period.js";
 
 export interface IMonthlyPoint {
-  month: string; // "Ene", "Feb", etc.
+  month: string;
   income: number;
   expenses: number;
 }
@@ -16,6 +17,8 @@ export interface IDashboardSummary {
   monthlyIncome: number;
   monthlyExpenses: number;
   netThisMonth: number;
+  periodStart: Date;
+  periodEnd: Date;
   recentTransactions: {
     id: string;
     accountName: string;
@@ -33,27 +36,33 @@ const MONTH_NAMES = ["Ene", "Feb", "Mar", "Abr", "May", "Jun", "Jul", "Ago", "Se
 
 export const getDashboardSummary = async (userId: string): Promise<IDashboardSummary> => {
   const now = new Date();
-  const monthStart = new Date(now.getFullYear(), now.getMonth(), 1);
-  const monthEnd = new Date(now.getFullYear(), now.getMonth() + 1, 0, 23, 59, 59, 999);
 
-  // Start of 6 months ago
-  const sixMonthsAgo = new Date(now.getFullYear(), now.getMonth() - 5, 1);
+  // Fetch user cutoffDay
+  const user = await prisma.user.findUnique({
+    where: { id: userId },
+    select: { cutoffDay: true },
+  });
 
-  const [accounts, monthlyAgg, recentRaw, last6MonthsRaw, expByCatRaw] = await Promise.all([
-    // Total balance across all active accounts
+  const cutoffDay = user?.cutoffDay ?? 1;
+
+  const { start: periodStart, end: periodEnd } = getCurrentPeriod(cutoffDay, now);
+  const last6 = getLastNPeriods(cutoffDay, 6, now);
+
+  // Oldest period start for the trend query
+  const trendSince = last6[0].start;
+
+  const [accounts, monthlyAgg, recentRaw, trendRaw, expByCatRaw] = await Promise.all([
     prisma.account.findMany({
       where: { userId, isActive: true },
       select: { balance: true },
     }),
 
-    // Monthly income + expenses aggregates
     prisma.transaction.groupBy({
       by: ["type"],
-      where: { userId, date: { gte: monthStart, lte: monthEnd } },
+      where: { userId, date: { gte: periodStart, lt: periodEnd } },
       _sum: { amount: true },
     }),
 
-    // Last 5 transactions
     prisma.transaction.findMany({
       where: { userId },
       select: {
@@ -69,18 +78,16 @@ export const getDashboardSummary = async (userId: string): Promise<IDashboardSum
       take: 5,
     }),
 
-    // Transactions from the last 6 months for trend chart
     prisma.transaction.findMany({
-      where: { userId, date: { gte: sixMonthsAgo } },
+      where: { userId, date: { gte: trendSince } },
       select: { type: true, amount: true, date: true },
     }),
 
-    // Expenses by category this month
     prisma.transaction.findMany({
       where: {
         userId,
         type: "EXPENSE",
-        date: { gte: monthStart, lte: monthEnd },
+        date: { gte: periodStart, lt: periodEnd },
         categoryId: { not: null },
       },
       select: {
@@ -93,7 +100,7 @@ export const getDashboardSummary = async (userId: string): Promise<IDashboardSum
   // Total balance
   const totalBalance = accounts.reduce((sum, a) => sum + a.balance.toNumber(), 0);
 
-  // Monthly income/expenses
+  // Current period income / expenses
   let monthlyIncome = 0;
   let monthlyExpenses = 0;
   for (const row of monthlyAgg) {
@@ -113,35 +120,35 @@ export const getDashboardSummary = async (userId: string): Promise<IDashboardSum
     date: t.date,
   }));
 
-  // Monthly trend: build a map [year-month] → { income, expenses }
-  const trendMap = new Map<string, { income: number; expenses: number }>();
+  // Trend: assign each transaction to its cutoff period
+  const trendMap = new Map<string, { income: number; expenses: number; label: string }>();
 
-  // Initialize all 6 months with 0
-  for (let i = 5; i >= 0; i--) {
-    const d = new Date(now.getFullYear(), now.getMonth() - i, 1);
-    const key = `${d.getFullYear()}-${d.getMonth()}`;
-    trendMap.set(key, { income: 0, expenses: 0 });
+  for (const p of last6) {
+    const key = p.start.toISOString();
+    trendMap.set(key, { income: 0, expenses: 0, label: p.label });
   }
 
-  for (const t of last6MonthsRaw) {
-    const key = `${t.date.getFullYear()}-${t.date.getMonth()}`;
-    const entry = trendMap.get(key);
-    if (!entry) continue;
-    const amount = t.amount.toNumber();
-    if (t.type === "INCOME") entry.income += amount;
-    else entry.expenses += amount;
+  for (const t of trendRaw) {
+    // Find which period this transaction belongs to
+    for (const p of last6) {
+      if (t.date >= p.start && t.date < p.end) {
+        const key = p.start.toISOString();
+        const entry = trendMap.get(key)!;
+        const amount = t.amount.toNumber();
+        if (t.type === "INCOME") entry.income += amount;
+        else entry.expenses += amount;
+        break;
+      }
+    }
   }
 
-  const monthlyTrend: IMonthlyPoint[] = Array.from(trendMap.entries()).map(([key, val]) => {
-    const [year, month] = key.split("-").map(Number);
-    return {
-      month: MONTH_NAMES[month],
-      income: Math.round(val.income),
-      expenses: Math.round(val.expenses),
-    };
-  });
+  const monthlyTrend: IMonthlyPoint[] = Array.from(trendMap.values()).map((v) => ({
+    month: v.label,
+    income: Math.round(v.income),
+    expenses: Math.round(v.expenses),
+  }));
 
-  // Expenses by category: group by name and sum
+  // Expenses by category
   const catMap = new Map<string, number>();
   for (const t of expByCatRaw) {
     const name = t.category?.name ?? "Sin categoría";
@@ -157,6 +164,8 @@ export const getDashboardSummary = async (userId: string): Promise<IDashboardSum
     monthlyIncome,
     monthlyExpenses,
     netThisMonth: monthlyIncome - monthlyExpenses,
+    periodStart,
+    periodEnd,
     recentTransactions,
     monthlyTrend,
     expensesByCategory,
