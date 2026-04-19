@@ -24,6 +24,8 @@ export interface IDashboardSummary {
   monthlyIncome: number;
   monthlyExpenses: number;
   netThisMonth: number;
+  periodStart: string;
+  periodEnd: string;
   recentTransactions: IRecentTransaction[];
   monthlyTrend: IMonthlyPoint[];
   expensesByCategory: ICategoryExpense[];
