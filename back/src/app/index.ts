@@ -18,7 +18,7 @@ app.use(
       "http://localhost:3001",
       "http://localhost:3002",
       "http://localhost:5001",
-      "http://18.191.112.24:3000",
+      "https://mycash.devdiego.work/",
     ],
     credentials: true,
     methods: ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"],
