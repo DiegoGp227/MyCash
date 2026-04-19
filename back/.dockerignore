@@ -5,4 +5,5 @@ dist
 .gitignore
 Dockerfile
 docker-compose.yml
+compose.yml
 README.md

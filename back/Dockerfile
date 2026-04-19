@@ -3,7 +3,7 @@
 # ======================
 FROM node:20-slim AS builder
 
-RUN apt-get update -y && \
+RUN apt-get update -o Acquire::Check-Valid-Until=false -y && \
     apt-get install -y openssl ca-certificates && \
     rm -rf /var/lib/apt/lists/*
 
@@ -34,8 +34,8 @@ RUN pnpm build
 # ======================
 FROM node:20-slim
 
-RUN apt-get update -y && \
-    apt-get install -y openssl ca-certificates && \
+RUN apt-get update -o Acquire::Check-Valid-Until=false -y && \
+    apt-get install -y openssl ca-certificates postgresql-client && \
     rm -rf /var/lib/apt/lists/*
 
 WORKDIR /app
@@ -55,4 +55,4 @@ COPY prisma ./prisma
 EXPOSE 4001
 
 # Script de inicio que ejecuta migraciones y luego inicia el servidor
-CMD ["sh", "-c", "pnpm prisma migrate deploy && pnpm start"]
+CMD ["sh", "-c", "until pg_isready -h postgres -p 5432; do echo 'Waiting for postgres...'; sleep 2; done && pnpm prisma migrate deploy && pnpm start"]
