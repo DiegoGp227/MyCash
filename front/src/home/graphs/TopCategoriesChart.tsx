@@ -33,9 +33,9 @@ const CustomTooltip = ({ active, payload }: any) => {
       <div className="rounded-lg border border-gray-700 bg-gray-900 p-3 shadow-xl">
         <p className="mb-1 font-semibold text-white">{data.payload.category}</p>
         <p className="text-sm text-green-400">
-          Gasto: ${data.value?.toLocaleString()}
+          Expense: ${data.value?.toLocaleString()}
         </p>
-        <p className="text-sm text-purple-400">{percentage}% del total</p>
+        <p className="text-sm text-purple-400">{percentage}% of total</p>
       </div>
     );
   }
@@ -46,7 +46,7 @@ export default function TopCategoriesChart({ data }: TopCategoriesChartProps) {
   return (
     <div className="flex-1 rounded-lg border-2 bg-white p-6 shadow-sm dark:bg-black border-primary-purple/40 dark:border-primary-purple">
       <h3 className="mb-4 text-lg font-semibold text-gray-800 dark:text-gray-200">
-        Top 5 Categorías de Gasto
+        Top 5 Expense Categories
       </h3>
       <ResponsiveContainer width="100%" height={300}>
         <BarChart data={data} layout="vertical">

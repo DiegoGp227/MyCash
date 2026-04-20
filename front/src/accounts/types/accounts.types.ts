@@ -7,12 +7,12 @@ export type AccountType =
   | "DIGITAL_WALLET";
 
 export const ACCOUNT_TYPE_LABELS: Record<AccountType, string> = {
-  CASH: "Efectivo",
-  BANK: "Banco",
-  CREDIT_CARD: "Tarjeta de Crédito",
-  SAVINGS: "Ahorros",
-  INVESTMENT: "Inversiones",
-  DIGITAL_WALLET: "Billetera Digital",
+  CASH: "Cash",
+  BANK: "Bank",
+  CREDIT_CARD: "Credit Card",
+  SAVINGS: "Savings",
+  INVESTMENT: "Investments",
+  DIGITAL_WALLET: "Digital Wallet",
 };
 
 export interface IAccount {
