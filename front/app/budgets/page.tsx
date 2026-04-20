@@ -7,7 +7,7 @@ export default function BudgetsPage() {
     <div className="w-full px-4 pt-14 pb-6 md:px-6 md:py-8 flex flex-col gap-8">
       <PageHeader
         title="Presupuestos"
-        description="Controla tus límites de gasto por categoría"
+        description="Control your spending limits by category"
         icon={<Calculator size={28} className="text-primary-purple" />}
       />
       <BudgetsSection />
