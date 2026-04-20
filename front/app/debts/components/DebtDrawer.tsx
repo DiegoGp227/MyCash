@@ -36,9 +36,9 @@ interface DebtDrawerPayProps extends DebtDrawerBaseProps {
 type DebtDrawerProps = DebtDrawerCreateProps | DebtDrawerEditProps | DebtDrawerPayProps;
 
 const titles: Record<DrawerMode, string> = {
-  create: "Nueva Deuda",
-  edit: "Editar Deuda",
-  pay: "Registrar Pago",
+  create: "New Debt",
+  edit: "Edit Debt",
+  pay: "Record Payment",
 };
 
 export default function DebtDrawer(props: DebtDrawerProps) {

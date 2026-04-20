@@ -8,10 +8,10 @@ import DebtCard from "./DebtCard";
 import DebtDrawer from "./DebtDrawer";
 
 const STATUS_TABS: { label: string; value: DebtStatus | "ALL" }[] = [
-  { label: "Activas", value: "ACTIVE" },
-  { label: "Vencidas", value: "OVERDUE" },
-  { label: "Pagadas", value: "PAID" },
-  { label: "Todas", value: "ALL" },
+  { label: "Active", value: "ACTIVE" },
+  { label: "Overdue", value: "OVERDUE" },
+  { label: "Paid", value: "PAID" },
+  { label: "All", value: "ALL" },
 ];
 
 export default function DebtsSection() {
@@ -73,7 +73,7 @@ export default function DebtsSection() {
         className="flex items-center justify-center gap-2 h-10 w-full rounded border-2 border-dashed border-primary-purple text-primary-purple text-sm font-medium hover:bg-primary-purple/5 transition-colors"
       >
         <Plus size={16} />
-        Nueva Deuda
+        New Debt
       </button>
 
       {/* Debt cards */}
@@ -88,8 +88,8 @@ export default function DebtsSection() {
         </div>
       ) : debts.length === 0 ? (
         <div className="flex flex-col items-center justify-center py-16 gap-2 text-hard-gray">
-          <p className="font-medium">Sin deudas en esta categoría</p>
-          <p className="text-sm">Crea una con el botón de arriba</p>
+          <p className="font-medium">No debts in this category</p>
+          <p className="text-sm">Create one with the button above</p>
         </div>
       ) : (
         <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">

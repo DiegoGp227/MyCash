@@ -64,37 +64,37 @@ export default function DebtForm(props: DebtFormProps) {
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-5">
       <div className="flex flex-col gap-1">
-        <label className="text-sm font-medium dark:text-white">Nombre de la deuda</label>
+        <label className="text-sm font-medium dark:text-white">Debt name</label>
         <input
           type="text"
-          placeholder="Ej: Tarjeta Visa"
-          {...register("name", { required: "El nombre es requerido" })}
+          placeholder="E.g.: Visa Card"
+          {...register("name", { required: "Name is required" })}
           className="w-full h-10 px-3 rounded border border-gray-300 dark:border-dark-border bg-white dark:bg-dark-bg dark:text-white text-sm focus:outline-none focus:border-primary-purple"
         />
         {errors.name && <p className="text-error text-xs">{errors.name.message}</p>}
       </div>
 
       <div className="flex flex-col gap-1">
-        <label className="text-sm font-medium dark:text-white">Acreedor</label>
+        <label className="text-sm font-medium dark:text-white">Creditor</label>
         <input
           type="text"
-          placeholder="Ej: Banco de Bogotá"
-          {...register("creditor", { required: "El acreedor es requerido" })}
+          placeholder="E.g.: Bank of America"
+          {...register("creditor", { required: "Creditor is required" })}
           className="w-full h-10 px-3 rounded border border-gray-300 dark:border-dark-border bg-white dark:bg-dark-bg dark:text-white text-sm focus:outline-none focus:border-primary-purple"
         />
         {errors.creditor && <p className="text-error text-xs">{errors.creditor.message}</p>}
       </div>
 
       <div className="flex flex-col gap-1">
-        <label className="text-sm font-medium dark:text-white">Monto total</label>
+        <label className="text-sm font-medium dark:text-white">Total amount</label>
         <input
           type="number"
           min={1}
           step="any"
           placeholder="0"
           {...register("totalAmount", {
-            required: "El monto es requerido",
-            min: { value: 1, message: "Debe ser mayor a 0" },
+            required: "Amount is required",
+            min: { value: 1, message: "Must be greater than 0" },
             valueAsNumber: true,
           })}
           className="w-full h-10 px-3 rounded border border-gray-300 dark:border-dark-border bg-white dark:bg-dark-bg dark:text-white text-sm focus:outline-none focus:border-primary-purple"
@@ -104,7 +104,7 @@ export default function DebtForm(props: DebtFormProps) {
 
       <div className="grid grid-cols-2 gap-3">
         <div className="flex flex-col gap-1">
-          <label className="text-sm font-medium dark:text-white">Tasa de interés % (opcional)</label>
+          <label className="text-sm font-medium dark:text-white">Interest rate % (optional)</label>
           <input
             type="number"
             min={0}
@@ -116,7 +116,7 @@ export default function DebtForm(props: DebtFormProps) {
           />
         </div>
         <div className="flex flex-col gap-1">
-          <label className="text-sm font-medium dark:text-white">Día de pago (opcional)</label>
+          <label className="text-sm font-medium dark:text-white">Payment day (optional)</label>
           <input
             type="number"
             min={1}
@@ -129,7 +129,7 @@ export default function DebtForm(props: DebtFormProps) {
       </div>
 
       <div className="flex flex-col gap-1">
-        <label className="text-sm font-medium dark:text-white">Fecha de vencimiento (opcional)</label>
+        <label className="text-sm font-medium dark:text-white">Due date (optional)</label>
         <input
           type="date"
           {...register("dueDate")}
@@ -138,9 +138,9 @@ export default function DebtForm(props: DebtFormProps) {
       </div>
 
       <div className="flex flex-col gap-1">
-        <label className="text-sm font-medium dark:text-white">Notas (opcional)</label>
+        <label className="text-sm font-medium dark:text-white">Notes (optional)</label>
         <textarea
-          placeholder="Observaciones..."
+          placeholder="Observations..."
           rows={2}
           {...register("notes")}
           className="w-full px-3 py-2 rounded border border-gray-300 dark:border-dark-border bg-white dark:bg-dark-bg dark:text-white text-sm focus:outline-none focus:border-primary-purple resize-none"
@@ -153,7 +153,7 @@ export default function DebtForm(props: DebtFormProps) {
           onClick={props.onCancel}
           className="flex-1 h-10 rounded border border-gray-300 dark:border-dark-border text-sm dark:text-white hover:bg-gray-50 dark:hover:bg-dark-bg transition-colors"
         >
-          Cancelar
+          Cancel
         </button>
         <button
           type="submit"
@@ -161,8 +161,8 @@ export default function DebtForm(props: DebtFormProps) {
           className="flex-1 h-10 rounded bg-primary-purple text-white text-sm font-medium hover:opacity-90 transition-opacity disabled:opacity-50"
         >
           {props.isLoading
-            ? props.mode === "create" ? "Creando..." : "Guardando..."
-            : props.mode === "create" ? "Crear" : "Guardar"}
+            ? props.mode === "create" ? "Creating..." : "Saving..."
+            : props.mode === "create" ? "Create" : "Save"}
         </button>
       </div>
     </form>

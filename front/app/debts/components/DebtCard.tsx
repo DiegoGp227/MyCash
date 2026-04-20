@@ -19,9 +19,9 @@ const STATUS_STYLES: Record<IDebt["status"], string> = {
 };
 
 const STATUS_LABELS: Record<IDebt["status"], string> = {
-  ACTIVE: "Activa",
-  PAID: "Pagada",
-  OVERDUE: "Vencida",
+  ACTIVE: "Active",
+  PAID: "Paid",
+  OVERDUE: "Overdue",
 };
 
 interface DebtCardProps {
@@ -96,7 +96,7 @@ export default function DebtCard({ debt, onUpdate, onDelete, onPay }: DebtCardPr
         {/* Progress */}
         <div className="flex flex-col gap-1">
           <div className="flex justify-between text-xs text-hard-gray mb-1">
-            <span>Pagado: {fmt(paid)}</span>
+            <span>Paid: {fmt(paid)}</span>
             <span>Total: {fmt(debt.totalAmount)}</span>
           </div>
           <div className="w-full h-2.5 bg-gray-200 dark:bg-dark-bg rounded-full overflow-hidden">
@@ -106,9 +106,9 @@ export default function DebtCard({ debt, onUpdate, onDelete, onPay }: DebtCardPr
             />
           </div>
           <div className="flex justify-between text-xs mt-0.5">
-            <span className="text-hard-gray">{pct.toFixed(0)}% pagado</span>
+            <span className="text-hard-gray">{pct.toFixed(0)}% paid</span>
             {debt.remainingAmount > 0 && (
-              <span className="font-medium text-error">Restante: {fmt(debt.remainingAmount)}</span>
+              <span className="font-medium text-error">Remaining: {fmt(debt.remainingAmount)}</span>
             )}
           </div>
         </div>
@@ -116,14 +116,14 @@ export default function DebtCard({ debt, onUpdate, onDelete, onPay }: DebtCardPr
         {/* Extra info */}
         <div className="flex flex-wrap gap-x-4 gap-y-1 text-xs text-hard-gray">
           {debt.interestRate !== null && (
-            <span>Interés: {debt.interestRate}% EA</span>
+            <span>Interest: {debt.interestRate}% EA</span>
           )}
           {debt.paymentDay && (
-            <span>Pago: día {debt.paymentDay}</span>
+            <span>Payment: day {debt.paymentDay}</span>
           )}
           {debt.dueDate && (
             <span className={isOverdue ? "text-error" : ""}>
-              Vence: {new Date(debt.dueDate).toLocaleDateString("es-CO")}
+              Due: {new Date(debt.dueDate).toLocaleDateString("en-US")}
             </span>
           )}
         </div>
@@ -138,7 +138,7 @@ export default function DebtCard({ debt, onUpdate, onDelete, onPay }: DebtCardPr
             onClick={() => setIsPayOpen(true)}
             className="flex items-center justify-center gap-1.5 h-8 w-full rounded border border-primary-purple text-primary-purple text-xs font-medium hover:bg-primary-purple/5 transition-colors"
           >
-            <CreditCard size={13} /> Registrar Pago
+            <CreditCard size={13} /> Record Payment
           </button>
         )}
       </div>
