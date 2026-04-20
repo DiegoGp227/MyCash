@@ -15,7 +15,7 @@ export default function HeaderCategories({ title, onNewCategory }: IHeaderCatego
             onClick={onNewCategory}
             className="bg-primary-purple py-1 px-3 rounded text-white cursor-pointer hover:bg-primary-purple-hover transition-colors"
           >
-            Nueva Categoria
+            New Category
           </button>
         </div>
       </div>

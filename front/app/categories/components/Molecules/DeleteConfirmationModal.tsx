@@ -34,10 +34,10 @@ export default function DeleteConfirmationModal({
               <AlertTriangle className="text-error" size={24} />
             </div>
             <h3 className="text-lg font-bold dark:text-white text-center">
-              Eliminar categoria &apos;{categoryName}&apos;?
+              Delete category &apos;{categoryName}&apos;?
             </h3>
             <p className="text-sm text-hard-gray text-center">
-              Esta accion no se puede deshacer. La categoria sera eliminada permanentemente.
+              This action cannot be undone. The category will be permanently deleted.
             </p>
           </div>
           <div className="flex gap-3 mt-6">
@@ -47,7 +47,7 @@ export default function DeleteConfirmationModal({
               disabled={isDeleting}
               className="flex-1 py-2 rounded border-2 border-primary-purple text-black dark:text-white cursor-pointer font-semibold hover:bg-gray-100 dark:hover:bg-dark-bg transition-colors"
             >
-              Cancelar
+              Cancel
             </button>
             <button
               type="button"
@@ -55,7 +55,7 @@ export default function DeleteConfirmationModal({
               disabled={isDeleting}
               className="flex-1 py-2 rounded bg-error text-white cursor-pointer font-semibold hover:bg-red-700 transition-colors"
             >
-              {isDeleting ? "Eliminando..." : "Eliminar"}
+              {isDeleting ? "Deleting..." : "Delete"}
             </button>
           </div>
         </div>
