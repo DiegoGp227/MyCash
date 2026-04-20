@@ -38,7 +38,7 @@ export default function CategoryDrawer({
         {/* Header */}
         <div className="flex items-center justify-between p-4 border-b border-gray-300 dark:border-dark-border sticky top-0 bg-white dark:bg-dark-surface">
           <h2 className="text-xl font-bold dark:text-white">
-            {mode === "create" ? "Nueva Categoria" : "Editar Categoria"}
+            {mode === "create" ? "New Category" : "Edit Category"}
           </h2>
           <button
             onClick={onClose}
@@ -55,7 +55,7 @@ export default function CategoryDrawer({
             onCancel={onClose}
             defaultValues={defaultValues}
             isLoading={isLoading}
-            submitLabel={mode === "create" ? "Crear" : "Guardar"}
+            submitLabel={mode === "create" ? "Create" : "Save"}
             type={type}
           />
         </div>

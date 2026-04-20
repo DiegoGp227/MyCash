@@ -47,7 +47,7 @@ export default function CategoryForm({
       {/* Nombre */}
       <div className="flex flex-col gap-1">
         <label htmlFor="name" className="text-hard-gray font-semibold">
-          Nombre *
+          Name *
         </label>
         <input
           type="text"
@@ -55,7 +55,7 @@ export default function CategoryForm({
           {...register("name")}
           className="input text-hard-gray"
           disabled={isLoading}
-          placeholder="Ej: Alimentacion"
+          placeholder="E.g.: Food"
         />
         {errors.name && (
           <p className="text-red-500 text-sm">{errors.name.message}</p>
@@ -80,7 +80,7 @@ export default function CategoryForm({
 
       {/* Icono */}
       <div className="flex flex-col gap-1">
-        <label className="text-hard-gray font-semibold">Icono</label>
+        <label className="text-hard-gray font-semibold">Icon</label>
         <Controller
           name="icon"
           control={control}
@@ -105,14 +105,14 @@ export default function CategoryForm({
           disabled={isLoading}
           className="flex-1 py-2 rounded border-2 border-primary-purple text-black dark:text-white cursor-pointer font-semibold hover:bg-gray-100 dark:hover:bg-dark-surface transition-colors"
         >
-          Cancelar
+          Cancel
         </button>
         <button
           type="submit"
           disabled={isLoading}
           className="flex-1 py-2 rounded bg-primary-purple text-white cursor-pointer font-semibold hover:bg-primary-purple-hover transition-colors"
         >
-          {isLoading ? "Guardando..." : submitLabel}
+          {isLoading ? "Saving..." : submitLabel}
         </button>
       </div>
     </form>

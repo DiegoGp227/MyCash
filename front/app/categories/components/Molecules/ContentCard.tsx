@@ -11,11 +11,11 @@ export default function ContentCard({ onEdit, onView, onDelete }: ContentCardPro
     <div>
       <div className="flex justify-between p-2 border-b border-gray-300 dark:border-primary-purple">
         <div>
-          <p>Este Mes</p>
+          <p>This Month</p>
           <p className="font-bold text-2xl text-hard-gray">-</p>
         </div>
         <div>
-          <p>Transacciones</p>
+          <p>Transactions</p>
           <p className="font-bold flex justify-end text-2xl text-hard-gray">-</p>
         </div>
       </div>
@@ -25,13 +25,13 @@ export default function ContentCard({ onEdit, onView, onDelete }: ContentCardPro
           onClick={onEdit}
           className="bg-primary-purple rounded text-white cursor-pointer w-[38%] font-semibold hover:bg-primary-purple-hover transition-colors py-1"
         >
-          Editar
+          Edit
         </button>
         <button
           onClick={onView}
           className="rounded border-2 border-primary-purple text-black cursor-pointer w-[38%] font-semibold dark:text-white hover:bg-gray-100 dark:hover:bg-dark-surface transition-colors py-1"
         >
-          Ver
+          View
         </button>
         <button
           onClick={onDelete}
