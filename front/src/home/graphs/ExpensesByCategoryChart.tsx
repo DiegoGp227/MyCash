@@ -39,9 +39,9 @@ const CustomTooltip = ({ active, payload }: any) => {
       <div className="rounded-lg border border-gray-700 bg-gray-900 p-3 shadow-xl">
         <p className="mb-1 font-semibold text-white">{data.name}</p>
         <p className="text-sm text-green-400">
-          Monto: ${data.value?.toLocaleString()}
+          Amount: ${data.value?.toLocaleString()}
         </p>
-        <p className="text-sm text-purple-400">Porcentaje: {percentage}%</p>
+        <p className="text-sm text-purple-400">Percentage: {percentage}%</p>
       </div>
     );
   }
@@ -54,7 +54,7 @@ export default function ExpensesByCategoryChart({
   return (
     <div className="flex-1 rounded-lg border-2 bg-white p-6 shadow-sm dark:bg-black border-primary-purple/40 dark:border-primary-purple">
       <h3 className="mb-4 text-lg font-semibold text-gray-800 dark:text-gray-200">
-        Gastos por Categoría
+        Expenses by Category
       </h3>
       <ResponsiveContainer width="100%" height={300}>
         <PieChart>

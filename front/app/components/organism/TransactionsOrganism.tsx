@@ -31,12 +31,12 @@ export default function TransactionsOrganism({
       <div className="flex flex-col rounded-lg border-2 bg-white p-6 shadow-sm dark:bg-black border-primary-purple/40 dark:border-primary-purple gap-4">
         {/* Header */}
         <div className="flex justify-between items-center border-b-2 border-gray-200 dark:border-dark-border pb-4">
-          <p className="text-2xl font-bold text-light-text-main dark:text-white">Transacciones Recientes</p>
+          <p className="text-2xl font-bold text-light-text-main dark:text-white">Recent Transactions</p>
           <Link
             href="/transactions"
             className="flex items-center gap-1 text-sm text-primary-purple hover:underline font-semibold"
           >
-            Ver todas <ArrowRight size={14} />
+            View all <ArrowRight size={14} />
           </Link>
         </div>
 
@@ -49,9 +49,9 @@ export default function TransactionsOrganism({
           </div>
         ) : transactions.length === 0 ? (
           <div className="flex flex-col items-center py-8 gap-2 text-center">
-            <p className="text-hard-gray">No hay transacciones aún.</p>
+            <p className="text-hard-gray">No transactions yet.</p>
             <Link href="/transactions" className="text-sm text-primary-purple hover:underline">
-              Registra tu primera transacción
+              Record your first transaction
             </Link>
           </div>
         ) : (

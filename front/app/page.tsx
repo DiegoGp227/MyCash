@@ -7,7 +7,7 @@ export default function HomePage() {
     <div className="w-full px-4 pt-14 pb-6 md:px-6 md:py-8 flex flex-col gap-8">
       <PageHeader
         title="Dashboard"
-        description="Resumen de tu situación financiera"
+        description="Summary of your financial situation"
         icon={<House size={28} className="text-primary-purple" />}
       />
       <DashboardOrganism />

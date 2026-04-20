@@ -56,7 +56,7 @@ export default function ExpenseTrendsChart({
   return (
     <div className="rounded-lg border-2 bg-white p-6 shadow-sm dark:bg-black border-primary-purple/40 dark:border-primary-purple">
       <h3 className="mb-4 text-lg font-semibold text-gray-800 dark:text-gray-200">
-        Evolución de Gastos por Categoría
+        Expense Trends by Category
       </h3>
       <ResponsiveContainer width="100%" height={300}>
         <AreaChart data={data}>
