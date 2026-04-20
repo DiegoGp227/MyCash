@@ -61,7 +61,7 @@ export default function TransactionForm({
     <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-4">
       {/* Tipo */}
       <div className="flex flex-col gap-1">
-        <label className="text-hard-gray font-semibold">Tipo *</label>
+        <label className="text-hard-gray font-semibold">Type *</label>
         <div className="flex rounded overflow-hidden border-2 border-primary-purple">
           {(["EXPENSE", "INCOME"] as const).map((t) => (
             <label
@@ -75,7 +75,7 @@ export default function TransactionForm({
                 }`}
             >
               <input type="radio" {...register("type")} value={t} className="sr-only" />
-              {t === "EXPENSE" ? "Gasto" : "Ingreso"}
+              {t === "EXPENSE" ? "Expense" : "Income"}
             </label>
           ))}
         </div>
@@ -84,7 +84,7 @@ export default function TransactionForm({
 
       {/* Monto */}
       <div className="flex flex-col gap-1">
-        <label htmlFor="amount" className="text-hard-gray font-semibold">Monto *</label>
+        <label htmlFor="amount" className="text-hard-gray font-semibold">Amount *</label>
         <input
           type="number"
           id="amount"
@@ -100,7 +100,7 @@ export default function TransactionForm({
 
       {/* Fecha */}
       <div className="flex flex-col gap-1">
-        <label htmlFor="date" className="text-hard-gray font-semibold">Fecha *</label>
+        <label htmlFor="date" className="text-hard-gray font-semibold">Date *</label>
         <input
           type="date"
           id="date"
@@ -113,7 +113,7 @@ export default function TransactionForm({
 
       {/* Cuenta */}
       <div className="flex flex-col gap-1">
-        <label htmlFor="accountId" className="text-hard-gray font-semibold">Cuenta *</label>
+        <label htmlFor="accountId" className="text-hard-gray font-semibold">Account *</label>
         <select
           id="accountId"
           {...register("accountId")}
@@ -121,7 +121,7 @@ export default function TransactionForm({
           disabled={isLoading || accounts.length === 0}
         >
           <option value="">
-            {accounts.length === 0 ? "No hay cuentas registradas" : "Selecciona una cuenta"}
+            {accounts.length === 0 ? "No accounts registered" : "Select an account"}
           </option>
           {accounts.map((acc) => (
             <option key={acc.id} value={acc.id}>
@@ -135,7 +135,7 @@ export default function TransactionForm({
       {/* Categoría */}
       <div className="flex flex-col gap-1">
         <label htmlFor="categoryId" className="text-hard-gray font-semibold">
-          Categoría <span className="text-xs font-normal text-hard-gray">(opcional)</span>
+          Category <span className="text-xs font-normal text-hard-gray">(optional)</span>
         </label>
         <select
           id="categoryId"
@@ -143,7 +143,7 @@ export default function TransactionForm({
           className="input text-hard-gray"
           disabled={isLoading}
         >
-          <option value="">Sin categoría</option>
+          <option value="">No category</option>
           {categories.map((cat) => (
             <option key={cat.id} value={cat.id}>
               {cat.name}
@@ -155,7 +155,7 @@ export default function TransactionForm({
       {/* Descripción */}
       <div className="flex flex-col gap-1">
         <label htmlFor="description" className="text-hard-gray font-semibold">
-          Descripción <span className="text-xs font-normal text-hard-gray">(opcional)</span>
+          Description <span className="text-xs font-normal text-hard-gray">(optional)</span>
         </label>
         <input
           type="text"
@@ -163,7 +163,7 @@ export default function TransactionForm({
           {...register("description")}
           className="input text-hard-gray"
           disabled={isLoading}
-          placeholder="Ej: Pago de servicios"
+          placeholder="E.g.: Utility bill"
         />
         {errors.description && <p className="text-red-500 text-sm">{errors.description.message}</p>}
       </div>
@@ -176,14 +176,14 @@ export default function TransactionForm({
           disabled={isLoading}
           className="flex-1 py-2 rounded border-2 border-primary-purple text-black dark:text-white cursor-pointer font-semibold hover:bg-gray-100 dark:hover:bg-dark-surface transition-colors"
         >
-          Cancelar
+          Cancel
         </button>
         <button
           type="submit"
           disabled={isLoading}
           className="flex-1 py-2 rounded bg-primary-purple text-white cursor-pointer font-semibold hover:bg-primary-purple-hover transition-colors"
         >
-          {isLoading ? "Guardando..." : submitLabel}
+          {isLoading ? "Saving..." : submitLabel}
         </button>
       </div>
     </form>

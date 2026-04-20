@@ -32,10 +32,10 @@ export default function TransactionDeleteModal({
               <AlertTriangle className="text-error" size={24} />
             </div>
             <h3 className="text-lg font-bold dark:text-white text-center">
-              Eliminar transacción?
+              Delete transaction?
             </h3>
             <p className="text-sm text-hard-gray text-center">
-              Esta acción no se puede deshacer. El balance de la cuenta también será revertido.
+              This action cannot be undone. The account balance will also be reverted.
             </p>
           </div>
           <div className="flex gap-3 mt-6">
@@ -45,7 +45,7 @@ export default function TransactionDeleteModal({
               disabled={isDeleting}
               className="flex-1 py-2 rounded border-2 border-primary-purple text-black dark:text-white cursor-pointer font-semibold hover:bg-gray-100 dark:hover:bg-dark-bg transition-colors"
             >
-              Cancelar
+              Cancel
             </button>
             <button
               type="button"
@@ -53,7 +53,7 @@ export default function TransactionDeleteModal({
               disabled={isDeleting}
               className="flex-1 py-2 rounded bg-error text-white cursor-pointer font-semibold hover:bg-red-700 transition-colors"
             >
-              {isDeleting ? "Eliminando..." : "Eliminar"}
+              {isDeleting ? "Deleting..." : "Delete"}
             </button>
           </div>
         </div>
