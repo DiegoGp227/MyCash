@@ -8,10 +8,10 @@ import GoalCard from "./GoalCard";
 import GoalDrawer from "./GoalDrawer";
 
 const STATUS_TABS: { label: string; value: GoalStatus | "ALL" }[] = [
-  { label: "Activas", value: "ACTIVE" },
-  { label: "Completadas", value: "COMPLETED" },
-  { label: "Canceladas", value: "CANCELLED" },
-  { label: "Todas", value: "ALL" },
+  { label: "Active", value: "ACTIVE" },
+  { label: "Completed", value: "COMPLETED" },
+  { label: "Cancelled", value: "CANCELLED" },
+  { label: "All", value: "ALL" },
 ];
 
 export default function GoalsSection() {
@@ -85,7 +85,7 @@ export default function GoalsSection() {
         className="flex items-center justify-center gap-2 h-10 w-full rounded border-2 border-dashed border-primary-purple text-primary-purple text-sm font-medium hover:bg-primary-purple/5 transition-colors"
       >
         <Plus size={16} />
-        Nueva Meta
+        New Goal
       </button>
 
       {/* Goal cards */}
@@ -100,8 +100,8 @@ export default function GoalsSection() {
         </div>
       ) : goals.length === 0 ? (
         <div className="flex flex-col items-center justify-center py-16 gap-2 text-hard-gray">
-          <p className="font-medium">Sin metas en esta categoría</p>
-          <p className="text-sm">Crea una con el botón de arriba</p>
+          <p className="font-medium">No goals in this category</p>
+          <p className="text-sm">Create one with the button above</p>
         </div>
       ) : (
         <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">
