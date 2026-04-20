@@ -22,7 +22,7 @@ export default function DashboardOrganism() {
           <AlertTriangle size={28} className="text-error" />
         </div>
         <div>
-          <p className="font-semibold dark:text-white">No se pudo cargar el dashboard</p>
+          <p className="font-semibold dark:text-white">Could not load the dashboard</p>
           <p className="text-sm text-hard-gray mt-1">{error}</p>
         </div>
         <button
@@ -30,7 +30,7 @@ export default function DashboardOrganism() {
           className="flex items-center gap-2 px-4 py-2 rounded bg-primary-purple text-white font-semibold hover:bg-primary-purple-hover transition-colors cursor-pointer"
         >
           <RefreshCw size={16} />
-          Reintentar
+          Retry
         </button>
       </div>
     );
@@ -62,7 +62,7 @@ export default function DashboardOrganism() {
             ) : (
               <div className="rounded-lg border-2 border-primary-purple/40 dark:border-primary-purple bg-white dark:bg-black p-6 flex items-center justify-center min-h-[200px] shadow-sm">
                 <p className="text-hard-gray text-sm text-center">
-                  Sin gastos categorizados este mes.
+                  No categorized expenses this month.
                 </p>
               </div>
             )}

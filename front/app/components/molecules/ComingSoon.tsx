@@ -3,7 +3,7 @@ export default function ComingSoon({ icon }: { icon: React.ReactNode }) {
     <div className="flex items-center justify-center min-h-[40vh]">
       <div className="flex flex-col items-center gap-4 text-center">
         {icon}
-        <p className="text-hard-gray">Esta sección estará disponible próximamente.</p>
+        <p className="text-hard-gray">This section will be available soon.</p>
       </div>
     </div>
   );

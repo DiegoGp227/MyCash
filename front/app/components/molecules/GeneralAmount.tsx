@@ -68,13 +68,13 @@ export default function GeneralAmount({ summary, isLoading }: GeneralAmountProps
   return (
     <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-4 w-full">
       <StatCard
-        title="Balance Total"
+        title="Total Balance"
         value={fmt(summary.totalBalance)}
         icon={<Wallet size={20} />}
         valueColor={summary.totalBalance >= 0 ? "text-green-600 dark:text-green-400" : "text-error"}
       />
       <StatCard
-        title="Balance del Período"
+        title="Period Balance"
         value={`${netPositive ? "+" : ""}${fmt(net)}`}
         icon={<BarChart2 size={20} />}
         valueColor={netPositive ? "text-green-600 dark:text-green-400" : "text-error"}
@@ -82,14 +82,14 @@ export default function GeneralAmount({ summary, isLoading }: GeneralAmountProps
         subColor="text-hard-gray"
       />
       <StatCard
-        title="Ingresos del Período"
+        title="Period Income"
         value={`+${fmt(summary.monthlyIncome)}`}
         icon={<TrendingUp size={20} />}
         valueColor="text-green-600 dark:text-green-400"
         sub={period}
       />
       <StatCard
-        title="Gastos del Período"
+        title="Period Expenses"
         value={`-${fmt(summary.monthlyExpenses)}`}
         icon={<TrendingDown size={20} />}
         valueColor="text-error"
