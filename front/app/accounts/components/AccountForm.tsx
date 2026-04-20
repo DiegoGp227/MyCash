@@ -46,7 +46,7 @@ export default function AccountForm({
       {/* Nombre */}
       <div className="flex flex-col gap-1">
         <label htmlFor="name" className="text-hard-gray font-semibold">
-          Nombre *
+          Name *
         </label>
         <input
           type="text"
@@ -54,7 +54,7 @@ export default function AccountForm({
           {...register("name")}
           className="input text-hard-gray"
           disabled={isLoading}
-          placeholder="Ej: Cuenta Bancolombia"
+          placeholder="E.g.: Main Checking"
         />
         {errors.name && (
           <p className="text-red-500 text-sm">{errors.name.message}</p>
@@ -64,7 +64,7 @@ export default function AccountForm({
       {/* Tipo */}
       <div className="flex flex-col gap-1">
         <label htmlFor="type" className="text-hard-gray font-semibold">
-          Tipo *
+          Type *
         </label>
         <select
           id="type"
@@ -86,7 +86,7 @@ export default function AccountForm({
       {/* Saldo */}
       <div className="flex flex-col gap-1">
         <label htmlFor="balance" className="text-hard-gray font-semibold">
-          {mode === "create" ? "Saldo inicial *" : "Saldo actual *"}
+          {mode === "create" ? "Initial balance *" : "Current balance *"}
         </label>
         <input
           type="number"
@@ -104,7 +104,7 @@ export default function AccountForm({
 
       {/* Color */}
       <div className="flex flex-col gap-1">
-        <label className="text-hard-gray font-semibold">Color</label>
+        <label className="text-hard-gray font-semibold">Color *</label>
         <Controller
           name="color"
           control={control}
@@ -126,14 +126,14 @@ export default function AccountForm({
           disabled={isLoading}
           className="flex-1 py-2 rounded border-2 border-primary-purple text-black dark:text-white cursor-pointer font-semibold hover:bg-gray-100 dark:hover:bg-dark-surface transition-colors"
         >
-          Cancelar
+          Cancel
         </button>
         <button
           type="submit"
           disabled={isLoading}
           className="flex-1 py-2 rounded bg-primary-purple text-white cursor-pointer font-semibold hover:bg-primary-purple-hover transition-colors"
         >
-          {isLoading ? "Guardando..." : submitLabel}
+          {isLoading ? "Saving..." : submitLabel}
         </button>
       </div>
     </form>

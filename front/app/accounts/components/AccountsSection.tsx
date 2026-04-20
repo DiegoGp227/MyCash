@@ -88,10 +88,10 @@ export default function AccountsSection() {
       {/* Header */}
       <div className="flex items-center justify-between">
         <div>
-          <h2 className="text-xl font-bold dark:text-white">Mis Cuentas</h2>
+          <h2 className="text-xl font-bold dark:text-white">My Accounts</h2>
           {accounts.length > 0 && (
             <p className="text-sm text-hard-gray">
-              Balance total: <span className="font-semibold text-primary-purple">{formattedTotal}</span>
+              Total balance: <span className="font-semibold text-primary-purple">{formattedTotal}</span>
             </p>
           )}
         </div>
@@ -100,20 +100,20 @@ export default function AccountsSection() {
           className="flex items-center gap-2 px-4 py-2 rounded bg-primary-purple text-white font-semibold hover:bg-primary-purple-hover transition-colors cursor-pointer"
         >
           <Plus size={18} />
-          Nueva Cuenta
+          New Account
         </button>
       </div>
 
       {/* Content */}
       {isLoading ? (
         <div className="flex justify-center py-10">
-          <span className="text-hard-gray">Cargando cuentas...</span>
+          <span className="text-hard-gray">Loading accounts...</span>
         </div>
       ) : accounts.length === 0 ? (
         <div className="flex flex-col items-center justify-center py-12 gap-2 text-center">
-          <p className="text-hard-gray">No tienes cuentas registradas.</p>
+          <p className="text-hard-gray">No accounts registered yet.</p>
           <p className="text-sm text-hard-gray">
-            Crea tu primera cuenta para empezar a registrar transacciones.
+            Create your first account to start recording transactions.
           </p>
         </div>
       ) : (

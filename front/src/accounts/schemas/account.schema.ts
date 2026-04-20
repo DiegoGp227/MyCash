@@ -3,16 +3,16 @@ import { z } from "zod";
 export const accountSchema = z.object({
   name: z
     .string()
-    .min(2, "El nombre debe tener al menos 2 caracteres")
-    .max(50, "El nombre no puede exceder 50 caracteres"),
+    .min(2, "Name must be at least 2 characters")
+    .max(50, "Name cannot exceed 50 characters"),
   type: z.enum(
     ["CASH", "BANK", "CREDIT_CARD", "SAVINGS", "INVESTMENT", "DIGITAL_WALLET"],
-    { message: "Selecciona un tipo de cuenta" }
+    { message: "Select an account type" }
   ),
-  balance: z.number({ message: "El saldo debe ser un número" }),
+  balance: z.number({ message: "Balance must be a number" }),
   color: z
     .string()
-    .regex(/^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$/, "Color hexadecimal no válido")
+    .regex(/^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$/, "Invalid hex color")
     .optional()
     .or(z.literal("")),
   icon: z.string().optional(),
