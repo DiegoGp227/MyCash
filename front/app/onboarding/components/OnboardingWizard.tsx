@@ -12,10 +12,10 @@ type Step = "welcome" | "account" | "categories" | "done";
 const STEPS: Step[] = ["welcome", "account", "categories", "done"];
 
 const STEP_LABELS: Record<Step, string> = {
-  welcome: "Bienvenida",
-  account: "Cuenta",
-  categories: "Categorías",
-  done: "Listo",
+  welcome: "Welcome",
+  account: "Account",
+  categories: "Categories",
+  done: "Done",
 };
 
 interface OnboardingWizardProps {

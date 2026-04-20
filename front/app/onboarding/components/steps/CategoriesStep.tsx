@@ -9,23 +9,23 @@ interface PresetCategory extends ICreateCategory {
 }
 
 const PRESET_EXPENSES: PresetCategory[] = [
-  { name: "Alimentación", color: "#22c55e", emoji: "🍔", type: "EXPENSE" },
-  { name: "Transporte", color: "#3b82f6", emoji: "🚗", type: "EXPENSE" },
-  { name: "Vivienda", color: "#f97316", emoji: "🏠", type: "EXPENSE" },
-  { name: "Salud", color: "#ef4444", emoji: "🏥", type: "EXPENSE" },
-  { name: "Educación", color: "#a855f7", emoji: "📚", type: "EXPENSE" },
-  { name: "Entretenimiento", color: "#ec4899", emoji: "🎮", type: "EXPENSE" },
-  { name: "Ropa", color: "#eab308", emoji: "👕", type: "EXPENSE" },
-  { name: "Servicios", color: "#06b6d4", emoji: "💡", type: "EXPENSE" },
-  { name: "Mascotas", color: "#84cc16", emoji: "🐾", type: "EXPENSE" },
+  { name: "Food", color: "#22c55e", emoji: "🍔", type: "EXPENSE" },
+  { name: "Transport", color: "#3b82f6", emoji: "🚗", type: "EXPENSE" },
+  { name: "Housing", color: "#f97316", emoji: "🏠", type: "EXPENSE" },
+  { name: "Health", color: "#ef4444", emoji: "🏥", type: "EXPENSE" },
+  { name: "Education", color: "#a855f7", emoji: "📚", type: "EXPENSE" },
+  { name: "Entertainment", color: "#ec4899", emoji: "🎮", type: "EXPENSE" },
+  { name: "Clothing", color: "#eab308", emoji: "👕", type: "EXPENSE" },
+  { name: "Utilities", color: "#06b6d4", emoji: "💡", type: "EXPENSE" },
+  { name: "Pets", color: "#84cc16", emoji: "🐾", type: "EXPENSE" },
 ];
 
 const PRESET_INCOMES: PresetCategory[] = [
-  { name: "Salario", color: "#22c55e", emoji: "💰", type: "INCOME" },
+  { name: "Salary", color: "#22c55e", emoji: "💰", type: "INCOME" },
   { name: "Freelance", color: "#3b82f6", emoji: "💻", type: "INCOME" },
-  { name: "Inversiones", color: "#a855f7", emoji: "📈", type: "INCOME" },
-  { name: "Negocio propio", color: "#f97316", emoji: "🏪", type: "INCOME" },
-  { name: "Otros ingresos", color: "#6b7280", emoji: "💵", type: "INCOME" },
+  { name: "Investments", color: "#a855f7", emoji: "📈", type: "INCOME" },
+  { name: "Own business", color: "#f97316", emoji: "🏪", type: "INCOME" },
+  { name: "Other income", color: "#6b7280", emoji: "💵", type: "INCOME" },
 ];
 
 interface CategoriesStepProps {
@@ -35,7 +35,7 @@ interface CategoriesStepProps {
 
 export default function CategoriesStep({ onNext, onSkip }: CategoriesStepProps) {
   const [selected, setSelected] = useState<Set<string>>(
-    new Set(["Alimentación", "Transporte", "Salario"])
+    new Set(["Food", "Transport", "Salary"])
   );
   const [isLoading, setIsLoading] = useState(false);
   const [apiError, setApiError] = useState<string | null>(null);
@@ -68,7 +68,7 @@ export default function CategoriesStep({ onNext, onSkip }: CategoriesStepProps) 
       );
       onNext(toCreate.length);
     } catch {
-      setApiError("Hubo un problema al crear algunas categorías. Intenta de nuevo.");
+      setApiError("There was a problem creating some categories. Please try again.");
     } finally {
       setIsLoading(false);
     }
@@ -100,15 +100,15 @@ export default function CategoriesStep({ onNext, onSkip }: CategoriesStepProps) 
   return (
     <div className="flex flex-col gap-6 w-full">
       <div className="flex flex-col gap-1">
-        <h2 className="text-2xl font-bold text-hard-gray">Categorías de partida</h2>
+        <h2 className="text-2xl font-bold text-hard-gray">Starter categories</h2>
         <p className="text-gray-400 text-sm">
-          Selecciona las que uses habitualmente. Puedes agregar más después.
+          Select the ones you use regularly. You can add more later.
         </p>
       </div>
 
       <div className="flex flex-col gap-4">
         <div className="flex flex-col gap-2">
-          <p className="text-xs font-semibold text-gray-500 uppercase tracking-wider">Gastos</p>
+          <p className="text-xs font-semibold text-gray-500 uppercase tracking-wider">Expenses</p>
           <div className="flex flex-wrap gap-2">
             {PRESET_EXPENSES.map((cat) => (
               <CategoryChip key={cat.name} cat={cat} />
@@ -117,7 +117,7 @@ export default function CategoriesStep({ onNext, onSkip }: CategoriesStepProps) 
         </div>
 
         <div className="flex flex-col gap-2">
-          <p className="text-xs font-semibold text-gray-500 uppercase tracking-wider">Ingresos</p>
+          <p className="text-xs font-semibold text-gray-500 uppercase tracking-wider">Income</p>
           <div className="flex flex-wrap gap-2">
             {PRESET_INCOMES.map((cat) => (
               <CategoryChip key={cat.name} cat={cat} />
@@ -127,7 +127,7 @@ export default function CategoriesStep({ onNext, onSkip }: CategoriesStepProps) 
       </div>
 
       <p className="text-xs text-gray-500 text-center">
-        {selected.size} categoría{selected.size !== 1 ? "s" : ""} seleccionada{selected.size !== 1 ? "s" : ""}
+        {selected.size} categor{selected.size !== 1 ? "ies" : "y"} selected
       </p>
 
       {apiError && (
@@ -143,7 +143,7 @@ export default function CategoriesStep({ onNext, onSkip }: CategoriesStepProps) 
           disabled={isLoading}
           className="flex-1 py-3 rounded border-2 border-gray-700 text-gray-400 hover:border-gray-500 font-semibold transition-colors disabled:opacity-50"
         >
-          Omitir
+          Skip
         </button>
         <button
           type="button"
@@ -152,8 +152,8 @@ export default function CategoriesStep({ onNext, onSkip }: CategoriesStepProps) 
           className="flex-1 py-3 rounded bg-primary-purple text-white font-semibold hover:bg-primary-purple-hover transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
         >
           {isLoading
-            ? "Creando..."
-            : `Crear ${selected.size > 0 ? selected.size : ""} categoría${selected.size !== 1 ? "s" : ""}`}
+            ? "Creating..."
+            : `Create ${selected.size > 0 ? selected.size : ""} categor${selected.size !== 1 ? "ies" : "y"}`}
         </button>
       </div>
     </div>

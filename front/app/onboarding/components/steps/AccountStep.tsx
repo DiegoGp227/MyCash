@@ -56,7 +56,7 @@ export default function AccountStep({ onNext }: AccountStepProps) {
       });
       onNext(response.account);
     } catch {
-      setApiError("No se pudo crear la cuenta. Intenta de nuevo.");
+      setApiError("Could not create the account. Please try again.");
     } finally {
       setIsLoading(false);
     }
@@ -65,16 +65,16 @@ export default function AccountStep({ onNext }: AccountStepProps) {
   return (
     <div className="flex flex-col gap-6 w-full">
       <div className="flex flex-col gap-1">
-        <h2 className="text-2xl font-bold text-hard-gray">Tu primera cuenta</h2>
+        <h2 className="text-2xl font-bold text-hard-gray">Your first account</h2>
         <p className="text-gray-400 text-sm">
-          Agrega la cuenta principal desde la que manejas tu dinero.
+          Add the main account you use to manage your money.
         </p>
       </div>
 
       <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-4">
         {/* Tipo de cuenta — visual selector */}
         <div className="flex flex-col gap-2">
-          <label className="text-hard-gray font-semibold text-sm">Tipo de cuenta *</label>
+          <label className="text-hard-gray font-semibold text-sm">Account type *</label>
           <div className="grid grid-cols-3 gap-2">
             {ACCOUNT_TYPES.map((type) => (
               <label
@@ -104,7 +104,7 @@ export default function AccountStep({ onNext }: AccountStepProps) {
         {/* Nombre */}
         <div className="flex flex-col gap-1">
           <label htmlFor="name" className="text-hard-gray font-semibold text-sm">
-            Nombre de la cuenta *
+            Account name *
           </label>
           <input
             type="text"
@@ -112,7 +112,7 @@ export default function AccountStep({ onNext }: AccountStepProps) {
             {...register("name")}
             className="input text-hard-gray"
             disabled={isLoading}
-            placeholder={`Ej: ${selectedType === "BANK" ? "Bancolombia" : selectedType === "CASH" ? "Efectivo" : "Mi cuenta"}`}
+            placeholder={`E.g.: ${selectedType === "BANK" ? "Chase Bank" : selectedType === "CASH" ? "Cash" : "My account"}`}
           />
           {errors.name && (
             <p className="text-red-500 text-sm">{errors.name.message}</p>
@@ -122,7 +122,7 @@ export default function AccountStep({ onNext }: AccountStepProps) {
         {/* Saldo */}
         <div className="flex flex-col gap-1">
           <label htmlFor="balance" className="text-hard-gray font-semibold text-sm">
-            Saldo actual *
+            Current balance *
           </label>
           <input
             type="number"
@@ -134,7 +134,7 @@ export default function AccountStep({ onNext }: AccountStepProps) {
             placeholder="0.00"
           />
           <p className="text-gray-500 text-xs">
-            Puedes dejarlo en 0 y ajustarlo después.
+            You can leave it at 0 and adjust it later.
           </p>
           {errors.balance && (
             <p className="text-red-500 text-sm">{errors.balance.message}</p>
@@ -152,7 +152,7 @@ export default function AccountStep({ onNext }: AccountStepProps) {
           disabled={isLoading}
           className="w-full py-3 rounded bg-primary-purple text-white font-semibold hover:bg-primary-purple-hover transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
         >
-          {isLoading ? "Creando cuenta..." : "Crear cuenta y continuar"}
+          {isLoading ? "Creating account..." : "Create account and continue"}
         </button>
       </form>
     </div>
