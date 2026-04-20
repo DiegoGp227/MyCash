@@ -4,6 +4,7 @@ import { useState } from "react";
 import { Pencil, Trash2 } from "lucide-react";
 import type { IBudget, IUpdateBudget } from "@/src/budgets/types/budgets.types";
 import BudgetDrawer from "./BudgetDrawer";
+import { resolveIcon } from "@/src/utils/resolveIcon";
 
 const fmt = (n: number) =>
   new Intl.NumberFormat("es-CO", {
@@ -55,7 +56,7 @@ export default function BudgetCard({ budget, onUpdate, onDelete }: BudgetCardPro
               className="w-8 h-8 rounded-full flex items-center justify-center text-sm font-bold text-white shrink-0"
               style={{ backgroundColor: color }}
             >
-              {icon ? icon : label.charAt(0).toUpperCase()}
+              {resolveIcon(icon, label.charAt(0).toUpperCase())}
             </div>
             <span className="font-semibold dark:text-white truncate">{label}</span>
           </div>

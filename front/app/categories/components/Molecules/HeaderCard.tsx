@@ -1,3 +1,5 @@
+import { resolveIcon } from "@/src/utils/resolveIcon";
+
 interface IHeaderCard {
   titleCategory: string;
   subCategoriesNumber: number;
@@ -17,11 +19,11 @@ export default function HeaderCard({
         className="w-12 h-12 text-4xl flex items-center justify-center rounded shrink-0"
         style={{ backgroundColor: color }}
       >
-        {icon || "\u{1F4C1}"}
+        {resolveIcon(icon)}
       </div>
       <div className="flex-1 min-w-0">
         <p className="font-bold text-2xl truncate">{titleCategory}</p>
-        <p>{subCategoriesNumber} subcategorias</p>
+        <p>{subCategoriesNumber} subcategories</p>
       </div>
     </div>
   );
