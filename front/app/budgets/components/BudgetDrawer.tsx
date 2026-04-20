@@ -39,7 +39,7 @@ export default function BudgetDrawer(props: BudgetDrawerProps) {
       >
         <div className="flex items-center justify-between p-4 border-b border-gray-300 dark:border-dark-border sticky top-0 bg-white dark:bg-dark-surface">
           <h2 className="text-xl font-bold dark:text-white">
-            {props.mode === "create" ? "Nuevo Presupuesto" : "Editar Presupuesto"}
+            {props.mode === "create" ? "New Budget" : "Edit Budget"}
           </h2>
           <button
             onClick={props.onClose}

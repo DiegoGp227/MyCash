@@ -85,16 +85,16 @@ export default function BudgetCard({ budget, onUpdate, onDelete }: BudgetCardPro
             />
           </div>
           <div className="flex justify-between text-xs text-hard-gray">
-            <span>Gastado: <span className={isOver ? "text-error font-semibold" : ""}>{fmt(budget.spent)}</span></span>
-            <span>Límite: {fmt(budget.amount)}</span>
+            <span>Spent: <span className={isOver ? "text-error font-semibold" : ""}>{fmt(budget.spent)}</span></span>
+            <span>Limit: {fmt(budget.amount)}</span>
           </div>
         </div>
 
         {/* Remaining */}
         <p className={`text-sm font-medium ${isOver ? "text-error" : "text-green-600 dark:text-green-400"}`}>
           {isOver
-            ? `Excedido por ${fmt(Math.abs(remaining))}`
-            : `Disponible: ${fmt(remaining)}`}
+            ? `Exceeded by ${fmt(Math.abs(remaining))}`
+            : `Available: ${fmt(remaining)}`}
         </p>
       </div>
 

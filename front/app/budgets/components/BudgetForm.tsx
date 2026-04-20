@@ -34,8 +34,8 @@ interface BudgetFormEditProps {
 type BudgetFormProps = BudgetFormCreateProps | BudgetFormEditProps;
 
 const MONTHS = [
-  "Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio",
-  "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre",
+  "January", "February", "March", "April", "May", "June",
+  "July", "August", "September", "October", "November", "December",
 ];
 
 export default function BudgetForm(props: BudgetFormProps) {
@@ -77,22 +77,22 @@ function CreateForm({
   return (
     <form onSubmit={handleSubmit(handleCreate)} className="flex flex-col gap-5">
       <div className="flex flex-col gap-1">
-        <label className="text-sm font-medium dark:text-white">Periodo</label>
+        <label className="text-sm font-medium dark:text-white">Period</label>
         <p className="text-hard-gray text-sm">
           {MONTHS[month - 1]} {year}
         </p>
       </div>
 
       <div className="flex flex-col gap-1">
-        <label className="text-sm font-medium dark:text-white">Categoría</label>
+        <label className="text-sm font-medium dark:text-white">Category</label>
         {loadingCats ? (
           <div className="h-10 bg-gray-200 dark:bg-dark-bg rounded animate-pulse" />
         ) : (
           <select
-            {...register("categoryId", { required: "Selecciona una categoría" })}
+            {...register("categoryId", { required: "Select a category" })}
             className="w-full h-10 px-3 rounded border border-gray-300 dark:border-dark-border bg-white dark:bg-dark-bg dark:text-white text-sm focus:outline-none focus:border-primary-purple"
           >
-            <option value="">Seleccionar categoría...</option>
+            <option value="">Select a category...</option>
             {categories.map((cat) => (
               <option key={cat.id} value={cat.id}>
                 {cat.name}
@@ -106,15 +106,15 @@ function CreateForm({
       </div>
 
       <div className="flex flex-col gap-1">
-        <label className="text-sm font-medium dark:text-white">Límite de gasto</label>
+        <label className="text-sm font-medium dark:text-white">Spending limit</label>
         <input
           type="number"
           min={1}
           step="any"
           placeholder="0"
           {...register("amount", {
-            required: "El monto es requerido",
-            min: { value: 1, message: "Debe ser mayor a 0" },
+            required: "Amount is required",
+            min: { value: 1, message: "Must be greater than 0" },
             valueAsNumber: true,
           })}
           className="w-full h-10 px-3 rounded border border-gray-300 dark:border-dark-border bg-white dark:bg-dark-bg dark:text-white text-sm focus:outline-none focus:border-primary-purple"
@@ -130,14 +130,14 @@ function CreateForm({
           onClick={onCancel}
           className="flex-1 h-10 rounded border border-gray-300 dark:border-dark-border text-sm dark:text-white hover:bg-gray-50 dark:hover:bg-dark-bg transition-colors"
         >
-          Cancelar
+          Cancel
         </button>
         <button
           type="submit"
           disabled={isLoading}
           className="flex-1 h-10 rounded bg-primary-purple text-white text-sm font-medium hover:opacity-90 transition-opacity disabled:opacity-50"
         >
-          {isLoading ? "Creando..." : "Crear"}
+          {isLoading ? "Creating..." : "Create"}
         </button>
       </div>
     </form>
@@ -156,7 +156,7 @@ function EditForm({ defaultAmount, onSubmit, onCancel, isLoading }: BudgetFormEd
   return (
     <form onSubmit={handleSubmit(handleEdit)} className="flex flex-col gap-5">
       <div className="flex flex-col gap-1">
-        <label className="text-sm font-medium dark:text-white">Nuevo límite de gasto</label>
+        <label className="text-sm font-medium dark:text-white">New spending limit</label>
         <input
           type="number"
           min={1}
@@ -179,14 +179,14 @@ function EditForm({ defaultAmount, onSubmit, onCancel, isLoading }: BudgetFormEd
           onClick={onCancel}
           className="flex-1 h-10 rounded border border-gray-300 dark:border-dark-border text-sm dark:text-white hover:bg-gray-50 dark:hover:bg-dark-bg transition-colors"
         >
-          Cancelar
+          Cancel
         </button>
         <button
           type="submit"
           disabled={isLoading}
           className="flex-1 h-10 rounded bg-primary-purple text-white text-sm font-medium hover:opacity-90 transition-opacity disabled:opacity-50"
         >
-          {isLoading ? "Guardando..." : "Guardar"}
+          {isLoading ? "Saving..." : "Save"}
         </button>
       </div>
     </form>

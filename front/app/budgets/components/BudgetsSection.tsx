@@ -8,8 +8,8 @@ import BudgetCard from "./BudgetCard";
 import BudgetDrawer from "./BudgetDrawer";
 
 const MONTHS = [
-  "Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio",
-  "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre",
+  "January", "February", "March", "April", "May", "June",
+  "July", "August", "September", "October", "November", "December",
 ];
 
 export default function BudgetsSection() {
@@ -100,7 +100,7 @@ export default function BudgetsSection() {
         className="flex items-center justify-center gap-2 h-10 w-full rounded border-2 border-dashed border-primary-purple text-primary-purple text-sm font-medium hover:bg-primary-purple/5 transition-colors"
       >
         <Plus size={16} />
-        Nuevo Presupuesto
+        New Budget
       </button>
 
       {/* Budget cards */}
@@ -115,8 +115,8 @@ export default function BudgetsSection() {
         </div>
       ) : budgets.length === 0 ? (
         <div className="flex flex-col items-center justify-center py-16 gap-2 text-hard-gray">
-          <p className="font-medium">Sin presupuestos para este periodo</p>
-          <p className="text-sm">Crea uno con el botón de arriba</p>
+          <p className="font-medium">No budgets for this period</p>
+          <p className="text-sm">Create one with the button above</p>
         </div>
       ) : (
         <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">
