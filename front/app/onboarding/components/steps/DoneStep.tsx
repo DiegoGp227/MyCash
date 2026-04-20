@@ -20,9 +20,9 @@ export default function DoneStep({ account, categoriesCount }: DoneStepProps) {
       </div>
 
       <div className="flex flex-col gap-2">
-        <h2 className="text-3xl font-bold text-hard-gray">¡Todo listo!</h2>
+        <h2 className="text-3xl font-bold text-hard-gray">All set!</h2>
         <p className="text-gray-400 text-sm max-w-xs">
-          Tu espacio está configurado. Ya puedes empezar a registrar tus movimientos.
+          Your space is configured. You can now start recording your transactions.
         </p>
       </div>
 
@@ -31,7 +31,7 @@ export default function DoneStep({ account, categoriesCount }: DoneStepProps) {
           <span className="text-green-500 text-xl">✓</span>
           <div className="text-left">
             <p className="text-hard-gray text-sm font-semibold">{account.name}</p>
-            <p className="text-gray-500 text-xs">{ACCOUNT_TYPE_LABELS[account.type]} creada</p>
+            <p className="text-gray-500 text-xs">{ACCOUNT_TYPE_LABELS[account.type]} created</p>
           </div>
         </div>
 
@@ -40,9 +40,9 @@ export default function DoneStep({ account, categoriesCount }: DoneStepProps) {
             <span className="text-green-500 text-xl">✓</span>
             <div className="text-left">
               <p className="text-hard-gray text-sm font-semibold">
-                {categoriesCount} categoría{categoriesCount !== 1 ? "s" : ""} creadas
+                {categoriesCount} categor{categoriesCount !== 1 ? "ies" : "y"} created
               </p>
-              <p className="text-gray-500 text-xs">Listas para clasificar transacciones</p>
+              <p className="text-gray-500 text-xs">Ready to classify transactions</p>
             </div>
           </div>
         )}
@@ -52,7 +52,7 @@ export default function DoneStep({ account, categoriesCount }: DoneStepProps) {
         onClick={() => router.push("/")}
         className="w-full max-w-xs py-3 rounded bg-primary-purple text-white font-semibold hover:bg-primary-purple-hover transition-colors"
       >
-        Ir al dashboard
+        Go to dashboard
       </button>
     </div>
   );

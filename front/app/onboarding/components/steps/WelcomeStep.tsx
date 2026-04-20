@@ -16,19 +16,19 @@ export default function WelcomeStep({ userName, onNext }: WelcomeStepProps) {
 
       <div className="flex flex-col gap-3">
         <h1 className="text-3xl font-bold text-hard-gray">
-          ¡Bienvenido, {userName}!
+          Welcome, {userName}!
         </h1>
         <p className="text-gray-400 max-w-sm leading-relaxed">
-          MyCash te ayuda a llevar el control de tus finanzas personales.
-          En los próximos pasos configuraremos tu espacio en menos de un minuto.
+          MyCash helps you keep track of your personal finances.
+          In the next steps we&apos;ll set up your space in under a minute.
         </p>
       </div>
 
       <div className="flex flex-col gap-3 w-full max-w-xs text-left">
         {[
-          { emoji: "💳", label: "Registra tus cuentas y saldos" },
-          { emoji: "📂", label: "Organiza gastos por categorías" },
-          { emoji: "📊", label: "Visualiza tu flujo de dinero" },
+          { emoji: "💳", label: "Register your accounts and balances" },
+          { emoji: "📂", label: "Organize expenses by categories" },
+          { emoji: "📊", label: "Visualize your cash flow" },
         ].map(({ emoji, label }) => (
           <div key={label} className="flex items-center gap-3 text-gray-300">
             <span className="text-xl">{emoji}</span>
@@ -41,7 +41,7 @@ export default function WelcomeStep({ userName, onNext }: WelcomeStepProps) {
         onClick={onNext}
         className="w-full max-w-xs py-3 rounded bg-primary-purple text-white font-semibold hover:bg-primary-purple-hover transition-colors"
       >
-        Empezar configuración
+        Start setup
       </button>
     </div>
   );
