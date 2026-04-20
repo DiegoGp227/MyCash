@@ -35,9 +35,9 @@ interface GoalDrawerContributeProps extends GoalDrawerBaseProps {
 type GoalDrawerProps = GoalDrawerCreateProps | GoalDrawerEditProps | GoalDrawerContributeProps;
 
 const titles: Record<DrawerMode, string> = {
-  create: "Nueva Meta",
-  edit: "Editar Meta",
-  contribute: "Agregar Aporte",
+  create: "New Goal",
+  edit: "Edit Goal",
+  contribute: "Add Contribution",
 };
 
 export default function GoalDrawer(props: GoalDrawerProps) {

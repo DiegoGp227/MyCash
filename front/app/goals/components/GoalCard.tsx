@@ -14,9 +14,9 @@ const fmt = (n: number) =>
   }).format(n);
 
 const STATUS_LABELS: Record<IGoal["status"], string> = {
-  ACTIVE: "Activa",
-  COMPLETED: "Completada",
-  CANCELLED: "Cancelada",
+  ACTIVE: "Active",
+  COMPLETED: "Completed",
+  CANCELLED: "Cancelled",
 };
 
 const STATUS_COLORS: Record<IGoal["status"], string> = {
@@ -105,13 +105,13 @@ export default function GoalCard({ goal, onUpdate, onDelete, onContribute }: Goa
               style={{ width: `${pct}%` }}
             />
           </div>
-          <p className="text-xs text-hard-gray text-right">{pct.toFixed(0)}% completado</p>
+          <p className="text-xs text-hard-gray text-right">{pct.toFixed(0)}% completed</p>
         </div>
 
         {/* Dates */}
         {goal.endDate && (
           <p className="text-xs text-hard-gray">
-            Fecha límite: {new Date(goal.endDate).toLocaleDateString("es-CO")}
+            Deadline: {new Date(goal.endDate).toLocaleDateString("en-US")}
           </p>
         )}
 
@@ -122,19 +122,19 @@ export default function GoalCard({ goal, onUpdate, onDelete, onContribute }: Goa
               onClick={() => setIsContributeOpen(true)}
               className="flex items-center gap-1.5 flex-1 justify-center h-8 rounded border border-primary-purple text-primary-purple text-xs font-medium hover:bg-primary-purple/5 transition-colors"
             >
-              <Plus size={13} /> Aportar
+              <Plus size={13} /> Contribute
             </button>
             <button
               onClick={handleMarkCompleted}
               className="flex items-center gap-1 h-8 px-2 rounded border border-green-500 text-green-600 dark:text-green-400 text-xs hover:bg-green-50 dark:hover:bg-green-900/20 transition-colors"
-              title="Marcar como completada"
+              title="Mark as completed"
             >
               <CheckCircle size={13} />
             </button>
             <button
               onClick={handleMarkCancelled}
               className="flex items-center gap-1 h-8 px-2 rounded border border-gray-300 dark:border-dark-border text-hard-gray text-xs hover:bg-gray-50 dark:hover:bg-dark-bg transition-colors"
-              title="Cancelar meta"
+              title="Cancel goal"
             >
               <XCircle size={13} />
             </button>
@@ -146,7 +146,7 @@ export default function GoalCard({ goal, onUpdate, onDelete, onContribute }: Goa
             onClick={handleReactivate}
             className="h-8 rounded border border-primary-purple text-primary-purple text-xs font-medium hover:bg-primary-purple/5 transition-colors"
           >
-            Reactivar
+            Reactivate
           </button>
         )}
       </div>
