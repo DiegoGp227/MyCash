@@ -30,7 +30,7 @@ export default function AccountDrawer({
     <Portal>
       <Backdrop onClick={onClose} />
       <div
-        className="fixed top-0 right-0 h-full w-full max-w-md bg-white dark:bg-dark-surface z-50 shadow-xl flex flex-col"
+        className="fixed top-0 right-0 h-full w-full md:max-w-md bg-white dark:bg-dark-surface z-50 shadow-xl flex flex-col"
         style={{ animation: "slideInFromRight 0.3s ease-out" }}
       >
         <div className="flex items-center justify-between p-4 border-b border-gray-300 dark:border-dark-border sticky top-0 bg-white dark:bg-dark-surface">

@@ -30,7 +30,7 @@ export default function TransferDrawer({
     <Portal>
       <Backdrop onClick={onClose} />
       <div
-        className="fixed top-0 right-0 h-full w-full max-w-md bg-white dark:bg-dark-surface z-50 shadow-xl flex flex-col"
+        className="fixed top-0 right-0 h-full w-full md:max-w-md bg-white dark:bg-dark-surface z-50 shadow-xl flex flex-col"
         style={{ animation: "slideInFromRight 0.3s ease-out" }}
       >
         {/* Header */}
