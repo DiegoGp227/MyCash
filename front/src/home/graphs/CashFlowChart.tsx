@@ -59,7 +59,7 @@ const CustomTooltip = ({ active, payload, label }: any) => {
 
 export default function CashFlowChart({ data }: CashFlowChartProps) {
   return (
-    <div className="rounded-lg border-2 bg-white p-6 shadow-sm dark:bg-black border-primary-purple/40 dark:border-primary-purple">
+    <div className="rounded-lg border-2 bg-white p-6 shadow-sm dark:bg-dark-surface border-primary-purple/40 dark:border-primary-purple">
       <h3 className="mb-4 text-lg font-semibold text-gray-800 dark:text-gray-200">
         Flujo de Efectivo Semanal
       </h3>
