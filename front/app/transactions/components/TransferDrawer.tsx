@@ -36,7 +36,7 @@ export default function TransferDrawer({
         {/* Header */}
         <div className="flex items-center justify-between p-4 border-b border-gray-300 dark:border-dark-border sticky top-0 bg-white dark:bg-dark-surface">
           <h2 className="text-xl font-bold text-light-text-main dark:text-dark-text-main">
-            {mode === "create" ? "Nueva Transferencia" : "Editar Transferencia"}
+            {mode === "create" ? "New Transfer" : "Edit Transfer"}
           </h2>
           <button
             onClick={onClose}
@@ -53,7 +53,7 @@ export default function TransferDrawer({
             onCancel={onClose}
             transfer={transfer}
             isLoading={isLoading}
-            submitLabel={mode === "create" ? "Crear transferencia" : "Guardar"}
+            submitLabel={mode === "create" ? "Create transfer" : "Save"}
           />
         </div>
       </div>

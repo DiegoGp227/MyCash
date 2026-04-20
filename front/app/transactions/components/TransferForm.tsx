@@ -74,7 +74,7 @@ export default function TransferForm({
       {/* Cuenta origen */}
       <div className="flex flex-col gap-1">
         <label htmlFor="fromAccountId" className="text-hard-gray font-semibold text-sm">
-          Cuenta origen *
+          From account *
         </label>
         <select
           id="fromAccountId"
@@ -83,7 +83,7 @@ export default function TransferForm({
           disabled={isLoading || accounts.length === 0}
         >
           <option value="">
-            {accounts.length === 0 ? "No hay cuentas" : "Selecciona cuenta de origen"}
+            {accounts.length === 0 ? "No accounts" : "Select source account"}
           </option>
           {accounts.map((acc) => (
             <option key={acc.id} value={acc.id} disabled={acc.id === toId}>
@@ -99,7 +99,7 @@ export default function TransferForm({
       {/* Cuenta destino */}
       <div className="flex flex-col gap-1">
         <label htmlFor="toAccountId" className="text-hard-gray font-semibold text-sm">
-          Cuenta destino *
+          To account *
         </label>
         <select
           id="toAccountId"
@@ -108,7 +108,7 @@ export default function TransferForm({
           disabled={isLoading || accounts.length === 0}
         >
           <option value="">
-            {accounts.length === 0 ? "No hay cuentas" : "Selecciona cuenta de destino"}
+            {accounts.length === 0 ? "No accounts" : "Select destination account"}
           </option>
           {accounts.map((acc) => (
             <option key={acc.id} value={acc.id} disabled={acc.id === fromId}>
@@ -124,7 +124,7 @@ export default function TransferForm({
       {/* Monto */}
       <div className="flex flex-col gap-1">
         <label htmlFor="amount" className="text-hard-gray font-semibold text-sm">
-          Monto *
+          Amount *
         </label>
         <input
           type="number"
@@ -144,7 +144,7 @@ export default function TransferForm({
       {/* Fecha */}
       <div className="flex flex-col gap-1">
         <label htmlFor="date" className="text-hard-gray font-semibold text-sm">
-          Fecha *
+          Date *
         </label>
         <input
           type="date"
@@ -161,8 +161,8 @@ export default function TransferForm({
       {/* Descripción */}
       <div className="flex flex-col gap-1">
         <label htmlFor="description" className="text-hard-gray font-semibold text-sm">
-          Descripción{" "}
-          <span className="text-xs font-normal text-hard-gray">(opcional)</span>
+          Description{" "}
+          <span className="text-xs font-normal text-hard-gray">(optional)</span>
         </label>
         <input
           type="text"
@@ -170,7 +170,7 @@ export default function TransferForm({
           {...register("description")}
           className="input text-hard-gray"
           disabled={isLoading}
-          placeholder="Ej: Ahorro mensual"
+          placeholder="E.g.: Monthly savings"
         />
       </div>
 
@@ -182,14 +182,14 @@ export default function TransferForm({
           disabled={isLoading}
           className="flex-1 py-2 rounded border-2 border-primary-purple text-black dark:text-white cursor-pointer font-semibold hover:bg-gray-100 dark:hover:bg-dark-surface transition-colors"
         >
-          Cancelar
+          Cancel
         </button>
         <button
           type="submit"
           disabled={isLoading}
           className="flex-1 py-2 rounded bg-primary-purple text-white cursor-pointer font-semibold hover:bg-primary-purple-hover transition-colors disabled:opacity-50"
         >
-          {isLoading ? "Guardando..." : submitLabel}
+          {isLoading ? "Saving..." : submitLabel}
         </button>
       </div>
     </form>
