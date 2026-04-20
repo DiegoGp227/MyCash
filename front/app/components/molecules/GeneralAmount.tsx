@@ -50,7 +50,7 @@ function StatCard({ title, value, icon, valueColor, sub, subColor }: CardProps) 
 export default function GeneralAmount({ summary, isLoading }: GeneralAmountProps) {
   if (isLoading || !summary) {
     return (
-      <div className="grid grid-cols-2 xl:grid-cols-4 gap-4 w-full">
+      <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-4 w-full">
         {[...Array(4)].map((_, i) => (
           <div
             key={i}
@@ -66,7 +66,7 @@ export default function GeneralAmount({ summary, isLoading }: GeneralAmountProps
   const period = fmtPeriod(summary.periodStart, summary.periodEnd);
 
   return (
-    <div className="grid grid-cols-2 xl:grid-cols-4 gap-4 w-full">
+    <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-4 w-full">
       <StatCard
         title="Balance Total"
         value={fmt(summary.totalBalance)}

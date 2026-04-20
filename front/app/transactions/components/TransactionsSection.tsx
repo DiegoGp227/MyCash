@@ -259,7 +259,7 @@ export default function TransactionsSection() {
             {/* Filtros */}
             <div className="flex flex-wrap gap-3 items-center">
               {/* Search */}
-              <div className="relative flex-1 min-w-[180px]">
+              <div className="relative w-full sm:flex-1 sm:min-w-[180px]">
                 <Search size={15} className="absolute left-3 top-1/2 -translate-y-1/2 text-hard-gray pointer-events-none" />
                 <input
                   type="text"
@@ -327,38 +327,40 @@ export default function TransactionsSection() {
                 <table className="w-full text-sm">
                   <thead>
                     <tr className="border-b-2 border-primary-purple/30 bg-white/50 dark:bg-dark-surface/50">
-                      {["Date", "Description", "Account", "Category", "Type", "Amount", ""].map((h) => (
-                        <th key={h} className="px-4 py-3 text-left text-xs font-bold uppercase tracking-wider text-hard-gray">
-                          {h}
-                        </th>
-                      ))}
+                      <th className="px-3 py-3 text-left text-xs font-bold uppercase tracking-wider text-hard-gray">Date</th>
+                      <th className="px-3 py-3 text-left text-xs font-bold uppercase tracking-wider text-hard-gray">Description</th>
+                      <th className="hidden sm:table-cell px-3 py-3 text-left text-xs font-bold uppercase tracking-wider text-hard-gray">Account</th>
+                      <th className="hidden md:table-cell px-3 py-3 text-left text-xs font-bold uppercase tracking-wider text-hard-gray">Category</th>
+                      <th className="px-3 py-3 text-left text-xs font-bold uppercase tracking-wider text-hard-gray">Type</th>
+                      <th className="px-3 py-3 text-left text-xs font-bold uppercase tracking-wider text-hard-gray">Amount</th>
+                      <th className="px-3 py-3"></th>
                     </tr>
                   </thead>
                   <tbody>
                     {filteredTx.map((t) => (
                       <tr key={t.id} className="border-b border-gray-100 dark:border-gray-800/50 last:border-0 hover:bg-primary-purple/5 dark:hover:bg-primary-purple/10 transition-colors">
-                        <td className="px-4 py-3 text-hard-gray whitespace-nowrap">{formatDate(t.date)}</td>
-                        <td className="px-4 py-3 dark:text-white max-w-[180px] truncate">
+                        <td className="px-3 py-3 text-hard-gray whitespace-nowrap">{formatDate(t.date)}</td>
+                        <td className="px-3 py-3 dark:text-white max-w-[140px] truncate">
                           {t.description ?? <span className="text-hard-gray italic">No description</span>}
                         </td>
-                        <td className="px-4 py-3 text-hard-gray whitespace-nowrap">{t.accountName}</td>
-                        <td className="px-4 py-3 text-hard-gray whitespace-nowrap">
+                        <td className="hidden sm:table-cell px-3 py-3 text-hard-gray whitespace-nowrap">{t.accountName}</td>
+                        <td className="hidden md:table-cell px-3 py-3 text-hard-gray whitespace-nowrap">
                           {t.categoryName ?? <span className="italic">—</span>}
                         </td>
-                        <td className="px-4 py-3">
+                        <td className="px-3 py-3">
                           <span className={`inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-xs font-semibold
                             ${t.type === "INCOME"
                               ? "bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-400"
                               : "bg-red-100 text-red-700 dark:bg-red-900/30 dark:text-red-400"
                             }`}>
                             {t.type === "INCOME" ? <TrendingUp size={12} /> : <TrendingDown size={12} />}
-                            {t.type === "INCOME" ? "Income" : "Expense"}
+                            <span className="hidden sm:inline">{t.type === "INCOME" ? "Income" : "Expense"}</span>
                           </span>
                         </td>
-                        <td className={`px-4 py-3 font-bold whitespace-nowrap ${t.type === "INCOME" ? "text-green-600 dark:text-green-400" : "text-error"}`}>
+                        <td className={`px-3 py-3 font-bold whitespace-nowrap ${t.type === "INCOME" ? "text-green-600 dark:text-green-400" : "text-error"}`}>
                           {t.type === "INCOME" ? "+" : "-"}{formatAmount(t.amount)}
                         </td>
-                        <td className="px-4 py-3">
+                        <td className="px-3 py-3">
                           <div className="flex gap-1">
                             <button onClick={() => { setSelectedTx(t); setTxDrawerMode("edit"); setTxDrawerOpen(true); }}
                               className="p-1.5 rounded hover:bg-gray-100 dark:hover:bg-dark-bg transition-colors cursor-pointer">
@@ -396,7 +398,7 @@ export default function TransactionsSection() {
           <>
             {/* Filtros */}
             <div className="flex flex-wrap gap-3 items-center">
-              <div className="relative flex-1 min-w-[180px]">
+              <div className="relative w-full sm:flex-1 sm:min-w-[180px]">
                 <Search size={15} className="absolute left-3 top-1/2 -translate-y-1/2 text-hard-gray pointer-events-none" />
                 <input
                   type="text"
@@ -444,29 +446,35 @@ export default function TransactionsSection() {
                 <table className="w-full text-sm">
                   <thead>
                     <tr className="border-b-2 border-primary-purple/30 bg-white/50 dark:bg-dark-surface/50">
-                      {["Date", "Description", "From", "", "To", "Amount", ""].map((h, i) => (
-                        <th key={i} className="px-4 py-3 text-left text-xs font-bold uppercase tracking-wider text-hard-gray">
-                          {h}
-                        </th>
-                      ))}
+                      <th className="px-3 py-3 text-left text-xs font-bold uppercase tracking-wider text-hard-gray">Date</th>
+                      <th className="hidden sm:table-cell px-3 py-3 text-left text-xs font-bold uppercase tracking-wider text-hard-gray">Description</th>
+                      <th className="px-3 py-3 text-left text-xs font-bold uppercase tracking-wider text-hard-gray sm:hidden">Transfer</th>
+                      <th className="hidden sm:table-cell px-3 py-3 text-left text-xs font-bold uppercase tracking-wider text-hard-gray">From</th>
+                      <th className="hidden sm:table-cell px-3 py-3"></th>
+                      <th className="hidden sm:table-cell px-3 py-3 text-left text-xs font-bold uppercase tracking-wider text-hard-gray">To</th>
+                      <th className="px-3 py-3 text-left text-xs font-bold uppercase tracking-wider text-hard-gray">Amount</th>
+                      <th className="px-3 py-3"></th>
                     </tr>
                   </thead>
                   <tbody>
                     {filteredTr.map((t) => (
                       <tr key={t.id} className="border-b border-gray-100 dark:border-gray-800/50 last:border-0 hover:bg-primary-purple/5 dark:hover:bg-primary-purple/10 transition-colors">
-                        <td className="px-4 py-3 text-hard-gray whitespace-nowrap">{formatDate(t.date)}</td>
-                        <td className="px-4 py-3 dark:text-white max-w-[160px] truncate">
+                        <td className="px-3 py-3 text-hard-gray whitespace-nowrap">{formatDate(t.date)}</td>
+                        <td className="hidden sm:table-cell px-3 py-3 dark:text-white max-w-[140px] truncate">
                           {t.description ?? <span className="text-hard-gray italic">No description</span>}
                         </td>
-                        <td className="px-4 py-3 text-hard-gray whitespace-nowrap">{t.fromAccountName}</td>
-                        <td className="px-4 py-3">
+                        <td className="sm:hidden px-3 py-3 text-hard-gray text-xs whitespace-nowrap">
+                          {t.fromAccountName} → {t.toAccountName}
+                        </td>
+                        <td className="hidden sm:table-cell px-3 py-3 text-hard-gray whitespace-nowrap">{t.fromAccountName}</td>
+                        <td className="hidden sm:table-cell px-3 py-3">
                           <ArrowLeftRight size={14} className="text-primary-purple" />
                         </td>
-                        <td className="px-4 py-3 text-hard-gray whitespace-nowrap">{t.toAccountName}</td>
-                        <td className="px-4 py-3 font-bold text-primary-purple-light whitespace-nowrap">
+                        <td className="hidden sm:table-cell px-3 py-3 text-hard-gray whitespace-nowrap">{t.toAccountName}</td>
+                        <td className="px-3 py-3 font-bold text-primary-purple-light whitespace-nowrap">
                           {formatAmount(t.amount)}
                         </td>
-                        <td className="px-4 py-3">
+                        <td className="px-3 py-3">
                           <div className="flex gap-1">
                             <button onClick={() => { setSelectedTr(t); setTrDrawerMode("edit"); setTrDrawerOpen(true); }}
                               className="p-1.5 rounded hover:bg-gray-100 dark:hover:bg-dark-bg transition-colors cursor-pointer">
