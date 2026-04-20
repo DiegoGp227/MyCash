@@ -5,25 +5,28 @@ import {
   Calculator,
   Goal,
   House,
+  Menu,
   Moon,
   Receipt,
   Settings,
   Sun,
   Tags,
   Wallet,
+  X,
 } from "lucide-react";
 import { useEffect, useState } from "react";
 import { usePathname } from "next/navigation";
 import UserMenu from "../molecules/UserMenu";
+import Portal from "@/app/categories/components/Atoms/Portal";
 
 export default function Sidebar() {
   const [isDark, setIsDark] = useState(false);
+  const [isMobileOpen, setIsMobileOpen] = useState(false);
 
   const pathname = usePathname();
   const [isLogin, setIsLogin] = useState<boolean>(false);
 
   useEffect(() => {
-    // Ocultar sidebar solo en la ruta de autenticación
     setIsLogin(pathname === "/auth");
   }, [pathname]);
 
@@ -41,103 +44,116 @@ export default function Sidebar() {
   };
 
   return (
-    <aside
-      className={`
-    group fixed left-0 top-0 w-14 hover:w-64 h-screen overflow-hidden
-    transition-all duration-300 ease-in-out z-50
-    bg-[#e3ddfc] dark:bg-blue-bg
-   dark:border-dark-border
-    ${isLogin ? "hidden" : ""}
-  `}
-    >
-      <nav className="h-full">
-        <ul className="flex flex-col justify-between py-4 h-full">
-          {/* Parte superior */}
-          <div>
-            {[
-              { label: "Dashboard", icon: House, route: "/" },
-              {
-                label: "Transactions",
-                icon: ArrowLeftRight,
-                route: "/transactions",
-              },
-              { label: "Accounts", icon: Wallet, route: "/accounts" },
-              { label: "Categories", icon: Tags, route: "/categories" },
-              { label: "Budgets", icon: Calculator, route: "/budgets" },
-              { label: "Goals", icon: Goal, route: "/goals" },
-              { label: "Debts", icon: Receipt, route: "/debts" },
-            ].map(({ label, icon: Icon, route }) => {
-              const isActive =
-                route === "/" ? pathname === "/" : pathname.startsWith(route);
-              return (
-                <li key={label}>
-                  <a
-                    href={route}
-                    className={`
-                      flex items-center gap-3 px-4 py-3 transition-colors
-                      ${isActive
-                        ? "bg-primary-purple text-white dark:text-white border-r-4 border-primary-purple-hover"
-                        : "text-light-text-main dark:text-dark-text-main hover:bg-gray-bg dark:hover:bg-light-purple-bg"
-                      }
-                    `}
-                  >
-                    <Icon
-                      className={`w-6 h-6 shrink-0 ${isActive ? "text-white" : "text-primary-purple"}`}
-                    />
-                    <span className="whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                      {label}
-                    </span>
-                  </a>
-                </li>
-              );
-            })}
-          </div>
+    <>
+      <aside
+        className={`
+          group fixed left-0 top-0 h-screen overflow-hidden
+          transition-all duration-300 ease-in-out z-50
+          bg-[#e3ddfc] dark:bg-blue-bg dark:border-dark-border
+          w-64 md:w-14 md:hover:w-64
+          ${isMobileOpen ? "translate-x-0" : "-translate-x-full md:translate-x-0"}
+          ${isLogin ? "hidden" : ""}
+        `}
+      >
+        <nav className="h-full">
+          <ul className="flex flex-col justify-between py-4 h-full">
+            {/* Parte superior */}
+            <div>
+              {[
+                { label: "Dashboard", icon: House, route: "/" },
+                { label: "Transactions", icon: ArrowLeftRight, route: "/transactions" },
+                { label: "Accounts", icon: Wallet, route: "/accounts" },
+                { label: "Categories", icon: Tags, route: "/categories" },
+                { label: "Budgets", icon: Calculator, route: "/budgets" },
+                { label: "Goals", icon: Goal, route: "/goals" },
+                { label: "Debts", icon: Receipt, route: "/debts" },
+              ].map(({ label, icon: Icon, route }) => {
+                const isActive =
+                  route === "/" ? pathname === "/" : pathname.startsWith(route);
+                return (
+                  <li key={label}>
+                    <a
+                      href={route}
+                      onClick={() => setIsMobileOpen(false)}
+                      className={`
+                        flex items-center gap-3 px-4 py-3 transition-colors
+                        ${isActive
+                          ? "bg-primary-purple text-white dark:text-white border-r-4 border-primary-purple-hover"
+                          : "text-light-text-main dark:text-dark-text-main hover:bg-gray-bg dark:hover:bg-light-purple-bg"
+                        }
+                      `}
+                    >
+                      <Icon
+                        className={`w-6 h-6 shrink-0 ${isActive ? "text-white" : "text-primary-purple"}`}
+                      />
+                      <span className="whitespace-nowrap opacity-100 md:opacity-0 md:group-hover:opacity-100 transition-opacity duration-300">
+                        {label}
+                      </span>
+                    </a>
+                  </li>
+                );
+              })}
+            </div>
 
-          {/* Parte inferior */}
-          <div>
-            <li>
-              <button
-                onClick={toggleTheme}
-                className="
-                  flex items-center gap-3 px-4 py-3 w-full transition-colors
-                  text-light-text-main dark:text-dark-text-main
-                   hover:bg-gray-bg dark:hover:bg-light-purple-bg
-                "
-              >
-                {isDark ? (
-                  <Sun className="w-6 h-6 shrink-0 text-primary-purple" />
-                ) : (
-                  <Moon className="w-6 h-6 shrink-0 text-primary-purple" />
-                )}
+            {/* Parte inferior */}
+            <div>
+              <li>
+                <button
+                  onClick={toggleTheme}
+                  className="flex items-center gap-3 px-4 py-3 w-full transition-colors text-light-text-main dark:text-dark-text-main hover:bg-gray-bg dark:hover:bg-light-purple-bg"
+                >
+                  {isDark ? (
+                    <Sun className="w-6 h-6 shrink-0 text-primary-purple" />
+                  ) : (
+                    <Moon className="w-6 h-6 shrink-0 text-primary-purple" />
+                  )}
+                  <span className="whitespace-nowrap opacity-100 md:opacity-0 md:group-hover:opacity-100 transition-opacity duration-300">
+                    {isDark ? "Light mode" : "Dark mode"}
+                  </span>
+                </button>
+              </li>
 
-                <span className="whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                  {isDark ? "Light mode" : "Dark mode"}
-                </span>
-              </button>
-            </li>
+              <li>
+                <a
+                  href="/settings"
+                  onClick={() => setIsMobileOpen(false)}
+                  className="flex items-center gap-3 px-4 py-3 transition-colors text-light-text-main dark:text-dark-text-main hover:bg-gray-bg dark:hover:bg-light-purple-bg"
+                >
+                  <Settings className="w-6 h-6 shrink-0 text-primary-purple" />
+                  <span className="whitespace-nowrap opacity-100 md:opacity-0 md:group-hover:opacity-100 transition-opacity duration-300">
+                    Settings
+                  </span>
+                </a>
+              </li>
 
-            <li>
-              <a
-                href="/settings"
-                className="
-                  flex items-center gap-3 px-4 py-3 transition-colors
-                  text-light-text-main dark:text-dark-text-main
-                  hover:bg-gray-bg dark:hover:bg-light-purple-bg
-                "
-              >
-                <Settings className="w-6 h-6 shrink-0 text-primary-purple" />
-                <span className="whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                  Settings
-                </span>
-              </a>
-            </li>
+              <li>
+                <UserMenu />
+              </li>
+            </div>
+          </ul>
+        </nav>
+      </aside>
 
-            <li>
-              <UserMenu />
-            </li>
-          </div>
-        </ul>
-      </nav>
-    </aside>
+      {!isLogin && (
+        <Portal>
+          {isMobileOpen && (
+            <div
+              className="fixed inset-0 bg-black/50 z-40 md:hidden"
+              onClick={() => setIsMobileOpen(false)}
+            />
+          )}
+          <button
+            className="fixed top-3 left-3 z-[60] md:hidden p-2 rounded-lg bg-[#e3ddfc] dark:bg-blue-bg shadow-md"
+            onClick={() => setIsMobileOpen((v) => !v)}
+            aria-label="Toggle menu"
+          >
+            {isMobileOpen
+              ? <X size={20} className="text-primary-purple" />
+              : <Menu size={20} className="text-primary-purple" />
+            }
+          </button>
+        </Portal>
+      )}
+    </>
   );
 }

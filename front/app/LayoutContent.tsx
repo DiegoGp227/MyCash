@@ -16,7 +16,7 @@ export default function LayoutContent({
   return (
     <>
       {showSidebar && <Sidebar />}
-      <div className={`w-full ${showSidebar ? "ml-14" : ""}`}>{children}</div>
+      <div className={`w-full ${showSidebar ? "md:ml-14" : ""}`}>{children}</div>
     </>
   );
 }
