@@ -25,6 +25,13 @@ export interface IUserInfo {
   cutoffDay: number;
 }
 
+export interface IUpdateUserRequest {
+  name?: string;
+  username?: string;
+  cutoffDay?: number;
+  currency?: string;
+}
+
 export interface IAuthResponse {
   message: string;
   token: string;

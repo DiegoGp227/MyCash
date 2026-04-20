@@ -22,3 +22,5 @@ export const BudgetsURL = new URL("budgets", BaseURL);
 export const GoalsURL = new URL("goals", BaseURL);
 
 export const DebtsURL = new URL("debts", BaseURL);
+
+export const UsersURL = new URL("users/me", BaseURL);

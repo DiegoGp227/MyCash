@@ -1,4 +1,4 @@
-import { IAuthResponse } from "@/src/auth/types/auth.types";
+import { IAuthResponse, IUserInfo } from "@/src/auth/types/auth.types";
 import { Action, action } from "easy-peasy";
 
 export interface AuthModel {
@@ -6,6 +6,7 @@ export interface AuthModel {
   isAuthenticated: boolean;
   setAuth: Action<AuthModel, IAuthResponse>;
   clearAuth: Action<AuthModel>;
+  updateUserInfo: Action<AuthModel, IUserInfo>;
 }
 
 const authModel: AuthModel = {
@@ -20,6 +21,12 @@ const authModel: AuthModel = {
   clearAuth: action((state) => {
     state.user = null;
     state.isAuthenticated = false;
+  }),
+
+  updateUserInfo: action((state, payload) => {
+    if (state.user) {
+      state.user.userInfo = payload;
+    }
   }),
 };
 

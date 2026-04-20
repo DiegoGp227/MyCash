@@ -75,6 +75,7 @@ export default function UserMenu() {
   const initials = user?.userInfo.name
     ? user.userInfo.name
         .split(" ")
+        .filter((w) => w.length > 0)
         .slice(0, 2)
         .map((w) => w[0].toUpperCase())
         .join("")

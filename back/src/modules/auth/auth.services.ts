@@ -1,10 +1,11 @@
 import bcrypt from "bcryptjs";
 import jwt, { SignOptions } from "jsonwebtoken";
-import { ICreateUser, IloginUser, IUserResponse } from "./auth.types";
+import { ICreateUser, IloginUser, IUpdateUser, IUserResponse } from "./auth.types";
 import prisma from "../../db/prisma.js";
 import {
   EmailAlreadyInUseError,
   InvalidCredentialsError,
+  UsernameAlreadyTakenError,
 } from "../../errors/businessErrors";
 
 export const createUser = async (
@@ -96,4 +97,35 @@ export const validateUser = async (
   );
 
   return { user, token };
+};
+
+export const updateUser = async (
+  userId: string,
+  data: IUpdateUser,
+): Promise<IUserResponse> => {
+  if (data.username) {
+    const existing = await prisma.user.findFirst({
+      where: { username: data.username, NOT: { id: userId } },
+    });
+    if (existing) throw new UsernameAlreadyTakenError(data.username);
+  }
+
+  const user = await prisma.user.update({
+    where: { id: userId },
+    data,
+    select: {
+      id: true,
+      email: true,
+      name: true,
+      username: true,
+      currency: true,
+      cutoffDay: true,
+      role: true,
+      status: true,
+      createdAt: true,
+      updatedAt: true,
+    },
+  });
+
+  return user;
 };

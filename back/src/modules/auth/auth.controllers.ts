@@ -2,8 +2,8 @@ import { Request, Response } from "express";
 // import { createUser } from "../../services/auth/signup.service";
 import { ValidationError } from "../../errors/400Errors.js";
 import { AppError, InternalServerError } from "../../errors/appError.js";
-import { loginSchema, signupSchema } from "./auth.shema.js";
-import { createUser, validateUser } from "./auth.services.js";
+import { loginSchema, signupSchema, updateUserSchema } from "./auth.shema.js";
+import { createUser, validateUser, updateUser } from "./auth.services.js";
 
 /**
  * @route POST /signup
@@ -84,6 +84,56 @@ export const login = async (req: Request, res: Response): Promise<void> => {
     res.status(200).json({
       message: "Login successful",
       token,
+      userInfo: {
+        id: user.id,
+        name: user.name,
+        userName: user.username,
+        email: user.email,
+        role: user.role,
+        status: user.status,
+        createdAt: user.createdAt,
+        updatedAt: user.updatedAt,
+        currency: user.currency,
+        cutoffDay: user.cutoffDay,
+      },
+    });
+  } catch (error) {
+    if (error instanceof AppError) {
+      res.status(error.statusCode).json(error.toJSON());
+      return;
+    }
+
+    const internalError = new InternalServerError("Internal server error");
+    res.status(internalError.statusCode).json(internalError.toJSON());
+  }
+};
+
+/**
+ * @route PATCH /users/me
+ * @body { name?, username?, cutoffDay?, currency? }
+ * @returns { message, userInfo }
+ */
+
+export const updateUserController = async (req: Request, res: Response): Promise<void> => {
+  try {
+    const validation = updateUserSchema.safeParse(req.body);
+
+    if (!validation.success) {
+      const errors = validation.error.issues.reduce(
+        (acc: Record<string, string>, err: any) => {
+          acc[err.path.join(".")] = err.message;
+          return acc;
+        },
+        {}
+      );
+      throw new ValidationError("Validation errors", errors);
+    }
+
+    const userId = (req as any).user.id;
+    const user = await updateUser(userId, validation.data);
+
+    res.status(200).json({
+      message: "User updated",
       userInfo: {
         id: user.id,
         name: user.name,

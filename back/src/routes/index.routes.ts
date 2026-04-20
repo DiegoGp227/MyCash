@@ -1,6 +1,6 @@
 import { Router } from "express";
 import dbCheck from "../modules/test/test.js";
-import { login, signup } from "../modules/auth/auth.controllers.js";
+import { login, signup, updateUserController } from "../modules/auth/auth.controllers.js";
 import {
   createCategoryController,
   getCategoriesController,
@@ -65,6 +65,7 @@ router.get("/db", dbCheck);
 // Auth routes
 router.post("/signup", signup);
 router.post("/login", login);
+router.patch("/users/me", authMiddleware, updateUserController);
 
 // Categories routes (protected)
 router.post("/categories", authMiddleware, createCategoryController);

@@ -56,8 +56,20 @@ export const signupSchema = z.object({
 });
 
 /* =========================
+   Update User
+========================= */
+
+export const updateUserSchema = z.object({
+  name: nameSchema.optional(),
+  username: usernameSchema.optional(),
+  cutoffDay: cutoffDaySchema.optional(),
+  currency: currencySchema.optional(),
+});
+
+/* =========================
    Types
 ========================= */
 
 export type LoginDTO = z.infer<typeof loginSchema>;
 export type SignupDTO = z.infer<typeof signupSchema>;
+export type UpdateUserDTO = z.infer<typeof updateUserSchema>;

@@ -1,10 +1,12 @@
 // src/services/auth/authService.ts
-import { postFetcher } from "@/utils/utils";
-import { LoginURL, SignUpURL } from "@/shared/constants/urls";
+import { patchFetcher, postFetcher } from "@/utils/utils";
+import { LoginURL, SignUpURL, UsersURL } from "@/shared/constants/urls";
 import {
   IAuthResponse,
   ICreateUserRequest,
   ICredentials,
+  IUpdateUserRequest,
+  IUserInfo,
 } from "../types/auth.types";
 
 export const authService = {
@@ -35,7 +37,10 @@ export const authService = {
     return response;
   },
 
-  //   async logout() {
-  //     // Lógica de logout si la necesitas
-  //   },
+  async updateUser(data: IUpdateUserRequest): Promise<{ message: string; userInfo: IUserInfo }> {
+    return patchFetcher<{ message: string; userInfo: IUserInfo }>(
+      UsersURL.toString(),
+      data,
+    );
+  },
 };

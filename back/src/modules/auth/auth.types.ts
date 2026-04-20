@@ -14,6 +14,13 @@ export interface ICreateUser {
   currency: string;
 }
 
+export interface IUpdateUser {
+  name?: string;
+  username?: string;
+  cutoffDay?: number;
+  currency?: string;
+}
+
 export interface IUserResponse {
   id: string;
   name: string;
