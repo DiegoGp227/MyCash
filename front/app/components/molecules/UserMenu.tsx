@@ -30,8 +30,14 @@ export default function UserMenu() {
     const track = () => {
       if (buttonRef.current && menuRef.current) {
         const rect = buttonRef.current.getBoundingClientRect();
-        menuRef.current.style.bottom = `${window.innerHeight - rect.bottom}px`;
-        menuRef.current.style.left = `${rect.right + 12}px`;
+        const isMobile = window.innerWidth < 768;
+        if (isMobile) {
+          menuRef.current.style.bottom = `${window.innerHeight - rect.top + 8}px`;
+          menuRef.current.style.left = `${rect.left}px`;
+        } else {
+          menuRef.current.style.bottom = `${window.innerHeight - rect.bottom}px`;
+          menuRef.current.style.left = `${rect.right + 12}px`;
+        }
       }
       rafRef.current = requestAnimationFrame(track);
     };
@@ -126,7 +132,7 @@ export default function UserMenu() {
         <span className="w-6 h-6 shrink-0 rounded-full bg-primary-purple flex items-center justify-center text-white text-[10px] font-bold">
           {initials}
         </span>
-        <span className="whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity duration-300 text-sm truncate max-w-[140px]">
+        <span className="whitespace-nowrap opacity-100 md:opacity-0 md:group-hover:opacity-100 transition-opacity duration-300 text-sm truncate max-w-[140px]">
           {user?.userInfo.name ?? "User"}
         </span>
       </button>
