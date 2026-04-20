@@ -35,7 +35,7 @@ export default function AccountDrawer({
       >
         <div className="flex items-center justify-between p-4 border-b border-gray-300 dark:border-dark-border sticky top-0 bg-white dark:bg-dark-surface">
           <h2 className="text-xl font-bold dark:text-white">
-            {mode === "create" ? "Nueva Cuenta" : "Editar Cuenta"}
+            {mode === "create" ? "New Account" : "Edit Account"}
           </h2>
           <button
             onClick={onClose}
@@ -62,7 +62,7 @@ export default function AccountDrawer({
                 : undefined
             }
             isLoading={isLoading}
-            submitLabel={mode === "create" ? "Crear" : "Guardar"}
+            submitLabel={mode === "create" ? "Create" : "Save"}
           />
         </div>
       </div>

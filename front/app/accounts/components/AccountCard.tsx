@@ -40,14 +40,14 @@ export default function AccountCard({ account, onEdit, onDelete }: AccountCardPr
           <button
             onClick={() => onEdit(account)}
             className="p-1.5 rounded hover:bg-gray-100 dark:hover:bg-dark-bg transition-colors cursor-pointer"
-            title="Editar"
+            title="Edit"
           >
             <Pencil size={15} className="text-primary-purple" />
           </button>
           <button
             onClick={() => onDelete(account)}
             className="p-1.5 rounded hover:bg-red-50 dark:hover:bg-red-900/20 transition-colors cursor-pointer"
-            title="Eliminar"
+            title="Delete"
           >
             <Trash2 size={15} className="text-error" />
           </button>
