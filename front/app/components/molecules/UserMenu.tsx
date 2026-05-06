@@ -85,7 +85,7 @@ export default function UserMenu() {
     <div
       ref={menuRef}
       style={{ bottom: 0, left: 0 }}
-      className="fixed z-[9999] min-w-[220px] rounded-xl border border-light-border dark:border-dark-border bg-light-surface dark:bg-dark-surface shadow-xl overflow-hidden"
+      className="fixed z-9999 min-w-55 rounded-xl border border-light-border dark:border-dark-border bg-light-surface dark:bg-dark-surface shadow-xl overflow-hidden"
     >
       {/* Info del usuario */}
       <div className="px-4 py-3 border-b border-light-border dark:border-dark-border">
@@ -133,7 +133,7 @@ export default function UserMenu() {
         <span className="w-6 h-6 shrink-0 rounded-full bg-primary-purple flex items-center justify-center text-white text-[10px] font-bold">
           {initials}
         </span>
-        <span className="whitespace-nowrap opacity-100 md:opacity-0 md:group-hover:opacity-100 transition-opacity duration-300 text-sm truncate max-w-[140px]">
+        <span className="whitespace-nowrap opacity-100 md:opacity-0 md:group-hover:opacity-100 transition-opacity duration-300 text-sm truncate max-w-35">
           {user?.userInfo.name ?? "User"}
         </span>
       </button>
